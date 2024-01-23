@@ -3,15 +3,17 @@ import logo from './logo.svg';
 import './App.scss';
 import './auth-layout.scss';
 import { Box } from './components/Box';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
+  const navigate = useNavigate();
   return (
     <div>
 <nav>
   <div className="nav-wrapper grey darken-1">
     <a className="brand-logo">Aegle</a>
-    <ul id="nav-mobile" className="right hide-on-med-and-down">
-      <li><a>Вход</a></li>
+   <ul id="nav-mobile" className="right hide-on-med-and-down">
+      <li><a onClick={() => {navigate("/about")}}>Вход</a></li>
       <li>
         <a>Регистрация</a>
       </li>
