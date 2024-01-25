@@ -1,30 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './auth-layout';
 import reportWebVitals from './reportWebVitals';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Route, RouterProvider, Routes, createBrowserRouter } from 'react-router-dom';
+import { LandingPage } from './LandingPage';
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <App />
-    ),
-  },
-  {
-    path: "about",
-    element: <div>About</div>,
-  },
+  { path: "*", Component: Root },
 ]);
 
+
+// 1️⃣ Changed from App to Root
+function Root() {
+  // 2️⃣ `BrowserRouter` component removed, but the <Routes>/<Route>
+  // component below are unchanged
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />}>
+        <Route index element={<div>index</div>} />
+        <Route path="login" element={<div>Login</div>}/>
+        <Route path="register" element={<div>register</div>}/>
+      </Route>
+      <Route path="/about/*" element={<div>About</div>} />
+    </Routes>
+  );
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-      <RouterProvider router={router} />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 

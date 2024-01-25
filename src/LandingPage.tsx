@@ -1,11 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.scss';
-import './auth-layout.scss';
+import './LandingPage.scss';
 import { Box } from './components/Box';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
-function App() {
+export function LandingPage() {
   const navigate = useNavigate();
   return (
     <div>
@@ -13,10 +13,8 @@ function App() {
   <div className="nav-wrapper grey darken-1">
     <a className="brand-logo">Aegle</a>
    <ul id="nav-mobile" className="right hide-on-med-and-down">
-      <li><a onClick={() => {navigate("/about")}}>Вход</a></li>
-      <li>
-        <a>Регистрация</a>
-      </li>
+      <li><a onClick={() => {navigate("/login")}}>Вход</a></li>
+      <li><a onClick={() => {navigate("/register")}}>Регистрация</a></li>
     </ul>
   </div>
 </nav>
@@ -29,6 +27,7 @@ function App() {
       src="http://klublady.ru/uploads/posts/2022-07/thumbs/1658582446_18-klublady-ru-p-posokh-asklepiya-tatu-eskiz-foto-18.jpg"
       alt="Clinic Image"
     />
+     <Outlet />
     <p>
       Мы предлагаем широкий спектр медицинских услуг для обеспечения вашего
       благополучия. Наша команда опытных врачей и персонала стремится
@@ -87,5 +86,3 @@ function App() {
   
   );
 }
-
-export default App;
