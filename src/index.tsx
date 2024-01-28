@@ -4,9 +4,12 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Route, RouterProvider, Routes, createBrowserRouter } from 'react-router-dom';
 import { LandingPage } from './LandingPage';
+// import { LoginPage } from './pages/LoginPage';
+// import { LoginPageModal } from './features/login-page/login-page';
+// import { Register } from './features/register-page/register-page';
 
 const router = createBrowserRouter([
-  { path: "*", Component: Root },
+  { path: "*", Component: Root }, 
 ]);
 
 
@@ -18,8 +21,8 @@ function Root() {
     <Routes>
       <Route path="/" element={<LandingPage />}>
         <Route index element={<div>index</div>} />
-        <Route path="login" element={<div>Login</div>}/>
-        <Route path="register" element={<div>register</div>}/>
+        {/* <Route path="login" element={<LoginPageModal/>} />
+        <Route path="register" element={<Register/>}/> */}
       </Route>
       <Route path="/about/*" element={<div>About</div>} />
     </Routes>
