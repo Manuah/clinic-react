@@ -7,7 +7,14 @@ function getEmailError(email: string){
   if (email == "")
   return  "Email не должен быть пустым.";
 return null;
+}
 
+function getPassError(password: string){ 
+  if (password == "")
+  return  "Пароль обязателен.";
+  if (password.length < 4)
+  return  "Пароль должен быть не менее 4 символов.";
+return null;
 }
 
 interface Props {
@@ -17,9 +24,12 @@ interface Props {
 export function LoginModal(props: Props) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [password, setPass] = useState("");
   const [isButtonClicked, setisButtonClicked] = useState(false);
   const emailError = getEmailError(email);
+  const passError = getPassError(password);
   const emailErrorMessage = isButtonClicked?emailError:null;
+  const passErrorMessage = isButtonClicked?passError:null;
   return (
     <Modal isOpen={props.isOpen} toggle={props.toggle}>
       <div>Hello</div>
@@ -42,16 +52,11 @@ export function LoginModal(props: Props) {
             </div>
             <div className="input-field">
               <label htmlFor="password">Пароль:</label>
-              <input name="password" id="password" type="password" />
+              <input value={password} onChange={event => setPass(event.target.value)} name="password" id="password" type="password" />
               <span
                 className="helper-text red-text"
               >
-                Пароль обязателен.
-              </span>
-              <span
-                className="helper-text red-text"
-              >
-                Пароль должен быть не менее 4 символов.
+                 {passErrorMessage}
               </span>
             </div>
           </div>
