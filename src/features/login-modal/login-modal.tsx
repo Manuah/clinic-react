@@ -3,18 +3,18 @@ import './login-modal.scss';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
 
-function getEmailError(email: string){ 
+function getEmailError(email: string) {
   if (email == "")
-  return  "Email не должен быть пустым.";
-return null;
+    return "Email не должен быть пустым.";
+  return null;
 }
 
-function getPassError(password: string){ 
+function getPassError(password: string) {
   if (password == "")
-  return  "Пароль обязателен.";
+    return "Пароль обязателен.";
   if (password.length < 4)
-  return  "Пароль должен быть не менее 4 символов.";
-return null;
+    return "Пароль должен быть не менее 4 символов.";
+  return null;
 }
 
 interface Props {
@@ -25,17 +25,48 @@ export function LoginModal(props: Props) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
+
   const [isButtonClicked, setisButtonClicked] = useState(false);
   const emailError = getEmailError(email);
   const passError = getPassError(password);
-  const emailErrorMessage = isButtonClicked?emailError:null;
-  const passErrorMessage = isButtonClicked?passError:null;
+  const emailErrorMessage = isButtonClicked ? emailError : null;
+  const passErrorMessage = isButtonClicked ? passError : null;
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
+  async function logIn() {
+    setisButtonClicked(true);
+    if (emailError||passError){
+      return;
+    }
+    const response = await fetch('http://localhost:5000/auth/login', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      }),
+    })
+    if (response.status == 401)
+    {
+      setServerErrorMessage("Ошибка данных");
+      return;
+    }
+    const userModel = await response.json();
+    alert(userModel.data.age);
+  }
+  
   return (
     <Modal isOpen={props.isOpen} toggle={props.toggle}>
       <div>Hello</div>
       <div className="overlay">
         <form className="card">
           <span className="card-title">Войти в систему</span>
+          <span
+                className="helper-text red-text"
+              >
+                {serverErrorMessage}
+              </span>
           <div className="helper-text red-text"></div>
 
           <a className="brand-logo" onClick={props.toggle}>&#x2717;</a>
@@ -43,7 +74,9 @@ export function LoginModal(props: Props) {
           <div className="card-content">
             <div className="input-field">
               <label htmlFor="email">Email:</label>
-              <input value={email} onChange={event => setEmail(event.target.value)} name="email" id="email" type="email" required />
+              <input value={email} onChange={event => { setEmail(event.target.value); 
+              setServerErrorMessage("")}} 
+              name="email" id="email" type="email" required />
               <span
                 className="helper-text red-text"
               >
@@ -52,19 +85,19 @@ export function LoginModal(props: Props) {
             </div>
             <div className="input-field">
               <label htmlFor="password">Пароль:</label>
-              <input value={password} onChange={event => setPass(event.target.value)} name="password" id="password" type="password" />
+              <input value={password} onChange={event => {setPass(event.target.value); setServerErrorMessage("")}} 
+              name="password" id="password" type="password" />
               <span
                 className="helper-text red-text"
               >
-                 {passErrorMessage}
+                {passErrorMessage}
               </span>
             </div>
           </div>
           <div className="card-action">
             <button
-            onClick={() => {
-              setisButtonClicked(true);
-            }}
+              onClick={logIn}
+              // disabled={!!emailError||!!passError}
               type="submit"
               className="modal-action btn waves-effect"
             >
