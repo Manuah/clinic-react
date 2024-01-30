@@ -7,6 +7,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import useModal from './components/Modal/useModal';
 import Modal from './components/Modal/Modal';
 import { LoginModal } from './features/login-modal/login-modal';
+import { authStorage } from './authStorage';
 //import { Button, Modal, ModalBody } from "reactstrap";
 
 /*const MyModal = ({ children, trigger }) => {
@@ -42,6 +43,7 @@ export function LandingPage() {
       </nav>
       <div className="auth-block">
         <div className="landing-container">
+          <div>  {authStorage.userName}</div>
           <h1>Welcome to Aegle Polyclinic</h1>
           <p>Ваш надежный партнер в сфере здравоохранения</p>
           <img

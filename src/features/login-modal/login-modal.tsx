@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './login-modal.scss';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
+import { authStorage } from '../../authStorage';
 
 function getEmailError(email: string) {
   if (email == "")
@@ -32,6 +33,7 @@ export function LoginModal(props: Props) {
   const emailErrorMessage = isButtonClicked ? emailError : null;
   const passErrorMessage = isButtonClicked ? passError : null;
   const [serverErrorMessage, setServerErrorMessage] = useState("");
+
   async function logIn() {
     setisButtonClicked(true);
     if (emailError||passError){
@@ -53,7 +55,10 @@ export function LoginModal(props: Props) {
       return;
     }
     const userModel = await response.json();
-    alert(userModel.data.age);
+    alert(userModel.data.name);
+    authStorage.userName = userModel.data.name;
+    alert(authStorage.userName);
+    navigate("/about/*");
   }
   
   return (
