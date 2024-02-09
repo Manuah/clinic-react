@@ -3,6 +3,7 @@ import './login-modal.scss';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
 import { authStorage } from '../../authStorage';
+import * as request from "superagent"
 
 function getEmailError(email: string) {
   if (email == "")
@@ -39,25 +40,28 @@ export function LoginModal(props: Props) {
     if (emailError||passError){
       return;
     }
+    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //   email: email,
+    //   password: password
+    // }))
     const response = await fetch('http://localhost:5000/auth/login', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json;charset=UTF-8',
+       method: 'POST',
+       headers: {
+         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        email: email,
-        password: password
-      }),
-    })
+       body: JSON.stringify({
+         email: email,
+         password: password
+       }),
+     }) 
+     
     if (response.status == 401)
     {
       setServerErrorMessage("Ошибка данных");
       return;
     }
-    const userModel = await response.json();
-    alert(userModel.data.name);
-    authStorage.userName = userModel.data.name;
-    alert(authStorage.userName);
+    const data = response.body;
+    alert(JSON.stringify(data));
     navigate("/about/*");
   }
   
@@ -65,7 +69,7 @@ export function LoginModal(props: Props) {
     <Modal isOpen={props.isOpen} toggle={props.toggle}>
       <div>Hello</div>
       <div className="overlay">
-        <form className="card">
+        <div className="card">
           <span className="card-title">Войти в систему</span>
           <span
                 className="helper-text red-text"
@@ -109,7 +113,7 @@ export function LoginModal(props: Props) {
               Войти
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </Modal>
   )
