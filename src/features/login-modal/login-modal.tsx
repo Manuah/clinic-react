@@ -60,7 +60,7 @@ export function LoginModal(props: Props) {
       setServerErrorMessage("Ошибка данных");
       return;
     }
-    const data = response.body;
+    const data = await response.json();
     alert(JSON.stringify(data));
     navigate("/about/*");
   }
