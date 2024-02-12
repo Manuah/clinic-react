@@ -20,7 +20,6 @@ body {
     font-weight: bold;
     text-decoration: none;
   }
-
   #nav-mobile {
     li {
       display: inline;
@@ -40,6 +39,13 @@ body {
     }
   }
 }
+
+.main-content {
+  text-align: center;
+  width: 100%; 
+  padding: 20px;
+}
+
 
 .auth-block {
   display: flex;
@@ -81,15 +87,15 @@ body {
   }
 
   button {
-    background-color: $text-color;
-    color: white;
+    //background-color: ;
+    color: $text-color;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
     width: 50%;
     box-sizing: border-box;
-    margin-top: 20px;
+    //margin-top: 20px;
   }
 
   button[type="submit"]:hover {
@@ -183,6 +189,56 @@ h3 {
   width: 100%;
   background-color: #555; /* Серый цвет линии */
   margin: 10px 0;
+}
+
+
+
+
+.search-tabs {
+  width: 100%; 
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px 0;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 16px;
+  color: #000;
+  position: relative;
+  transition: color 0.3s ease;
+
+  &:hover {
+      color: #007bff;
+  }
+
+  &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #007bff;
+      transition: width 0.3s ease;
+  }
+
+  &:focus, &:active {
+      color: #007bff;
+  }
+
+  &:focus::after, &:active::after {
+      width: 100%;
+  }
 }
 
 /* Box Shadow */

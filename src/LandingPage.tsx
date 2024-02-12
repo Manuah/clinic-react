@@ -46,11 +46,16 @@ export function LandingPage() {
           <div>  {authStorage.userName}</div>
           <h1>Welcome to Aegle Polyclinic</h1>
           <p>Ваш надежный партнер в сфере здравоохранения</p>
-          <img
+          {/* <img
             className="clinic-image"
             src="http://klublady.ru/uploads/posts/2022-07/thumbs/1658582446_18-klublady-ru-p-posokh-asklepiya-tatu-eskiz-foto-18.jpg"
             alt="Clinic Image"
-          />
+          /> */}
+            <div className="search-tabs">
+                <button className="tab" onClick={() => { navigate("/clinics") }}>По поликлиникам</button>
+                <button className="tab" onClick={() => { navigate("/doctors") }}>По врачам</button>
+                <button className="tab" onClick={() => { navigate("/services") }} >По услугам</button>
+            </div>
           <Outlet />
           <div>
       {/* <h1>Hello CodeSandbox</h1>

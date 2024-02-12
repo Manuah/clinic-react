@@ -1,0 +1,89 @@
+ .container{
+    width: 100%;
+ }
+ .search-container {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+
+    
+  .search-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  
+    &:focus {
+        outline: none;
+        border-color: #007bff;
+    }
+  }
+  
+  .search-button {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    //transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    transition: filter 0.3s ease;
+  
+    &:hover {
+        filter: brightness(1.2);
+    }
+  }
+  
+  }
+  
+  
+  
+  .search-field {
+    margin-bottom: 20px;
+  
+    input[type="text"] {
+        padding: 10px;
+        width: 100%;
+        border: 1px solid #ccc;
+    }
+  }
+  
+  .card-doc {
+    display: flex;
+    width: 50%;
+    margin: 0 auto;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // margin-bottom: 20px;
+  
+    img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 20px;
+    }
+  
+    .card-info {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card-info p {
+      margin: 0;
+  }
+  
+  .card-info button {
+      margin-top: 20px;
+      align-self: center;
+  }
+  }
+  
+  
