@@ -54,7 +54,7 @@ export function LandingPage() {
             <div className="search-tabs">
                 <button className="tab" onClick={() => { navigate("/clinics") }}>По поликлиникам</button>
                 <button className="tab" onClick={() => { navigate("/doctors") }}>По врачам</button>
-                <button className="tab" onClick={() => { navigate("/services") }} >По услугам</button>
+                <button className="tab" onClick={() => { navigate("/services") }}>По услугам</button>
             </div>
           <Outlet />
           <div>

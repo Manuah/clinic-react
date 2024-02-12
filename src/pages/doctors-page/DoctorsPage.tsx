@@ -6,10 +6,13 @@ export function DoctorsPage() {
         <div className="container">
             <div className="search-container">
                 <input type="text" id="searchInput" className="search-input" placeholder="Начните вводить" />
-                    <img id="searchButton" className="search-button" src="https://e7.pngegg.com/pngimages/254/829/png-clipart-computer-icons-magnifying-glass-magnifier-magnifying-glass-glass-illustrator.png" alt="Search" />
+                    <img id="searchButton" className="search-button" src="https://palantinnsk.ru/local/templates/palantinnsk/assets/search.png" alt="Search" />
             </div>
+            <div className="card-container">
             {doctors.map(doctor => <DoctorCard doctorName={doctor.name}/>)} 
             {/* вытаскиваем массив и распределяем по карточкам */}
+            </div>
+           
         </div>
     );
 }
