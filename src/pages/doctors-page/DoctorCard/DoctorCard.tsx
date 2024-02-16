@@ -1,6 +1,7 @@
 import './DoctorsCard.scss';
 type Props = {
     doctorName: string
+    doctorSpecialty: string
 }
 export function DoctorCard(props: Props) {
     return (
@@ -8,7 +9,7 @@ export function DoctorCard(props: Props) {
                 <img src="https://gas-kvas.com/grafic/uploads/posts/2023-09/1695968146_gas-kvas-com-p-kartinki-vracha-18.jpg" alt="Doctor" />
                 <div className="card-info">
                     <p>{props.doctorName}</p>
-                    <p>Специализация</p>
+                    <p>{props.doctorSpecialty}</p>
                     <button>Записаться</button>
                 </div>
             </div>
