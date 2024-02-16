@@ -28,8 +28,9 @@ export function DoctorsPage() {
 
       }
       useEffect(() => {
+        alert(debouncedValue)
         fetchDoctors(debouncedValue)
-    }, [])
+    }, [debouncedValue])
     return (
         <div className="container">
             <div className="search-container">
