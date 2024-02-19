@@ -49,7 +49,8 @@ export function DoctorsPage() {
                 <input onChange={handleChange} value={value} type="text" id="searchInput" className="search-input" placeholder="Начните вводить" />
                     <img id="searchButton" className="search-button" src="https://palantinnsk.ru/local/templates/palantinnsk/assets/search.png" alt="Search" />
             </div>
-            <span>{serverErrorMessage}</span>
+            <br></br>
+            <span className="errormes">{serverErrorMessage}</span>
             <div className="card-container">
             {doctors.map(doctor => <DoctorCard doctorName={doctor.name} doctorSpecialty={doctor.specialty}/>)} 
             {/* вытаскиваем массив и распределяем по карточкам */}

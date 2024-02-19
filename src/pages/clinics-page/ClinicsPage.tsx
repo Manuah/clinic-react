@@ -1,13 +1,13 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import './ServicePage.scss';
+import './ClinicsPage.scss';
 import { useDebounce } from '../../hooks/useDebounce';
-import { ServiceCard } from './ServiceCard/ServiceCard';
-type Service = {
+import { ClinicCard } from './ClinicsCard/ClinicsCard';
+type Clinics = {
     id: string, 
     name: string
 }
-export function ServicesPage() {
-    const [service, setService] = useState<Service[]>([])
+export function ClinicsPage() {
+    const [clinic, setClinic] = useState<Clinics[]>([])
     const [value, setValue] = useState<string>('')
     const debouncedValue = useDebounce<string>(value, 500) //для задержки при вводе фильтра
     const [serverErrorMessage, setServerErrorMessage] = useState("");
@@ -29,11 +29,11 @@ export function ServicesPage() {
         if (response.status == 404)
         {
             setServerErrorMessage("Услуги не найдены");
-            setService([]);
+            setClinic([]);
             return;
         }
         else{
-            setService(data);
+            setClinic(data);
         }
         
 
@@ -51,7 +51,7 @@ export function ServicesPage() {
             <br></br>
             <span>{serverErrorMessage}</span>
             <div className="card-container">
-            {service.map(service => <ServiceCard serviceName={service.name}/>)} 
+            {clinic.map(clinic => <ClinicCard clinicName={clinic.name}/>)} 
             {/* вытаскиваем массив и распределяем по карточкам */}
             </div>
            

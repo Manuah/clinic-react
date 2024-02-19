@@ -108,7 +108,7 @@ export function LoginModal(props: Props) {
               onClick={logIn}
               // disabled={!!emailError||!!passError}
               type="submit"
-              className="modal-action btn waves-effect"
+              // className="modal-action btn waves-effect"
             >
               Войти
             </button>

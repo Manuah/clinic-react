@@ -26,6 +26,7 @@ body {
       margin-left: 20px;
 
       a {
+        cursor: pointer;
         color: #fff; /* White text color */
         font-weight: normal;
         font-size: 1rem;
@@ -88,12 +89,12 @@ body {
 
   button {
     //background-color: ;
-    color: $text-color;
+    //color: $text-color;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    width: 50%;
+    //width: 50%;
     box-sizing: border-box;
     //margin-top: 20px;
   }
@@ -199,9 +200,9 @@ h3 {
   display: flex;
   gap: 10px;
   justify-content: space-around;
-  background-color: #f0f0f0;
+  background-color: #77bfa3;
   border: 1px solid #ccc;
-  padding: 10px 0;
+ // padding: 10px 0;
   margin: auto;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -213,12 +214,12 @@ h3 {
   border: none;
   background: none;
   font-size: 16px;
-  color: #000;
+  color: #ffffff;
   position: relative;
   transition: color 0.3s ease;
 
   &:hover {
-      color: #007bff;
+      color: #333;
   }
 
   &::after {
@@ -228,12 +229,12 @@ h3 {
       left: 0;
       width: 0;
       height: 2px;
-      background-color: #007bff;
+      background-color: #333;
       transition: width 0.3s ease;
   }
 
   &:focus, &:active {
-      color: #007bff;
+      color: #333;
   }
 
   &:focus::after, &:active::after {
