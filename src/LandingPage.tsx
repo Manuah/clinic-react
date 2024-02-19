@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.scss';
 import './LandingPage.scss';
 import { Box } from './components/Box';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useModal from './components/Modal/useModal';
 import Modal from './components/Modal/Modal';
 import { LoginModal } from './features/login-modal/login-modal';
@@ -28,6 +28,7 @@ import { authStorage } from './authStorage';
 
 export function LandingPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isOpen, toggle } = useModal();
   return (
     <div>
@@ -52,9 +53,10 @@ export function LandingPage() {
             alt="Clinic Image"
           /> */}
             <div className="search-tabs">
-                <button className="tab" onClick={() => { navigate("/clinics") }}>По поликлиникам</button>
-                <button className="tab" onClick={() => { navigate("/doctors") }}>По врачам</button>
-                <button className="tab" onClick={() => { navigate("/services") }}>По услугам</button>
+                <button className={`tab ${location.pathname == "/clinics"?"active":""}`}
+                 onClick={() => { navigate("/clinics") }}>По поликлиникам</button>
+                <button className={`tab ${location.pathname == "/doctors"?"active":""}`} onClick={() => { navigate("/doctors") }}>По врачам</button>
+                <button className={`tab ${location.pathname == "/services"?"active":""}`} onClick={() => { navigate("/services") }}>По услугам</button>
             </div>
           <Outlet />
           <div>

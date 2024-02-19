@@ -233,14 +233,17 @@ h3 {
       transition: width 0.3s ease;
   }
 
-  &:focus, &:active {
-      color: #333;
-  }
 
-  &:focus::after, &:active::after {
-      width: 100%;
-  }
 }
+
+.active {
+  color: #333;
+&::after {
+    width: 100%;
+}
+
+}
+
 
 /* Box Shadow */
 .footer {
