@@ -22,6 +22,7 @@ function getPassError(password: string) {
 interface Props {
   isOpen: boolean;
   toggle: () => void;
+  pathToRedirect : string;
 }
 export function LoginModal(props: Props) {
   const navigate = useNavigate();
@@ -61,8 +62,11 @@ export function LoginModal(props: Props) {
       return;
     }
     const data = await response.json();
-    alert(JSON.stringify(data));
-    navigate("/about/*");
+   // alert(JSON.stringify(data));
+    authStorage.token = data.token;
+   // alert(authStorage.token);
+     navigate(props.pathToRedirect);
+     props.toggle();
   }
   
   return (

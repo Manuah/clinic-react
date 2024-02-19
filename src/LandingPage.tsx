@@ -29,7 +29,7 @@ import { authStorage } from './authStorage';
 export function LandingPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isOpen, toggle } = useModal();
+  const { isOpen, toggle, pathToRedirect, openModal} = useModal();
   return (
     <div>
       <nav>
@@ -38,13 +38,14 @@ export function LandingPage() {
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             {/* <li><a onClick={() => { navigate("/login") }}>Вход</a></li>
             <li><a onClick={() => { navigate("/register") }}>Регистрация</a></li> */}
-            <li><a onClick={toggle}>Вход</a></li>
+            <li><a onClick={() => openModal("/")}>Вход</a></li>
+        
           </ul>
         </div>
       </nav>
       <div className="auth-block">
         <div className="landing-container">
-          <div>  {authStorage.userName}</div>
+          <div>  {authStorage.token}</div>
           <h1>Welcome to Aegle Polyclinic</h1>
           <p>Ваш надежный партнер в сфере здравоохранения</p>
           {/* <img
@@ -58,7 +59,7 @@ export function LandingPage() {
                 <button className={`tab ${location.pathname == "/doctors"?"active":""}`} onClick={() => { navigate("/doctors") }}>По врачам</button>
                 <button className={`tab ${location.pathname == "/services"?"active":""}`} onClick={() => { navigate("/services") }}>По услугам</button>
             </div>
-          <Outlet />
+          <Outlet context={{openModal}}/>
           <div>
       {/* <h1>Hello CodeSandbox</h1>
       <h2>Start editing to see some magic happen!</h2>
@@ -66,7 +67,7 @@ export function LandingPage() {
       <Modal isOpen={isOpen} toggle={toggle}>
         <div>Hello</div>
       </Modal> */}
-      <LoginModal isOpen={isOpen} toggle={toggle}/>
+      <LoginModal isOpen={isOpen} toggle={toggle} pathToRedirect={pathToRedirect}/>
     </div>
           <p>
             Мы предлагаем широкий спектр медицинских услуг для обеспечения вашего
