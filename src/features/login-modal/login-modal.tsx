@@ -62,10 +62,25 @@ export function LoginModal(props: Props) {
       return;
     }
     const data = await response.json();
-   // alert(JSON.stringify(data));
+    //alert(JSON.stringify(data));
     authStorage.token = data.token;
    // alert(authStorage.token);
-     navigate(props.pathToRedirect);
+   //alert(data.user.user_id);
+   if (data.user.role_id == "1")
+   {
+      navigate(props.pathToRedirect);
+   }
+   else if (data.user.role_id == 2)
+   {
+    navigate("/mydoctor");
+   }
+   else if (data.user.role_id == 3)
+   {
+    navigate("/myadmin");
+   }
+
+   //navigate(props.pathToRedirect);
+    
      props.toggle();
   }
   
@@ -108,6 +123,7 @@ export function LoginModal(props: Props) {
             </div>
           </div>
           <div className="card-action">
+            
             <button
               onClick={logIn}
               // disabled={!!emailError||!!passError}
@@ -116,6 +132,9 @@ export function LoginModal(props: Props) {
             >
               Войти
             </button>
+            <a onClick={() => navigate("/register")} className='regLink'>Пройдите быструю регистрацию сейчас!</a>
+            <br></br>
+            <br></br>
           </div>
         </div>
       </div>

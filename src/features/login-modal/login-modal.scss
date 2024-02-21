@@ -33,7 +33,16 @@
   align-items: center;
 }
 
+.regLink { 
+  color: #4a6d5f;
+  text-decoration: underline;
+  margin: 10px;
+  font-size: small;
+  cursor: pointer;
+}
+
 .card-content {
+  height: 200px;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr; /* Single column for smaller screens */

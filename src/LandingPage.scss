@@ -37,9 +37,21 @@ body {
           color: #e0e0e0; /* Light gray on hover */
         }
       }
+
+      .disabledLink {
+        pointer-events: none;
+        cursor: default;
+        color: #e0e0e0; /* Light gray on hover */
+      }
     }
+
   }
+
+
 }
+
+
+
 
 .main-content {
   text-align: center;
@@ -85,6 +97,13 @@ body {
     font-size: 1.2rem;
     color: #555;
     line-height: 1.6;
+  }
+
+  .lka {
+    font-size: 1.2rem;
+    color: #77bfa3;
+    line-height: 1.6;
+    cursor: pointer;
   }
 
   button {

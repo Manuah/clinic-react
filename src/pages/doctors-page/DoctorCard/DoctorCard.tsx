@@ -10,11 +10,11 @@ export function DoctorCard(props: Props) {
     const outletContext = useOutletContext<{openModal: (pathToRedirect: string) => void}>();
     async function book() {
         if (authStorage.token == "") {
-            outletContext.openModal("/services")
+            outletContext.openModal("/my") //после авторизации идем на продолжение записи
         }
         else 
         {
-            navigate("/clinics");
+            navigate("/clinics"); //сразу переходим на страницу записи
            
         }
     }

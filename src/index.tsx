@@ -23,14 +23,17 @@ function Root() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />}>
-        <Route index element={<div>index</div>} />
-        {/* <Route path="login" element={<LoginPageModal/>} />
-        <Route path="register" element={<Register/>}/> */}
+        <Route index element={<div></div>} />
+        {/* <Route path="login" element={<LoginPageModal/>} />*/}
         <Route path="/doctors" element={<DoctorsPage/>} />
         <Route path="/services" element={<ServicesPage/>} />
         <Route path="/clinics" element={<ClinicsPage/>} />
       </Route>
+      <Route path="register" element={<div>Окно регистрации</div>}/> 
       <Route path="/about/*" element={<div>About</div>} />
+      <Route path="/my" element={<div>Мой личный кабинет пациента</div>} />
+      <Route path="/myadmin" element={<div>Моя панель админа</div>} />
+      <Route path="/mydoctor" element={<div>Мой личный кабинет врача</div>} />
     </Routes>
   );
 }

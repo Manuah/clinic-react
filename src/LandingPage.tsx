@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.scss';
 import './LandingPage.scss';
 import { Box } from './components/Box';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useModal from './components/Modal/useModal';
 import Modal from './components/Modal/Modal';
 import { LoginModal } from './features/login-modal/login-modal';
@@ -34,20 +34,30 @@ export function LandingPage() {
     <div>
       <nav>
         <div className="nav-wrapper grey darken-1">
-          <a className="brand-logo">Aegle</a>
+          <a onClick={() => navigate("/")} className="brand-logo">Aegle</a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             {/* <li><a onClick={() => { navigate("/login") }}>Вход</a></li>
             <li><a onClick={() => { navigate("/register") }}>Регистрация</a></li> */}
-            <li><a onClick={() => openModal("/")}>Вход</a></li>
+
+            {/* <button disabled={true} onClick={() => openModal("/")}>Вход</button> */}
+            <li><a className={`${authStorage.token == "" ? "" : "disabledLink"}`} onClick={() => openModal("/")}>Вход</a></li> 
         
           </ul>
         </div>
       </nav>
       <div className="auth-block">
         <div className="landing-container">
-          <div>  {authStorage.token}</div>
+          {/* <div>  {authStorage.token}</div> */}
           <h1>Welcome to Aegle Polyclinic</h1>
           <p>Ваш надежный партнер в сфере здравоохранения</p>
+          <div>
+          {authStorage.token == "" ? 
+          <div></div> : 
+          <div>
+            <p>Вы вошли в систему!</p>
+            <a className='lka' onClick={() => navigate("/my")}>&gt;&gt;&gt;В ЛИЧНЫЙ КАБИНЕТ&lt;&lt;&lt;</a>
+          </div>}
+          </div>
           {/* <img
             className="clinic-image"
             src="http://klublady.ru/uploads/posts/2022-07/thumbs/1658582446_18-klublady-ru-p-posokh-asklepiya-tatu-eskiz-foto-18.jpg"
