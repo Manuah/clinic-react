@@ -88,41 +88,41 @@ export function LoginModal(props: Props) {
     <Modal isOpen={props.isOpen}>
       <div>Hello</div>
       <div className={styles.overlay}>
-        <div className="card">
+        <div className={styles.card}>
           <span className={styles["card-title"]}>Войти в систему</span>
           <span
-                className="helper-text red-text"
+                className={styles["helper-text red-text"]}
               >
                 {serverErrorMessage}
               </span>
-          <div className="helper-text red-text"></div>
+          <div className={styles["helper-text red-text"]}></div>
 
-          <a className="brand-logo" onClick={props.closeModal}>&#x2717;</a>
+          <a className={styles["brand-logo"]} onClick={props.closeModal}>&#x2717;</a>
 
-          <div className="card-content">
-            <div className="input-field">
+          <div className={styles["card-content"]}>
+            <div className={styles["input-field"]}>
               <label htmlFor="email">Email:</label>
               <input value={email} onChange={event => { setEmail(event.target.value); 
               setServerErrorMessage("")}} 
               name="email" id="email" type="email" required />
               <span
-                className="helper-text red-text"
+                className={styles["helper-text red-text"]}
               >
                 {emailErrorMessage}
               </span>
             </div>
-            <div className="input-field">
+            <div className={styles["input-field"]}>
               <label htmlFor="password">Пароль:</label>
               <input value={password} onChange={event => {setPass(event.target.value); setServerErrorMessage("")}} 
               name="password" id="password" type="password" />
               <span
-                className="helper-text red-text"
+                className={styles["helper-text red-text"]}
               >
                 {passErrorMessage}
               </span>
             </div>
           </div>
-          <div className="card-action">
+          <div className={styles["card-action"]}>
             
             <button
               onClick={logIn}
@@ -132,7 +132,7 @@ export function LoginModal(props: Props) {
             >
               Войти
             </button>
-            <a onClick={() => props.openRegister()} className='regLink'>Пройдите быструю регистрацию сейчас!</a>
+            <a onClick={() => props.openRegister()} className={styles.regLink}>Пройдите быструю регистрацию сейчас!</a>
             <br></br>
             <br></br>
           </div>
