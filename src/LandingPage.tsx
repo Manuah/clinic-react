@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 import logo from './logo.svg';
 import './App.scss';
 import './LandingPage.scss';
@@ -8,6 +8,7 @@ import useModal from './components/Modal/useModal';
 import Modal from './components/Modal/Modal';
 import { LoginModal } from './features/login-modal/login-modal';
 import { authStorage } from './authStorage';
+import { RegisterModal } from './features/register-modal/register-modal';
 //import { Button, Modal, ModalBody } from "reactstrap";
 
 /*const MyModal = ({ children, trigger }) => {
@@ -29,7 +30,15 @@ import { authStorage } from './authStorage';
 export function LandingPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isOpen, toggle, pathToRedirect, openModal} = useModal();
+  const loginModal = useModal();
+  const registerModal = useModal();
+
+  function openRegister() {
+    loginModal.closeModal();
+    registerModal.openModal(loginModal.pathToRedirect);
+    return
+  }
+
   return (
     <div>
       <nav>
@@ -40,8 +49,8 @@ export function LandingPage() {
             <li><a onClick={() => { navigate("/register") }}>Регистрация</a></li> */}
 
             {/* <button disabled={true} onClick={() => openModal("/")}>Вход</button> */}
-            <li><a className={`${authStorage.token == "" ? "" : "disabledLink"}`} onClick={() => openModal("/")}>Вход</a></li> 
-        
+            <li><a className={`${authStorage.token == "" ? "" : "disabledLink"}`} onClick={() => loginModal.openModal("/")}>Вход</a></li>
+
           </ul>
         </div>
       </nav>
@@ -51,34 +60,38 @@ export function LandingPage() {
           <h1>Welcome to Aegle Polyclinic</h1>
           <p>Ваш надежный партнер в сфере здравоохранения</p>
           <div>
-          {authStorage.token == "" ? 
-          <div></div> : 
-          <div>
-            <p>Вы вошли в систему!</p>
-            <a className='lka' onClick={() => navigate("/my")}>&gt;&gt;&gt;В ЛИЧНЫЙ КАБИНЕТ&lt;&lt;&lt;</a>
-          </div>}
+            {authStorage.token == "" ?
+              <div></div> :
+              <div>
+                <p>Вы вошли в систему!</p>
+                <a className='lka' onClick={() => navigate("/my")}>&gt;&gt;&gt;В ЛИЧНЫЙ КАБИНЕТ&lt;&lt;&lt;</a>
+              </div>}
           </div>
           {/* <img
             className="clinic-image"
             src="http://klublady.ru/uploads/posts/2022-07/thumbs/1658582446_18-klublady-ru-p-posokh-asklepiya-tatu-eskiz-foto-18.jpg"
             alt="Clinic Image"
           /> */}
-            <div className="search-tabs">
-                <button className={`tab ${location.pathname == "/clinics"?"active":""}`}
-                 onClick={() => { navigate("/clinics") }}>По поликлиникам</button>
-                <button className={`tab ${location.pathname == "/doctors"?"active":""}`} onClick={() => { navigate("/doctors") }}>По врачам</button>
-                <button className={`tab ${location.pathname == "/services"?"active":""}`} onClick={() => { navigate("/services") }}>По услугам</button>
-            </div>
-          <Outlet context={{openModal}}/>
+          <div className="search-tabs">
+            <button className={`tab ${location.pathname == "/clinics" ? "active" : ""}`}
+              onClick={() => { navigate("/clinics") }}>По поликлиникам</button>
+            <button className={`tab ${location.pathname == "/doctors" ? "active" : ""}`} onClick={() => { navigate("/doctors") }}>По врачам</button>
+            <button className={`tab ${location.pathname == "/services" ? "active" : ""}`} onClick={() => { navigate("/services") }}>По услугам</button>
+          </div>
+          <Outlet context={{ openLoginModal : loginModal.openModal }} />
           <div>
-      {/* <h1>Hello CodeSandbox</h1>
+            {/* <h1>Hello CodeSandbox</h1>
       <h2>Start editing to see some magic happen!</h2>
       <button onClick={toggle}>Open Modal </button>
       <Modal isOpen={isOpen} toggle={toggle}>
         <div>Hello</div>
       </Modal> */}
-      <LoginModal isOpen={isOpen} toggle={toggle} pathToRedirect={pathToRedirect}/>
-    </div>
+            <LoginModal isOpen={loginModal.isOpen} closeModal={loginModal.closeModal} 
+            pathToRedirect={loginModal.pathToRedirect} openRegister={openRegister} />
+
+            <RegisterModal isOpen={registerModal.isOpen} closeModal={registerModal.closeModal} 
+            pathToRedirect={registerModal.pathToRedirect}/>
+          </div>
           <p>
             Мы предлагаем широкий спектр медицинских услуг для обеспечения вашего
             благополучия. Наша команда опытных врачей и персонала стремится

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import './login-modal.scss';
-import { Outlet, useNavigate } from 'react-router-dom';
+import styles from './login-modal.module.scss'
+import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
 import { authStorage } from '../../authStorage';
-import * as request from "superagent"
 
 function getEmailError(email: string) {
   if (email == "")
@@ -21,8 +20,9 @@ function getPassError(password: string) {
 
 interface Props {
   isOpen: boolean;
-  toggle: () => void;
+  closeModal: () => void;
   pathToRedirect : string;
+  openRegister: () => void;
 }
 export function LoginModal(props: Props) {
   const navigate = useNavigate();
@@ -81,15 +81,15 @@ export function LoginModal(props: Props) {
 
    //navigate(props.pathToRedirect);
     
-     props.toggle();
+     props.closeModal();
   }
   
   return (
-    <Modal isOpen={props.isOpen} toggle={props.toggle}>
+    <Modal isOpen={props.isOpen}>
       <div>Hello</div>
-      <div className="overlay">
+      <div className={styles.overlay}>
         <div className="card">
-          <span className="card-title">Войти в систему</span>
+          <span className={styles["card-title"]}>Войти в систему</span>
           <span
                 className="helper-text red-text"
               >
@@ -97,7 +97,7 @@ export function LoginModal(props: Props) {
               </span>
           <div className="helper-text red-text"></div>
 
-          <a className="brand-logo" onClick={props.toggle}>&#x2717;</a>
+          <a className="brand-logo" onClick={props.closeModal}>&#x2717;</a>
 
           <div className="card-content">
             <div className="input-field">
@@ -132,7 +132,7 @@ export function LoginModal(props: Props) {
             >
               Войти
             </button>
-            <a onClick={() => navigate("/register")} className='regLink'>Пройдите быструю регистрацию сейчас!</a>
+            <a onClick={() => props.openRegister()} className='regLink'>Пройдите быструю регистрацию сейчас!</a>
             <br></br>
             <br></br>
           </div>

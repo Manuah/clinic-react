@@ -7,10 +7,10 @@ type Props = {
 }
 export function DoctorCard(props: Props) {
     const navigate = useNavigate();
-    const outletContext = useOutletContext<{openModal: (pathToRedirect: string) => void}>();
+    const outletContext = useOutletContext<{openLoginModal: (pathToRedirect: string) => void}>();
     async function book() {
         if (authStorage.token == "") {
-            outletContext.openModal("/my") //после авторизации идем на продолжение записи
+            outletContext.openLoginModal("/my") //после авторизации идем на продолжение записи
         }
         else 
         {

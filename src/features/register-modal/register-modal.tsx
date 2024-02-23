@@ -1,12 +1,23 @@
-import React from 'react';
-import './register-page.scss';
-import { Outlet, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import './register-modal.module.scss';
+import { useNavigate } from 'react-router-dom';
+import Modal from '../../components/Modal/Modal';
 
-export function RegisterModal() {
+interface Props {
+  isOpen: boolean;
+  closeModal: () => void;
+  pathToRedirect : string;
+}
+
+export function RegisterModal(props: Props) {
   const navigate = useNavigate();
-  return (
-   
+  const [email, setEmail] = useState("");
+  const [password, setPass] = useState("");
 
+  const [isButtonClicked, setisButtonClicked] = useState(false);
+
+  return (
+    <Modal isOpen={props.isOpen}>
 <div className="overlay">
   <form className="card">
     <span className="card-title">Создать аккаунт</span>
@@ -156,6 +167,10 @@ export function RegisterModal() {
     </div>
   </form>
 </div>
+
+
+
+    </Modal>
 
   );
 }

@@ -5,7 +5,6 @@ import React, { ReactNode } from "react";
 interface ModalProps {
   children?: ReactNode;
   isOpen: boolean;
-  toggle: () => void;
 }
 
 export default function Modal(props: ModalProps) {

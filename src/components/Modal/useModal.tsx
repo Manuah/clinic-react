@@ -3,8 +3,8 @@ import { useState } from "react";
 export default function useModal() {
   const [isOpen, setisOpen] = useState(false);
   const [pathToRedirect, setPathToRedirect]= useState("/")
-  const toggle = () => {
-    setisOpen(!isOpen);
+  const closeModal = () => {
+    setisOpen(false);
   };
   const openModal = (pathToRedirect: string) =>{
     setisOpen(true);
@@ -13,6 +13,6 @@ export default function useModal() {
 
   return {
     isOpen,
-    toggle, pathToRedirect, openModal
+    closeModal, pathToRedirect, openModal
   };
 }
