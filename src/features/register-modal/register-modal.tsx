@@ -3,6 +3,8 @@ import styles from './register-modal.module.scss';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
 import { authStorage } from '../../authStorage';
+import { useDirty } from '../../hooks/useDirty';
+import { BlobOptions } from 'buffer';
 
 function getEmailError(email: string) {
   if (email == "")
@@ -17,46 +19,48 @@ function getPassError(password: string) {
     return "Пароль должен быть не менее 4 символов.";
   return null;
 }
-function getFamError(fam: string) {
-  if (fam == "")
+function getFamError(fam: string, isDirty: boolean) {
+  if (isDirty && !fam)
+  {
     return "Поле обязательно для заполнения.";
+  }
   return null;
 }
 
-function getNameError(name: string) {
-  if (name == "")
+function getNameError(name: string, isDirty: boolean) {
+  if (isDirty && !name)
     return "Поле обязательно для заполнения.";
   return null;
 }
-function getOtchError(otch: string) {
-  if (otch == "")
+function getOtchError(otch: string, isDirty: boolean) {
+  if (isDirty && !otch)
     return "Поле обязательно для заполнения.";
   return null;
 }
 
 function getBirthError(birth: string) {
-  if (birth)
+  if (!birth)
     return "Пароль должен быть не менее 4 символов.";
   return null;
 }
 function getPhoneError(phone: string) {
-  if (phone)
+  if (!phone)
     return "Email не должен быть пустым.";
   return null;
 }
 
 function getAddressError(address: string) {
-  if (address)
+  if (!address)
     return "Пароль обязателен.";
   return null;
 }
 
 function getSNILSError(SNILS: string) {
-  if (SNILS)
-    return "Пароль обязателен.";
+  if (SNILS == "") return null
+  if (/\d{3}-\d{3}-\d{3} \d{2}/.test(SNILS)) // true)
   return null;
+  return "Неверный формат";
 }
-
 interface Props {
   isOpen: boolean;
   closeModal: () => void;
@@ -67,24 +71,26 @@ export function RegisterModal(props: Props) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
-  const [fam, setFam] = useState("");
-  const [name, setName] = useState("");
-  const [otch, setOtch] = useState("");
-  const [birth, setBirth] = useState("");
+  const [fam, setFam, isFamDirty] = useDirty(""); // dirty для того чтобы отслеживать модиф ли пользватель
+  const [name, setName, isNameDirty] = useDirty("");
+  const [otch, setOtch, isOtchDirty] = useDirty("");
+  const [birth, setBirth] = useState<string>("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [SNILS, setSNILS] = useState("");
 
+
+
   const [isButtonClicked, setisButtonClicked] = useState(false);
   const emailErrorMessage = getEmailError(email);
   const passErrorMessage = getPassError(password);
-  const famErrorMessage = getFamError(email);
-  const nameErrorMessage = getNameError(password);
-  const otchErrorMessage = getOtchError(email);
+  const famErrorMessage = getFamError(fam, isFamDirty); //добавляем isDirty как параметр функции 
+  const nameErrorMessage = getNameError(name, isNameDirty);
+  const otchErrorMessage = getOtchError(otch, isOtchDirty);
   const birthErrorMessage = getBirthError(password);
   const phoneErrorMessage = getPhoneError(email);
   const addressErrorMessage = getAddressError(email);
-  const SNILSErrorMessage = getSNILSError(email);
+  const SNILSErrorMessage = getSNILSError(SNILS);
 
   //const emailErrorMessage = isButtonClicked ? emailError : null;
   //const passErrorMessage = isButtonClicked ? passError : null;
@@ -94,6 +100,10 @@ export function RegisterModal(props: Props) {
       setisButtonClicked(true);
       if (emailErrorMessage || passErrorMessage || famErrorMessage || nameErrorMessage || otchErrorMessage
         || birthErrorMessage || phoneErrorMessage || addressErrorMessage || SNILSErrorMessage) {
+        return;
+      }
+      if (!email || !password || !fam || !name|| !otch) {
+        alert("не заполнены поля")
         return;
       }
       // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
@@ -225,7 +235,7 @@ export function RegisterModal(props: Props) {
                   id="birthday"
                   type="date"
                   required
-                  onChange={event => { setBirth(event.target.value); setServerErrorMessage("") }}
+                  onChange={event => { console.log(event.target.value); setBirth(event.target.value); setServerErrorMessage("") }}
                 />
                 <span
                   className={styles["red-text"]}
@@ -278,7 +288,7 @@ export function RegisterModal(props: Props) {
                 </span>
               </div>
               <div className={styles["card-action"]}>
-                <button className={styles["modal-action btn waves-effect"]}>
+                <button  onClick={logIn} className={styles["modal-action btn waves-effect"]}>
                   Создать
                 </button>
               </div>

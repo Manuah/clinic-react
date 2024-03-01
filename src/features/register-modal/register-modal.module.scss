@@ -39,11 +39,17 @@
 .card-content {
   overflow: scroll;
   overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none; 
   height: 100%;
   width: 100%;
   //display: grid;
   //grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
  // grid-gap: 20px;
+}
+
+.card-content::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
 }
 
 .card-action {
