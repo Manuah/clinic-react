@@ -18,6 +18,7 @@
   position: absolute;
   top: 20px;
   right: 20px;
+  cursor: pointer;
 }
 
 .card {
@@ -36,11 +37,13 @@
 }
 
 .card-content {
+  overflow: scroll;
+  overflow-x: hidden;
   height: 100%;
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-gap: 20px;
+  //display: grid;
+  //grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ // grid-gap: 20px;
 }
 
 .card-action {

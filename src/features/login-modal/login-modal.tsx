@@ -91,11 +91,11 @@ export function LoginModal(props: Props) {
         <div className={styles.card}>
           <span className={styles["card-title"]}>Войти в систему</span>
           <span
-                className={styles["helper-text red-text"]}
+                className={styles["red-text"]}
               >
                 {serverErrorMessage}
               </span>
-          <div className={styles["helper-text red-text"]}></div>
+          <div className={styles["red-text"]}></div>
 
           <a className={styles["brand-logo"]} onClick={props.closeModal}>&#x2717;</a>
 
@@ -106,7 +106,7 @@ export function LoginModal(props: Props) {
               setServerErrorMessage("")}} 
               name="email" id="email" type="email" required />
               <span
-                className={styles["helper-text red-text"]}
+                className={styles["red-text"]}
               >
                 {emailErrorMessage}
               </span>
@@ -116,7 +116,7 @@ export function LoginModal(props: Props) {
               <input value={password} onChange={event => {setPass(event.target.value); setServerErrorMessage("")}} 
               name="password" id="password" type="password" />
               <span
-                className={styles["helper-text red-text"]}
+                className={styles["red-text"]}
               >
                 {passErrorMessage}
               </span>
