@@ -39,27 +39,30 @@ function getOtchError(otch: string, isDirty: boolean) {
 }
 
 function getBirthError(birth: string) {
-  if (!birth)
-    return "Пароль должен быть не менее 4 символов.";
+  var currentTime = new Date(); 
+ // alert(currentTime.toUTCString)
+ // alert(birth)
+  if (birth > currentTime.toString())
+    return "Назад в будущее";
   return null;
-}
-function getPhoneError(phone: string) {
-  if (!phone)
-    return "Email не должен быть пустым.";
-  return null;
-}
+} 
 
-function getAddressError(address: string) {
-  if (!address)
-    return "Пароль обязателен.";
-  return null;
-}
-
-function getSNILSError(SNILS: string) {
-  if (SNILS == "") return null
-  if (/\d{3}-\d{3}-\d{3} \d{2}/.test(SNILS)) // true)
+function getPhoneError(phone: string, isDirty: boolean) {
+  if (!phone) return null;
+  if (/^\+?\d{10,15}$/.test(phone)) 
   return null;
   return "Неверный формат";
+}
+
+function getAddressError(address: string, isDirty: boolean) {
+  if (!address) return null;
+}
+
+function getSNILSError(SNILS: string, isDirty: boolean) {
+  if (!SNILS) return null
+  if (/\d{3}-\d{3}-\d{3} \d{2}/.test(SNILS)) // true)
+  return null;
+  return "Введите СНИЛС в формате XXX-XXX-XXX XX";
 }
 interface Props {
   isOpen: boolean;
@@ -75,9 +78,9 @@ export function RegisterModal(props: Props) {
   const [name, setName, isNameDirty] = useDirty("");
   const [otch, setOtch, isOtchDirty] = useDirty("");
   const [birth, setBirth] = useState<string>("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [SNILS, setSNILS] = useState("");
+  const [phone, setPhone, isPhoneDirty]= useDirty("");
+  const [address, setAddress, isAddressDirty]= useDirty("");
+  const [SNILS, setSNILS, isSNILSDirty]= useDirty("");
 
 
 
@@ -87,10 +90,10 @@ export function RegisterModal(props: Props) {
   const famErrorMessage = getFamError(fam, isFamDirty); //добавляем isDirty как параметр функции 
   const nameErrorMessage = getNameError(name, isNameDirty);
   const otchErrorMessage = getOtchError(otch, isOtchDirty);
-  const birthErrorMessage = getBirthError(password);
-  const phoneErrorMessage = getPhoneError(email);
-  const addressErrorMessage = getAddressError(email);
-  const SNILSErrorMessage = getSNILSError(SNILS);
+  const birthErrorMessage = getBirthError(birth);
+  const phoneErrorMessage = getPhoneError(phone, isPhoneDirty);
+  const addressErrorMessage = getAddressError(address, isAddressDirty);
+  const SNILSErrorMessage = getSNILSError(SNILS, isSNILSDirty);
 
   //const emailErrorMessage = isButtonClicked ? emailError : null;
   //const passErrorMessage = isButtonClicked ? passError : null;
@@ -98,8 +101,7 @@ export function RegisterModal(props: Props) {
   
     async function logIn() {
       setisButtonClicked(true);
-      if (emailErrorMessage || passErrorMessage || famErrorMessage || nameErrorMessage || otchErrorMessage
-        || birthErrorMessage || phoneErrorMessage || addressErrorMessage || SNILSErrorMessage) {
+      if (emailErrorMessage || passErrorMessage || famErrorMessage || nameErrorMessage || otchErrorMessage || phoneErrorMessage || birthErrorMessage || addressErrorMessage || SNILSErrorMessage) {
         return;
       }
       if (!email || !password || !fam || !name|| !otch) {
@@ -110,14 +112,21 @@ export function RegisterModal(props: Props) {
       //   email: email,
       //   password: password
       // }))
-      const response = await fetch('http://localhost:5000/auth/login', {
+      const response = await fetch('http://localhost:5000/auth/register', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: email,
-          password: password
+          password: password,
+          fam: fam,
+          name: name,
+          otch: otch,
+          birth: birth,
+          phone: phone,
+          address: address,
+          SNILS: SNILS
         }),
       })
 
@@ -126,10 +135,10 @@ export function RegisterModal(props: Props) {
         return;
       }
       const data = await response.json();
-      //alert(JSON.stringify(data));
+      alert(JSON.stringify(data));
       authStorage.token = data.token;
-      // alert(authStorage.token);
-      //alert(data.user.user_id);
+       alert(authStorage.token);
+      alert(data.user.name);
       if (data.user.role_id == "1") {
         navigate(props.pathToRedirect);
       }
@@ -154,7 +163,7 @@ export function RegisterModal(props: Props) {
             <a className={styles["brand-logo"]} onClick={props.closeModal}>&#x2717;</a>
             <div className={styles["card-content"]}>
               <div className={styles["input-field"]}>
-                <label htmlFor="email">Email:</label>
+                <label htmlFor="email">Email: <span  className={styles["red-text"]}>*</span></label>
                 <input name="email" id="email" type="email" required onChange={event => {
                   setEmail(event.target.value);
                   setServerErrorMessage("")
@@ -168,7 +177,7 @@ export function RegisterModal(props: Props) {
 
               </div>
               <div className={styles["input-field"]}>
-                <label htmlFor="password">Пароль:</label>
+                <label htmlFor="password">Пароль: <span  className={styles["red-text"]}>*</span></label>
                 <input name="password" id="password" type="password" onChange={event => { setPass(event.target.value); setServerErrorMessage("") }} />
                 <span
 
@@ -179,7 +188,7 @@ export function RegisterModal(props: Props) {
               </div>
 
               <div className={styles["input-field"]}>
-                <label htmlFor="lastName">Ваша фамилия:</label>
+                <label htmlFor="lastName">Ваша фамилия: <span  className={styles["red-text"]}>*</span></label>
                 <input
                   name="lastName"
                   id="lastName"
@@ -195,7 +204,7 @@ export function RegisterModal(props: Props) {
 
 
               <div className={styles["input-field"]}>
-                <label htmlFor="firstName">Ваше имя:</label>
+                <label htmlFor="firstName">Ваше имя: <span  className={styles["red-text"]}>*</span></label>
                 <input
                   name="firstName"
                   id="firstName"
@@ -212,7 +221,7 @@ export function RegisterModal(props: Props) {
 
 
               <div className={styles["input-field"]}>
-                <label htmlFor="middleName">Ваше отчество:</label>
+                <label htmlFor="middleName">Ваше отчество: <span  className={styles["red-text"]}>*</span></label>
                 <input
                   name="middleName"
                   id="middleName"
@@ -237,10 +246,10 @@ export function RegisterModal(props: Props) {
                   required
                   onChange={event => { console.log(event.target.value); setBirth(event.target.value); setServerErrorMessage("") }}
                 />
-                <span
+                <span  
                   className={styles["red-text"]}
                 >
-                  {birthErrorMessage}
+                 {birthErrorMessage} 
                 </span>
               </div>
 
