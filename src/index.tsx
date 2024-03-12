@@ -7,6 +7,9 @@ import { LandingPage } from './LandingPage';
 import { DoctorsPage } from './pages/doctors-page/DoctorsPage';
 import { ServicesPage } from './pages/services-page/ServicesPage';
 import { ClinicsPage } from './pages/clinics-page/ClinicsPage';
+import { AdminPage } from './pages/admin-dashboard/AdminDashboard';
+import { AdminClinics } from './pages/admin-dashboard/components/admin-doctors/AdminClinics';
+import { AdminCreate } from './pages/admin-dashboard/components/admin-create/AdminCreate';
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
@@ -32,7 +35,11 @@ function Root() {
       <Route path="register" element={<div>Окно регистрации</div>}/> 
       <Route path="/about/*" element={<div>About</div>} />
       <Route path="/my" element={<div>Мой личный кабинет пациента</div>} />
-      <Route path="/myadmin" element={<div>Моя панель админа</div>} />
+      <Route path="/myadmin" element={<AdminPage/>}>
+        <Route index element={<AdminCreate/>} />
+        <Route path="/myadminclinic" element={<AdminClinics/>} />
+        <Route path="/myadmindoctorcreate" element={<AdminCreate/>} />
+      </Route>
       <Route path="/mydoctor" element={<div>Мой личный кабинет врача</div>} />
     </Routes>
   );
