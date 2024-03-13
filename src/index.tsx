@@ -10,6 +10,10 @@ import { ClinicsPage } from './pages/clinics-page/ClinicsPage';
 import { AdminPage } from './pages/admin-dashboard/AdminDashboard';
 import { AdminClinics } from './pages/admin-dashboard/components/admin-doctors/AdminClinics';
 import { AdminCreate } from './pages/admin-dashboard/components/admin-create/AdminCreate';
+import { ClinicPage } from './pages/clinic-dashboard/ClinicDashboard';
+import { ClinicCreate } from './pages/clinic-dashboard/components/clinic-create/ClinicCreate';
+import { ClinicDoctors } from './pages/clinic-dashboard/components/clinic-doctors/ClinicDoctors';
+import { ClinicSchedule } from './pages/clinic-dashboard/components/clinic-shedule/ClinicSchedule';
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
@@ -39,6 +43,11 @@ function Root() {
         <Route index element={<AdminCreate/>} />
         <Route path="/myadminclinic" element={<AdminClinics/>} />
         <Route path="/myadmindoctorcreate" element={<AdminCreate/>} />
+      </Route>
+      <Route path="/myclinic" element={<ClinicPage/>}>
+        <Route index element={<ClinicSchedule/>} />
+        <Route path="/myclinicdoctor" element={<AdminClinics/>} />
+        <Route path="/mycliniccreate" element={<ClinicSchedule/>} />
       </Route>
       <Route path="/mydoctor" element={<div>Мой личный кабинет врача</div>} />
     </Routes>
