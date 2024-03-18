@@ -32,9 +32,9 @@ function Root() {
       <Route path="/" element={<LandingPage />}>
         <Route index element={<div></div>} />
         {/* <Route path="login" element={<LoginPageModal/>} />*/}
-        <Route path="/doctors" element={<DoctorsPage/>} />
-        <Route path="/services" element={<ServicesPage/>} />
-        <Route path="/clinics" element={<ClinicsPage/>} />
+        <Route path="doctors" element={<DoctorsPage/>} />
+        <Route path="services" element={<ServicesPage/>} />
+        <Route path="clinics" element={<ClinicsPage/>} />
       </Route>
       <Route path="register" element={<div>Окно регистрации</div>}/> 
       <Route path="/about/*" element={<div>About</div>} />
@@ -45,9 +45,10 @@ function Root() {
         <Route path="/myadmindoctorcreate" element={<AdminCreate/>} />
       </Route>
       <Route path="/myclinic" element={<ClinicPage/>}>
-        <Route index element={<ClinicSchedule/>} />
-        <Route path="/myclinicdoctor" element={<AdminClinics/>} />
-        <Route path="/mycliniccreate" element={<ClinicSchedule/>} />
+        <Route index element={<ClinicPage/>} />
+        <Route path="doctor" element={<AdminClinics/>} />
+        <Route path="create" element={<ClinicCreate/>} />
+        <Route path="schedule/:doctorName" element={<ClinicSchedule/>} />
       </Route>
       <Route path="/mydoctor" element={<div>Мой личный кабинет врача</div>} />
     </Routes>

@@ -26,12 +26,22 @@ import { RegisterModal } from './features/register-modal/register-modal';
 }; */
 
 
+function logOut() {
+  if (window.confirm("Вы уверены, что хотите выйти?") ){
+    authStorage.token = ""; 
+    authStorage.userName = "";
+    window.location.href = "/";
+  }
+}
+
+
 
 export function LandingPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const loginModal = useModal();
   const registerModal = useModal();
+
 
   function openRegister() {
     loginModal.closeModal();
@@ -49,7 +59,18 @@ export function LandingPage() {
             <li><a onClick={() => { navigate("/register") }}>Регистрация</a></li> */}
 
             {/* <button disabled={true} onClick={() => openModal("/")}>Вход</button> */}
-            <li><a className={`${authStorage.token == "" ? "" : "disabledLink"}`} onClick={() => loginModal.openModal("/")}>Вход</a></li>
+            {/* className={`${authStorage.token == "" ? "" : "disabledLink"}`} */}
+            <li>
+             {authStorage.token == "" ? (
+              <a onClick={() => loginModal.openModal("/")}>
+              Вход
+              </a>
+             ) : (
+              <a onClick={logOut}>
+              Выход
+              </a>
+             )} 
+              </li>
 
           </ul>
         </div>
@@ -78,7 +99,7 @@ export function LandingPage() {
             <button className={`tab ${location.pathname == "/doctors" ? "active" : ""}`} onClick={() => { navigate("/doctors") }}>По врачам</button>
             <button className={`tab ${location.pathname == "/services" ? "active" : ""}`} onClick={() => { navigate("/services") }}>По услугам</button>
           </div>
-          <Outlet context={{ openLoginModal : loginModal.openModal }} />
+          <Outlet context={{ openLoginModal: loginModal.openModal }} />
           <div>
             {/* <h1>Hello CodeSandbox</h1>
       <h2>Start editing to see some magic happen!</h2>
@@ -86,11 +107,11 @@ export function LandingPage() {
       <Modal isOpen={isOpen} toggle={toggle}>
         <div>Hello</div>
       </Modal> */}
-            <LoginModal isOpen={loginModal.isOpen} closeModal={loginModal.closeModal} 
-            pathToRedirect={loginModal.pathToRedirect} openRegister={openRegister} />
+            <LoginModal isOpen={loginModal.isOpen} closeModal={loginModal.closeModal}
+              pathToRedirect={loginModal.pathToRedirect} openRegister={openRegister} />
 
-            <RegisterModal isOpen={registerModal.isOpen} closeModal={registerModal.closeModal} 
-            pathToRedirect={registerModal.pathToRedirect}/>
+            <RegisterModal isOpen={registerModal.isOpen} closeModal={registerModal.closeModal}
+              pathToRedirect={registerModal.pathToRedirect} />
           </div>
           <p>
             Мы предлагаем широкий спектр медицинских услуг для обеспечения вашего

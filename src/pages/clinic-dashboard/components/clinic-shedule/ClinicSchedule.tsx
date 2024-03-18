@@ -1,6 +1,10 @@
+import { useParams } from "react-router-dom";
 import "./ClinicSchedule.scss";
+import { useEffect } from "react";
 
 export function ClinicSchedule() {
+  const { doctorName } = useParams();
+  useEffect(() => alert(doctorName), [])
     return (
 <div>
 <div className="card">

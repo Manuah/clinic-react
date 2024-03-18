@@ -51,7 +51,7 @@ export function DoctorsPage() {
             </div>
             <br></br>
             <span className="errormes">{serverErrorMessage}</span>
-            <div className="card-container">
+            <div className="card-container-doctor">
             {doctors.map(doctor => <DoctorCard doctorName={doctor.name} doctorSpecialty={doctor.specialty}/>)} 
             {/* вытаскиваем массив и распределяем по карточкам */}
             </div>

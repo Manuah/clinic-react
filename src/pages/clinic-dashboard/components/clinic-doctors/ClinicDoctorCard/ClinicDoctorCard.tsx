@@ -26,7 +26,7 @@ export function ClinicDoctorCard(props: Props) {
           <button>
             Удалить
           </button>
-          <button>Составить расписание</button>
+          <button onClick={() => { alert("DKJHNFUJDSFSH"); navigate("/myclinic/schedule/" + props.doctorName) }}> расписание</button>
           <button>Редактировать</button>
        </div>
        </div>
