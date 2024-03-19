@@ -24,17 +24,21 @@
     font-size: 18px; /* Increase the font size */
     color: white; /* White text color */
     display: block; /* Make the links appear below each other */
+    cursor: pointer;
   }
   
   /* Active/current link */
-  .sidebar a.active {
+  .sidebar-active {
     background-color: $hover-color; /* Add a blue color to the "active/current" link */
     color: white;
-  }
-  
   /* Links on mouse-over */
+  }
+
   .sidebar a:hover {
     background-color: #aab5ac; /* Add a darker grey color on mouse-over */
     color: white;
   }
+
+  
+
 

@@ -46,7 +46,7 @@ function Root() {
       </Route>
       <Route path="/myclinic" element={<ClinicPage/>}>
         <Route index element={<ClinicPage/>} />
-        <Route path="doctor" element={<AdminClinics/>} />
+        <Route path="doctor" element={<ClinicDoctors/>} />
         <Route path="create" element={<ClinicCreate/>} />
         <Route path="schedule/:doctorName" element={<ClinicSchedule/>} />
       </Route>
