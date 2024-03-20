@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export function ClinicSchedule() {
   const { doctorName } = useParams();
- // useEffect(() => alert(doctorName), []);
+  useEffect(() => alert(doctorName), []);
   const navigate = useNavigate();
 
   const [date, setDate] = useState<string>("");
@@ -40,6 +40,7 @@ export function ClinicSchedule() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          doctorId: doctorName,
           date: date,
           timeStart: timeStart,
           timeEnd: timeEnd,

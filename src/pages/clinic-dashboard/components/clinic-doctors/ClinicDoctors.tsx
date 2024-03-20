@@ -4,6 +4,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { ClinicDoctorCard } from './ClinicDoctorCard/ClinicDoctorCard';
 // import { useDebounce } from '../../hooks/useDebounce';
 type Doctor = {
+    doctor_id: string;
     id: string, 
     name: string
     specialty: string
@@ -54,7 +55,7 @@ export function ClinicDoctors() {
             <br></br>
             <span className="errormes">{serverErrorMessage}</span>
             <div className="card-container">
-            {doctors.map(doctor => <ClinicDoctorCard doctorName={doctor.name} doctorSpecialty={doctor.specialty}/>)} 
+            {doctors.map(doctor => <ClinicDoctorCard doctorId={doctor.doctor_id} doctorName={doctor.name} doctorSpecialty={doctor.specialty}/>)} 
             {/* вытаскиваем массив и распределяем по карточкам */}
             </div>
            

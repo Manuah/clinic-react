@@ -1,11 +1,14 @@
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { authStorage } from '../../../../../authStorage';
+import { useEffect } from 'react';
 type Props = {
+    doctorId: string
     doctorName: string
     doctorSpecialty: string
 }
 export function ClinicDoctorCard(props: Props) {
     const navigate = useNavigate();
+   // useEffect(() => alert(props.doctorId), []);
     const outletContext = useOutletContext<{openLoginModal: (pathToRedirect: string) => void}>();
     // async function book() {
     //     if (authStorage.token == "") {
@@ -26,7 +29,7 @@ export function ClinicDoctorCard(props: Props) {
           <button>
             Удалить
           </button>
-          <button onClick={() => { navigate("/myclinic/schedule/" + props.doctorName) }}>Создать расписание</button>
+          <button onClick={() => { navigate("/myclinic/schedule/" + props.doctorId) }}>Создать расписание</button>
           <button>Редактировать</button>
        </div>
        </div>
