@@ -1,6 +1,6 @@
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { authStorage } from '../../../../../authStorage';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 type Props = {
     doctorId: string
     doctorName: string
@@ -10,6 +10,8 @@ export function ClinicDoctorCard(props: Props) {
     const navigate = useNavigate();
    // useEffect(() => alert(props.doctorId), []);
     const outletContext = useOutletContext<{openLoginModal: (pathToRedirect: string) => void}>();
+   // const [hasDeleted, setHasDeleted] = useState(false);
+    
 
     function deleteConfirm() {
       if (window.confirm("Вы уверены, что хотите удалить " + props.doctorName + "?" ) ){
@@ -33,8 +35,9 @@ export function ClinicDoctorCard(props: Props) {
       //   setServerErrorMessage("Ошибка данных");
       //   return;
       // }
-      const data = await response.json();
-      alert(data);
+     // alert(!hasDeleted);
+    //  setHasDeleted(!hasDeleted);
+
       //alert(JSON.stringify(data));
         // if (authStorage.token == "") {
         //     outletContext.openLoginModal("/my") //после авторизации идем на продолжение записи
@@ -54,6 +57,7 @@ export function ClinicDoctorCard(props: Props) {
           <button onClick={deleteConfirm}>
             Удалить
           </button>
+         
           <button onClick={() => { navigate("/myclinic/schedule/" + props.doctorId) }}>Создать расписание</button>
           <button onClick={() => { navigate("/myclinic/edit/" + props.doctorId) }}>Редактировать</button>
        </div>

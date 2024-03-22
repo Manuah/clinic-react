@@ -9,6 +9,7 @@ import Modal from './components/Modal/Modal';
 import { LoginModal } from './features/login-modal/login-modal';
 import { authStorage } from './authStorage';
 import { RegisterModal } from './features/register-modal/register-modal';
+import { CloseModal } from './features/close-modal/close-modal';
 //import { Button, Modal, ModalBody } from "reactstrap";
 
 /*const MyModal = ({ children, trigger }) => {
@@ -26,21 +27,20 @@ import { RegisterModal } from './features/register-modal/register-modal';
 }; */
 
 
-function logOut() {
-  if (window.confirm("Вы уверены, что хотите выйти?") ){
-    authStorage.token = ""; 
-    authStorage.userName = "";
-    window.location.href = "/";
-  }
-}
-
-
+// function logOut() {
+//   if (window.confirm("Вы уверены, что хотите выйти?") ){
+//     authStorage.token = ""; 
+//     authStorage.userName = "";
+//     window.location.href = "/";
+//   }
+// }
 
 export function LandingPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const loginModal = useModal();
   const registerModal = useModal();
+  const closeConfirmModal = useModal();
 
 
   function openRegister() {
@@ -66,7 +66,7 @@ export function LandingPage() {
               Вход
               </a>
              ) : (
-              <a onClick={logOut}>
+              <a onClick={() => closeConfirmModal.openModal("/")}>
               Выход
               </a>
              )} 
@@ -112,6 +112,8 @@ export function LandingPage() {
 
             <RegisterModal isOpen={registerModal.isOpen} closeModal={registerModal.closeModal}
               pathToRedirect={registerModal.pathToRedirect} />
+
+          <CloseModal isOpen={closeConfirmModal.isOpen} closeModal={closeConfirmModal.closeModal}/>
           </div>
           <p>
             Мы предлагаем широкий спектр медицинских услуг для обеспечения вашего

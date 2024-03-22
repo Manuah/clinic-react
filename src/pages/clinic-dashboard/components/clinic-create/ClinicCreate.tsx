@@ -37,7 +37,9 @@ function getOtchError(otch: string, isDirty: boolean) {
 }
 
 function getSpecialtyError(specialty: string, isDirty: boolean) {
-  if (!specialty) return null;
+  if (isDirty && !specialty)
+    return "Поле обязательно для заполнения.";
+  return null;
 }
 
 export function ClinicCreate() {
@@ -67,7 +69,7 @@ export function ClinicCreate() {
       if (emailErrorMessage || passErrorMessage || famErrorMessage || nameErrorMessage || otchErrorMessage || specialtyErrorMessage) {
         return;
       }
-      if (!email || !password || !fam || !name|| !otch) {
+      if (!email || !password || !fam || !name|| !otch || !specialty) {
         alert("не заполнены поля")
         return;
       }
@@ -75,7 +77,7 @@ export function ClinicCreate() {
       //   email: email,
       //   password: password
       // }))
-      const response = await fetch('http://localhost:5000/auth/register', {
+      const response = await fetch('http://localhost:5000/clinic/addDoctor', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
@@ -96,8 +98,8 @@ export function ClinicCreate() {
       }
       const data = await response.json();
       alert(JSON.stringify(data));
-    
-      //navigate(props.pathToRedirect);
+      //очистить все поля 
+      
     }
     return (
 <div>
@@ -106,63 +108,63 @@ export function ClinicCreate() {
       <span className="card-title">Добавить Доктора</span>
   
       <div className="input-field">
-        <label htmlFor="firstName">Имя:</label>
-        <input id="firstName" type="text" />
+        <label htmlFor="firstName">Имя: <span  className={"red-text"}>*</span></label>
+        <input id="firstName" type="text" 
+        onChange={event => { setName(event.target.value); setServerErrorMessage("") }} />
         <span className="helper-text red-text">
-          Имя обязательно.
+          {nameErrorMessage}
         </span>
       </div>
   
       <div className="input-field">
-        <label htmlFor="lastName">Фамилия:</label>
-        <input id="lastName" type="text" />
+        <label htmlFor="lastName">Фамилия: <span  className={"red-text"}>*</span></label>
+        <input id="lastName" type="text" 
+        onChange={event => { setFam(event.target.value); setServerErrorMessage("") }}/>
         <span className="helper-text red-text">
-          Фамилия обязательна.
+         {famErrorMessage}
         </span>
       </div>
   
       <div className="input-field">
-        <label htmlFor="middleName">Отчество:</label>
-        <input id="middleName" type="text" />
+        <label htmlFor="middleName">Отчество: <span  className={"red-text"}>*</span></label>
+        <input id="middleName" type="text"
+        onChange={event => { setOtch(event.target.value); setServerErrorMessage("") }} />
         <span className="helper-text red-text">
-            Отчество обязательна.
+            {otchErrorMessage}
           </span>
       </div>
   
       <div className="input-field">
-        <label htmlFor="specialty">Специальность:</label>
-        <input id="specialty" type="text" />
+        <label htmlFor="specialty">Специальность: <span  className={"red-text"}>*</span></label>
+        <input id="specialty" type="text"
+        onChange={event => { setSpecialty(event.target.value); setServerErrorMessage("") }} />
         <span className="helper-text red-text">
-            Специальность обязательна.
+            {specialtyErrorMessage}
           </span>
       </div>
   
 
       <div className="input-field">
-        <label htmlFor="email">Email:</label>
-        <input  id="email" type="email" />
+        <label htmlFor="email">Email: <span  className={"red-text"}>*</span></label>
+        <input  id="email" type="email" 
+        onChange={event => { setEmail(event.target.value); setServerErrorMessage("") }}/>
         <span className="helper-text red-text">
-          Email не должен быть пустым.
-        </span>
-        <span className="helper-text red-text">
-          Введите корректный email.
+          {emailErrorMessage}
         </span>
       </div>
   
       <div className="input-field">
-        <label htmlFor="password">Пароль:</label>
-        <input id="password" type="password" />
+        <label htmlFor="password">Пароль: <span  className={"red-text"}>*</span></label>
+        <input id="password" type="password" 
+        onChange={event => { setPass(event.target.value); setServerErrorMessage("") }}/>
         <span className="helper-text red-text">
-          Пароль обязателен.
-        </span>
-        <span className="helper-text red-text">
-          Пароль должен быть не менее 4 символов.
+          {passErrorMessage}
         </span>
       </div>
     </div>
   
     <div className="card-action">
-      <button className="btn">Добавить</button>
+      <button  onClick={addDoctor}  className="btn">Добавить</button>
     </div>
     <div className="file-upload">
     <input type="file" accept=".xlsx, .xls" />
