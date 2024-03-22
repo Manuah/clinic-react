@@ -1,73 +1,32 @@
+import { useNavigate, useParams } from "react-router-dom";
+import "./ClinicEdit.scss";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { authStorage } from "../../../../authStorage";
-import { useDirty } from "../../../../hooks/useDirty";
-import "./ClinicCreate.scss";
 
-function getEmailError(email: string) {
-  if (email == "")
-    return "Email не должен быть пустым.";
-  return null;
-}
-
-function getPassError(password: string) {
-  if (password == "")
-    return "Пароль обязателен.";
-  if (password.length < 4)
-    return "Пароль должен быть не менее 4 символов.";
-  return null;
-}
-function getFamError(fam: string, isDirty: boolean) {
-  if (isDirty && !fam)
-  {
-    return "Поле обязательно для заполнения.";
-  }
-  return null;
-}
-
-function getNameError(name: string, isDirty: boolean) {
-  if (isDirty && !name)
-    return "Поле обязательно для заполнения.";
-  return null;
-}
-function getOtchError(otch: string, isDirty: boolean) {
-  if (isDirty && !otch)
-    return "Поле обязательно для заполнения.";
-  return null;
-}
-
-function getSpecialtyError(specialty: string, isDirty: boolean) {
-  if (!specialty) return null;
-}
-
-export function ClinicCreate() {
+export function ClinicEdit() {
+  const { doctorId } = useParams();
+  //useEffect(() => alert(doctorId), []);
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPass] = useState("");
-  const [fam, setFam, isFamDirty] = useDirty(""); // dirty для того чтобы отслеживать модиф ли пользватель
-  const [name, setName, isNameDirty] = useDirty("");
-  const [otch, setOtch, isOtchDirty] = useDirty("");
-  const [specialty, setSpecialty, isSpecialtyDirty] = useDirty("");
+
+  const [date, setDate] = useState<string>("");
+  const [timeStart, setTimeStart] = useState<string>("");
+  const [timeEnd, setTimeEnd] = useState<string>("");
 
   const [isButtonClicked, setisButtonClicked] = useState(false);
 
-  const emailErrorMessage = getEmailError(email);
-  const passErrorMessage = getPassError(password);
-  const famErrorMessage = getFamError(fam, isFamDirty); //добавляем isDirty как параметр функции 
-  const nameErrorMessage = getNameError(name, isNameDirty);
-  const otchErrorMessage = getOtchError(otch, isOtchDirty);
-  const specialtyErrorMessage = getSpecialtyError(specialty, isSpecialtyDirty);
+  const dateErrorMessage = "";
+  const timeStartErrorMessage = "";
+  const timeEndErrorMessage = "";
 
   //const emailErrorMessage = isButtonClicked ? emailError : null;
   //const passErrorMessage = isButtonClicked ? passError : null;
   const [serverErrorMessage, setServerErrorMessage] = useState("");
   
-    async function addDoctor() {
+    async function createSchedule() {
       setisButtonClicked(true);
-      if (emailErrorMessage || passErrorMessage || famErrorMessage || nameErrorMessage || otchErrorMessage || specialtyErrorMessage) {
+      if (dateErrorMessage || timeStartErrorMessage || timeEndErrorMessage) {
         return;
       }
-      if (!email || !password || !fam || !name|| !otch) {
+      if (!date || !timeStart || !timeEnd) {
         alert("не заполнены поля")
         return;
       }
@@ -75,18 +34,16 @@ export function ClinicCreate() {
       //   email: email,
       //   password: password
       // }))
-      const response = await fetch('http://localhost:5000/auth/register', {
+      const response = await fetch('http://localhost:5000/clinic/createSchedule', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: email,
-          password: password,
-          fam: fam,
-          name: name,
-          otch: otch,
-          specialty: specialty
+          doctorId: doctorId,
+          date: date,
+          timeStart: timeStart,
+          timeEnd: timeEnd,
         }),
       })
 
@@ -96,14 +53,18 @@ export function ClinicCreate() {
       }
       const data = await response.json();
       alert(JSON.stringify(data));
+      if (response.status == 201) {
+        alert("расписание успешно создано")
+        return;
+      }
     
-      //navigate(props.pathToRedirect);
     }
     return (
 <div>
 <div className="card">
     <div className="card-content">
-      <span className="card-title">Добавить Доктора</span>
+      <span className="card-title">Редактировать Доктора {doctorId}
+</span>
   
       <div className="input-field">
         <label htmlFor="firstName">Имя:</label>
@@ -162,7 +123,7 @@ export function ClinicCreate() {
     </div>
   
     <div className="card-action">
-      <button className="btn">Добавить</button>
+      <button className="btn">Сохранить изменения</button>
     </div>
     <div className="file-upload">
     <input type="file" accept=".xlsx, .xls" />

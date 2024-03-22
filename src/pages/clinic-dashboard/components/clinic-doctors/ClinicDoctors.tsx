@@ -37,6 +37,7 @@ export function ClinicDoctors() {
         }
         else{
             setDoctors(data);
+            setServerErrorMessage("");
         }
         
 

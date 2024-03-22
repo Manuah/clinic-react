@@ -14,6 +14,7 @@ import { ClinicPage } from './pages/clinic-dashboard/ClinicDashboard';
 import { ClinicCreate } from './pages/clinic-dashboard/components/clinic-create/ClinicCreate';
 import { ClinicDoctors } from './pages/clinic-dashboard/components/clinic-doctors/ClinicDoctors';
 import { ClinicSchedule } from './pages/clinic-dashboard/components/clinic-shedule/ClinicSchedule';
+import { ClinicEdit } from './pages/clinic-dashboard/components/clinic-edit/ClinicEdit';
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
@@ -49,6 +50,7 @@ function Root() {
         <Route path="doctor" element={<ClinicDoctors/>} />
         <Route path="create" element={<ClinicCreate/>} />
         <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
+        <Route path="edit/:doctorId" element={<ClinicEdit/>} />
       </Route>
       <Route path="/mydoctor" element={<div>Мой личный кабинет врача</div>} />
     </Routes>
