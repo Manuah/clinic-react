@@ -98,7 +98,7 @@ export function ClinicCreate() {
       }
       const data = await response.json();
       alert(JSON.stringify(data));
-      //очистить все поля 
+      // надо еще очистить все поля 
       
     }
     return (
