@@ -162,7 +162,7 @@ export function ClinicEdit() {
   
       <div className="input-field">
         <label htmlFor="firstName">Имя:</label>
-        <input id="firstName" type="text" onChange={event => { setName(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.name.split(" ", 3)[0]}/>
+        <input  autoComplete="one-time-code" id="firstName" type="text" onChange={event => { setName(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.name.split(" ", 3)[0]}/>
         <span className="helper-text red-text">
           {nameErrorMessage}
         </span>
@@ -170,7 +170,7 @@ export function ClinicEdit() {
   
       <div className="input-field">
         <label htmlFor="lastName">Фамилия:</label>
-        <input id="lastName" type="text" onChange={event => {setFam(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.name.split(" ", 3)[1]} />
+        <input autoComplete="one-time-code" id="lastName" type="text" onChange={event => {setFam(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.name.split(" ", 3)[1]} />
         <span className="helper-text red-text">
           {famErrorMessage}
         </span>
@@ -178,7 +178,7 @@ export function ClinicEdit() {
   
       <div className="input-field">
         <label htmlFor="middleName">Отчество:</label>
-        <input id="middleName" type="text" onChange={event => { setOtch(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.name.split(" ", 3)[2]}/>
+        <input autoComplete="one-time-code" id="middleName" type="text" onChange={event => { setOtch(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.name.split(" ", 3)[2]}/>
         <span className="helper-text red-text">
            {otchErrorMessage}
           </span>
@@ -186,7 +186,7 @@ export function ClinicEdit() {
   
       <div className="input-field">
         <label htmlFor="specialty">Специальность:</label>
-        <input id="specialty" type="text" onChange={event => { setSpecialty(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.specialty} />
+        <input autoComplete="one-time-code" id="specialty" type="text" onChange={event => { setSpecialty(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.specialty} />
         <span className="helper-text red-text">
             {specialtyErrorMessage}
           </span>
@@ -195,7 +195,7 @@ export function ClinicEdit() {
 
       <div className="input-field">
         <label htmlFor="email">Email:</label>
-        <input  id="email" type="email" onChange={event => { setEmail(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.email}/>
+        <input autoComplete="one-time-code" id="email" type="email" onChange={event => { setEmail(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.email}/>
         <span className="helper-text red-text">
           {emailErrorMessage}
         </span>
@@ -203,7 +203,7 @@ export function ClinicEdit() {
   
       <div className="input-field">
         <label htmlFor="password">Пароль:</label>
-        <input id="password" type="password" onChange={event => { setPass(event.target.value); setServerErrorMessage("") }} defaultValue={""} autoComplete=""/>
+        <input autoComplete="one-time-code" id="password" type="password" onChange={event => { setPass(event.target.value); setServerErrorMessage("") }} defaultValue={""}/>
         <span className="helper-text red-text">
           {passErrorMessage}
         </span>

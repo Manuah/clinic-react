@@ -8,7 +8,7 @@ interface Props {
   isOpen: boolean;
   closeModal: () => void;
   item: string;
-  setIsConfirmed: (isConfirmed: boolean) => void;
+  onConfirm: () => void;
   //pathToRedirect : string;
   //openRegister: () => void;
 }
@@ -16,7 +16,7 @@ interface Props {
 export function DeleteModal(props: Props) {
   const navigate = useNavigate();
   async function logOut() {
-    props.setIsConfirmed(true);
+    props.onConfirm();
   //  props.IsConfirmed = (true); 
     props.closeModal();
   }

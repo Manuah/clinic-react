@@ -7,6 +7,7 @@ type Props = {
     doctorId: string
     doctorName: string
     doctorSpecialty: string
+    refreshList: () => void
 }    
 //export const [deleteConfirmed, setDeleteConfirmed] = useState("")
 export function ClinicDoctorCard(props: Props) {
@@ -17,22 +18,22 @@ export function ClinicDoctorCard(props: Props) {
     const outletContext = useOutletContext<{openLoginModal: (pathToRedirect: string) => void}>();
    // const [hasDeleted, setHasDeleted] = useState(false);
     
-    function deleteConfirm() {
-    //  alert(deleteConfirmModal.IsConfirmed);
-      if (deleteConfirmModal.IsConfirmed)
-      {
-        deleteDoctor()
-        deleteConfirmModal.setIsConfirmed(false);
-        alert(deleteConfirmModal.IsConfirmed);
-      }
-      // if (window.confirm("Вы уверены, что хотите удалить " + props.doctorName + "?" ) ){
-      //   deleteDoctor()
-      // }
-    }
-    useEffect(() => {
-      // alert(debouncedValue)
-      deleteConfirm()
-   }, [deleteConfirmModal.IsConfirmed])
+  //   function deleteConfirm() {
+  //   //  alert(deleteConfirmModal.IsConfirmed);
+  //     if (deleteConfirmModal.IsConfirmed)
+  //     {
+  //       deleteDoctor()
+  //       deleteConfirmModal.setIsConfirmed(false);
+  //       alert(deleteConfirmModal.IsConfirmed);
+  //     }
+  //     // if (window.confirm("Вы уверены, что хотите удалить " + props.doctorName + "?" ) ){
+  //     //   deleteDoctor()
+  //     // }
+  //   }
+  //   useEffect(() => {
+  //     // alert(debouncedValue)
+  //     deleteConfirm()
+  //  }, [deleteConfirmModal.IsConfirmed])
 
    //CОМНИТЕЛЬНЫЙ КОСТЫЛЬ но работает
 
@@ -48,24 +49,7 @@ export function ClinicDoctorCard(props: Props) {
           doctorId: props.doctorId
          }),
        }) 
-       
-      // if (response.status == 401)
-      // {
-      //   setServerErrorMessage("Ошибка данных");
-      //   return;
-      // }
-     // alert(!hasDeleted);
-    //  setHasDeleted(!hasDeleted);
-
-      //alert(JSON.stringify(data));
-        // if (authStorage.token == "") {
-        //     outletContext.openLoginModal("/my") //после авторизации идем на продолжение записи
-        // }
-        // else 
-        // {
-        //     navigate("/clinics"); //сразу переходим на страницу записи
-           
-        // }
+       props.refreshList()
     }
 
     return (
@@ -80,7 +64,7 @@ export function ClinicDoctorCard(props: Props) {
           <button onClick={() => { navigate("/myclinic/schedule/" + props.doctorId) }}>Создать расписание</button>
           <button onClick={() => { navigate("/myclinic/edit/" + props.doctorId) }}>Редактировать</button>
        </div>
- <DeleteModal isOpen={deleteConfirmModal.isOpen} closeModal={deleteConfirmModal.closeModal} item={props.doctorName} setIsConfirmed={deleteConfirmModal.setIsConfirmed}/>
+ <DeleteModal isOpen={deleteConfirmModal.isOpen} closeModal={deleteConfirmModal.closeModal} item={props.doctorName} onConfirm={deleteDoctor}/>
        </div>
        
     );

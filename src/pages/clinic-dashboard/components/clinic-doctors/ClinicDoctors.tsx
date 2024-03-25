@@ -39,9 +39,8 @@ export function ClinicDoctors() {
             setDoctors(data);
             setServerErrorMessage("");
         }
-        
-
       }
+      
       useEffect(() => {
        // alert(debouncedValue)
         fetchDoctors(debouncedValue)
@@ -56,7 +55,7 @@ export function ClinicDoctors() {
             <br></br>
             <span className="errormes">{serverErrorMessage}</span>
             <div className="card-container">
-            {doctors.map(doctor => <ClinicDoctorCard doctorId={doctor.doctor_id} doctorName={doctor.name} doctorSpecialty={doctor.specialty}/>)} 
+            {doctors.map(doctor => <ClinicDoctorCard doctorId={doctor.doctor_id} doctorName={doctor.name} doctorSpecialty={doctor.specialty} refreshList={fetchDoctors}/>)} 
             {/* вытаскиваем массив и распределяем по карточкам */}
             </div>
            
