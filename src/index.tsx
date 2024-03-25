@@ -39,12 +39,15 @@ function Root() {
       </Route>
       <Route path="register" element={<div>Окно регистрации</div>}/> 
       <Route path="/about/*" element={<div>About</div>} />
+
       <Route path="/my" element={<div>Мой личный кабинет пациента</div>} />
+
       <Route path="/myadmin" element={<AdminPage/>}>
         <Route index element={<AdminCreate/>} />
-        <Route path="/myadminclinic" element={<AdminClinics/>} />
-        <Route path="/myadmindoctorcreate" element={<AdminCreate/>} />
+        <Route path="clinics" element={<AdminClinics/>} />
+        <Route path="cliniccreate" element={<AdminCreate/>} />
       </Route>
+
       <Route path="/myclinic" element={<ClinicPage/>}>
         <Route index element={<ClinicPage/>} />
         <Route path="doctor" element={<ClinicDoctors/>} />

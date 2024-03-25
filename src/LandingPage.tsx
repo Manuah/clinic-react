@@ -88,7 +88,7 @@ export function LandingPage() {
                 <a className='lka' onClick={() => navigate("/myclinic")}>&gt;&gt;&gt;В ЛИЧНЫЙ КАБИНЕТ&lt;&lt;&lt;</a>
               </div>}
           </div>
-          {/* <img
+          {/* <img myadmin myclinic
             className="clinic-image"
             src="http://klublady.ru/uploads/posts/2022-07/thumbs/1658582446_18-klublady-ru-p-posokh-asklepiya-tatu-eskiz-foto-18.jpg"
             alt="Clinic Image"

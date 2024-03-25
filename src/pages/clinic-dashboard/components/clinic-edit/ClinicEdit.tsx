@@ -213,9 +213,7 @@ export function ClinicEdit() {
     <div className="card-action">
       <button onClick={editDoctor} className="btn">Сохранить изменения</button>
     </div>
-    <div className="file-upload">
-    <input type="file" accept=".xlsx, .xls" />
-    <button>Загрузить Excel</button>
+    <div className="file-upload"> 
   </div>
 
   </div>
