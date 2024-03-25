@@ -146,7 +146,7 @@ export function ClinicCreate() {
 
       <div className="input-field">
         <label htmlFor="email">Email: <span  className={"red-text"}>*</span></label>
-        <input  id="email" type="email" 
+        <input autoComplete="one-time-code"  id="email" type="email" 
         onChange={event => { setEmail(event.target.value); setServerErrorMessage("") }}/>
         <span className="helper-text red-text">
           {emailErrorMessage}
@@ -155,7 +155,7 @@ export function ClinicCreate() {
   
       <div className="input-field">
         <label htmlFor="password">Пароль: <span  className={"red-text"}>*</span></label>
-        <input id="password" type="password" 
+        <input  autoComplete="one-time-code" id="password" type="password" 
         onChange={event => { setPass(event.target.value); setServerErrorMessage("") }}/>
         <span className="helper-text red-text">
           {passErrorMessage}

@@ -85,7 +85,7 @@ export function LandingPage() {
               <div></div> :
               <div>
                 <p>Вы вошли в систему!</p>
-                <a className='lka' onClick={() => navigate("/myclinic")}>&gt;&gt;&gt;В ЛИЧНЫЙ КАБИНЕТ&lt;&lt;&lt;</a>
+                <a className='lka' onClick={() => navigate("/myadmin")}>&gt;&gt;&gt;В ЛИЧНЫЙ КАБИНЕТ&lt;&lt;&lt;</a>
               </div>}
           </div>
           {/* <img myadmin myclinic

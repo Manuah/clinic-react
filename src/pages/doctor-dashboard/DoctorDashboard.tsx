@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { resolveTypeReferenceDirective } from "typescript";
-import './AdminDashboard.scss';
+import './DocotrDashboard.scss';
 import useModal from "../../components/Modal/useModal";
 import { CloseModal } from "../../features/close-modal/close-modal";
 

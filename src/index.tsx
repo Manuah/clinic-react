@@ -42,12 +42,13 @@ function Root() {
 
       <Route path="/my" element={<div>Мой личный кабинет пациента</div>} />
 
+    {/* ЛК АДМИНА*/}
       <Route path="/myadmin" element={<AdminPage/>}>
-        <Route index element={<AdminCreate/>} />
+        {/* <Route index element={<AdminCreate/>} /> */}
         <Route path="clinics" element={<AdminClinics/>} />
         <Route path="cliniccreate" element={<AdminCreate/>} />
       </Route>
-
+    {/* ЛК КЛИНИКИ*/}
       <Route path="/myclinic" element={<ClinicPage/>}>
         <Route index element={<ClinicPage/>} />
         <Route path="doctor" element={<ClinicDoctors/>} />
@@ -55,7 +56,16 @@ function Root() {
         <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
         <Route path="edit/:doctorId" element={<ClinicEdit/>} />
       </Route>
-      <Route path="/mydoctor" element={<div>Мой личный кабинет врача</div>} />
+
+     {/* ЛК ВРАЧА*/}
+     <Route path="/mydoctor" element={<ClinicPage/>}>
+        <Route index element={<ClinicPage/>} />
+        <Route path="schedule" element={<ClinicDoctors/>} />
+        <Route path="patients" element={<ClinicCreate/>} />
+        {/* <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
+        <Route path="edit/:doctorId" element={<ClinicEdit/>} /> */}
+      </Route>
+
     </Routes>
   );
 }

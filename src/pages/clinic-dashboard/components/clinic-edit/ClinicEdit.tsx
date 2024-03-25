@@ -57,17 +57,17 @@ export function ClinicEdit() {
   const navigate = useNavigate();
   const [doctor, setDoctor] = useState<Doctor | null>(null)
 
-  const [email, setEmail, isEmailDirty] = useDirty("");
-  const [password, setPass, IsPassDirty] = useDirty("");
-  const [fam, setFam, isFamDirty] = useDirty(doctor?.name.split(" ", 3)[0]); // dirty для того чтобы отслеживать модиф ли пользватель
-  const [name, setName, isNameDirty] = useDirty(doctor?.name.split(" ", 3)[1]);
-  const [otch, setOtch, isOtchDirty] = useDirty(doctor?.name.split(" ", 3)[2]);
-  const [specialty, setSpecialty, isSpecialtyDirty] = useDirty(doctor?.specialty);
+  //const [email, setEmail, isEmailDirty] = useDirty("");
+  //const [password, setPass, IsPassDirty] = useDirty("");
+  const [fam, setFam, isFamDirty] = useDirty(""); // dirty для того чтобы отслеживать модиф ли пользватель
+  const [name, setName, isNameDirty] = useDirty("");
+  const [otch, setOtch, isOtchDirty] = useDirty("");
+  const [specialty, setSpecialty, isSpecialtyDirty] = useDirty("");
 
   const [isButtonClicked, setisButtonClicked] = useState(false);
 
-  const emailErrorMessage = getEmailError(email, isEmailDirty);
-  const passErrorMessage = getPassError(password, IsPassDirty);
+ // const emailErrorMessage = getEmailError(email, isEmailDirty);
+  //const passErrorMessage = getPassError(password, IsPassDirty);
   const famErrorMessage = getFamError(fam, isFamDirty); //добавляем isDirty как параметр функции 
   const nameErrorMessage = getNameError(name, isNameDirty);
   const otchErrorMessage = getOtchError(otch, isOtchDirty);
@@ -76,10 +76,15 @@ export function ClinicEdit() {
   //const emailErrorMessage = isButtonClicked ? emailError : null;
   //const passErrorMessage = isButtonClicked ? passError : null;
   const [serverErrorMessage, setServerErrorMessage] = useState("");
-  
+  useEffect(() => { 
+    console.log(name)
+  }, [name])
     async function editDoctor() {
       setisButtonClicked(true);
-      if (emailErrorMessage || passErrorMessage || famErrorMessage || nameErrorMessage || otchErrorMessage || specialtyErrorMessage) {
+      if ( famErrorMessage || nameErrorMessage || otchErrorMessage || specialtyErrorMessage) {
+        return;
+      }
+      if ( !fam || !name || !otch || !specialty) {
         return;
       }
       // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
@@ -87,14 +92,12 @@ export function ClinicEdit() {
       //   password: password
       // }))
       const response = await fetch('http://localhost:5000/clinic/editDoctor', {
-        method: 'UPDATE',
+        method: 'PUT',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           doctorId: doctorId,
-          email: email,
-          password: password,
           fam: fam,
           name: name,
           otch: otch,
@@ -109,7 +112,7 @@ export function ClinicEdit() {
       const data = await response.json();
       alert(JSON.stringify(data));
       //очистить все поля 
-      
+
     }
   
 
@@ -139,6 +142,10 @@ export function ClinicEdit() {
     else{
         setDoctor(data);
         setServerErrorMessage("");
+        setFam(data.name.split(" ", 3)[1])
+        setName(data.name.split(" ", 3)[0])
+        setOtch(data.name.split(" ", 3)[2])
+        setSpecialty(data.specialty)
         //alert(doctor?.name.split(" ", 3))
 
     }
@@ -162,7 +169,7 @@ export function ClinicEdit() {
   
       <div className="input-field">
         <label htmlFor="firstName">Имя:</label>
-        <input  autoComplete="one-time-code" id="firstName" type="text" onChange={event => { setName(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.name.split(" ", 3)[0]}/>
+        <input  autoComplete="one-time-code" id="firstName" type="text" onChange={event => { setName(event.target.value); setServerErrorMessage("") }} value={name}/>
         <span className="helper-text red-text">
           {nameErrorMessage}
         </span>
@@ -170,7 +177,7 @@ export function ClinicEdit() {
   
       <div className="input-field">
         <label htmlFor="lastName">Фамилия:</label>
-        <input autoComplete="one-time-code" id="lastName" type="text" onChange={event => {setFam(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.name.split(" ", 3)[1]} />
+        <input autoComplete="one-time-code" id="lastName" type="text" onChange={event => {setFam(event.target.value); setServerErrorMessage("") }} value={fam} />
         <span className="helper-text red-text">
           {famErrorMessage}
         </span>
@@ -178,7 +185,7 @@ export function ClinicEdit() {
   
       <div className="input-field">
         <label htmlFor="middleName">Отчество:</label>
-        <input autoComplete="one-time-code" id="middleName" type="text" onChange={event => { setOtch(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.name.split(" ", 3)[2]}/>
+        <input autoComplete="one-time-code" id="middleName" type="text" onChange={event => { setOtch(event.target.value); setServerErrorMessage(""); }} value={otch}/>
         <span className="helper-text red-text">
            {otchErrorMessage}
           </span>
@@ -186,7 +193,7 @@ export function ClinicEdit() {
   
       <div className="input-field">
         <label htmlFor="specialty">Специальность:</label>
-        <input autoComplete="one-time-code" id="specialty" type="text" onChange={event => { setSpecialty(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.specialty} />
+        <input autoComplete="one-time-code" id="specialty" type="text" onChange={event => { setSpecialty(event.target.value); setServerErrorMessage("") }} value={specialty} />
         <span className="helper-text red-text">
             {specialtyErrorMessage}
           </span>
@@ -195,19 +202,19 @@ export function ClinicEdit() {
 
       <div className="input-field">
         <label htmlFor="email">Email:</label>
-        <input autoComplete="one-time-code" id="email" type="email" onChange={event => { setEmail(event.target.value); setServerErrorMessage("") }} defaultValue={doctor?.email}/>
+        <input disabled autoComplete="one-time-code" id="email" type="email"  defaultValue={doctor?.email}/>
         <span className="helper-text red-text">
-          {emailErrorMessage}
+
         </span>
       </div>
   
-      <div className="input-field">
+      {/* <div className="input-field">
         <label htmlFor="password">Пароль:</label>
         <input autoComplete="one-time-code" id="password" type="password" onChange={event => { setPass(event.target.value); setServerErrorMessage("") }} defaultValue={""}/>
         <span className="helper-text red-text">
           {passErrorMessage}
         </span>
-      </div>
+      </div> */}
     </div>
   
     <div className="card-action">

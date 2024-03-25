@@ -1,15 +1,15 @@
 import { useDebounce } from '../../../../hooks/useDebounce';
 import './AdminDoctor.scss';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { AdminClinicCard } from './AdminClinicCard/AdminClinicCard';
+import { AdminClinicCard } from './DoctorPatientCard/DoctorPatientCard';
 // import { useDebounce } from '../../hooks/useDebounce';
-type Doctor = {
-    id: string, 
-    name: string
-    specialty: string
+type Patient = {
+    name: string, 
+    snils: string
+    phone: string
 }
-export function AdminClinics() {
-    const [doctors, setDoctors] = useState<Doctor[]>([])
+export function DoctorPatients() {
+    const [patients, setPatients] = useState<Patient[]>([])
     const [value, setValue] = useState<string>('')
     const debouncedValue = useDebounce<string>(value, 500) //для задержки при вводе фильтра
     const [serverErrorMessage, setServerErrorMessage] = useState("");
@@ -18,7 +18,7 @@ export function AdminClinics() {
     setValue(event.target.value)
     setServerErrorMessage("")
   }
-    async function fetchDoctors(filter = '') {
+    async function fetchPatients(filter = '') {
         // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
         //   email: email,
         //   password: password
@@ -31,18 +31,18 @@ export function AdminClinics() {
         if (response.status == 404)
         {
             setServerErrorMessage("Врачи не найдены");
-            setDoctors([]);
+            setPatients([]);
             return;
         }
         else{
-            setDoctors(data);
+            setPatients(data);
         }
         
 
       }
       useEffect(() => {
        // alert(debouncedValue)
-        fetchDoctors(debouncedValue)
+       fetchPatients(debouncedValue)
     }, [debouncedValue])
     return (
             <div className="doctors-container">
@@ -54,7 +54,7 @@ export function AdminClinics() {
             <br></br>
             <span className="errormes">{serverErrorMessage}</span>
             <div className="card-container">
-            {doctors.map(doctor => <AdminClinicCard doctorName={doctor.name} doctorSpecialty={doctor.specialty}/>)} 
+            {patients.map(patient => <AdminClinicCard name={patient.name} snils={patient.snils} phone={patient.phone} />)} 
             {/* вытаскиваем массив и распределяем по карточкам */}
             </div>
            
