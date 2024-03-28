@@ -1,75 +1,96 @@
+import { useNavigate } from "react-router-dom";
 import "./AdminCreate.scss";
+import { useState } from "react";
 
 export function AdminCreate() {
+
+  function getEmailError(email: string) {
+    if (email == "")
+      return "Email не должен быть пустым.";
+    return null;
+  }
+  
+  function getPassError(password: string) {
+    if (password == "")
+      return "Пароль обязателен.";
+    if (password.length < 4)
+      return "Пароль должен быть не менее 4 символов.";
+    return null;
+  }
+
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPass] = useState("");
+  
+  const emailErrorMessage = getEmailError(email);
+  const passErrorMessage = getPassError(password);
+
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
+  
+    async function addAdmin() {
+      if (emailErrorMessage || passErrorMessage) {
+        return;
+      }
+      if (!email || !password) {
+        alert("не заполнены поля")
+        return;
+      }
+      // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+      //   email: email,
+      //   password: password
+      // }))
+      const response = await fetch('http://localhost:5000/admin/addAdmin', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        }),
+      })
+
+      if (response.status == 401) {
+        setServerErrorMessage("Ошибка данных");
+        return;
+      }
+      const data = await response.json();
+      alert(JSON.stringify(data));
+      // надо еще очистить все поля 
+    }
+
     return (
 <div>
 <div className="card">
     <div className="card-content">
-      <span className="card-title">Добавить поликлинику</span>
-  
-      <div className="input-field">
-        <label htmlFor="firstName">Имя:</label>
-        <input id="firstName" type="text" />
-        <span className="helper-text red-text">
-          Имя обязательно.
-        </span>
-      </div>
-  
-      <div className="input-field">
-        <label htmlFor="lastName">Фамилия:</label>
-        <input id="lastName" type="text" />
-        <span className="helper-text red-text">
-          Фамилия обязательна.
-        </span>
-      </div>
-  
-      <div className="input-field">
-        <label htmlFor="middleName">Отчество:</label>
-        <input id="middleName" type="text" />
-        <span className="helper-text red-text">
-            Отчество обязательна.
-          </span>
-      </div>
-  
-      <div className="input-field">
-        <label htmlFor="specialty">Специальность:</label>
-        <input id="specialty" type="text" />
-        <span className="helper-text red-text">
-            Специальность обязательна.
-          </span>
-      </div>
-  
+      <span className="card-title">Добавить администратора</span>
 
       <div className="input-field">
         <label htmlFor="email">Email:</label>
-        <input  id="email" type="email" />
+        <input autoComplete="one-time-code" 
+        onChange={event => { setEmail(event.target.value); setServerErrorMessage("") }} id="email" type="email" />
         <span className="helper-text red-text">
-          Email не должен быть пустым.
-        </span>
-        <span className="helper-text red-text">
-          Введите корректный email.
+          {emailErrorMessage}
         </span>
       </div>
   
       <div className="input-field">
         <label htmlFor="password">Пароль:</label>
-        <input id="password" type="password" />
+        <input  autoComplete="one-time-code"
+        onChange={event => { setPass(event.target.value); setServerErrorMessage("") }} id="password" type="password" />
         <span className="helper-text red-text">
-          Пароль обязателен.
-        </span>
-        <span className="helper-text red-text">
-          Пароль должен быть не менее 4 символов.
+         {passErrorMessage}
         </span>
       </div>
     </div>
   
     <div className="card-action">
-      <button className="btn">Добавить</button>
+      <button onClick={addAdmin}  className="btn">Добавить</button>
     </div>
-    <div className="file-upload">
+    {/* <div className="file-upload">
     <input type="file" accept=".xlsx, .xls" />
     <button>Загрузить Excel</button>
-  </div>
+  </div> */}
 
   </div>
 

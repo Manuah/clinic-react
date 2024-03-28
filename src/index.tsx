@@ -15,6 +15,8 @@ import { ClinicCreate } from './pages/clinic-dashboard/components/clinic-create/
 import { ClinicDoctors } from './pages/clinic-dashboard/components/clinic-doctors/ClinicDoctors';
 import { ClinicSchedule } from './pages/clinic-dashboard/components/clinic-shedule/ClinicSchedule';
 import { ClinicEdit } from './pages/clinic-dashboard/components/clinic-edit/ClinicEdit';
+import { ClinicLandingEdit } from './pages/clinic-dashboard/components/clinic-edit-landing/ClinicIndex';
+import { AdminCreateClinic } from './pages/admin-dashboard/components/admin-create-clinic/AdminCreateClinic';
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
@@ -44,13 +46,13 @@ function Root() {
 
     {/* ЛК АДМИНА*/}
       <Route path="/myadmin" element={<AdminPage/>}>
-        {/* <Route index element={<AdminCreate/>} /> */}
+       <Route index element={<AdminCreate/>} />
         <Route path="clinics" element={<AdminClinics/>} />
-        <Route path="cliniccreate" element={<AdminCreate/>} />
+        <Route path="cliniccreate" element={<AdminCreateClinic/>} />
       </Route>
     {/* ЛК КЛИНИКИ*/}
       <Route path="/myclinic" element={<ClinicPage/>}>
-        <Route index element={<ClinicPage/>} />
+        <Route index element={<ClinicLandingEdit/>} />
         <Route path="doctor" element={<ClinicDoctors/>} />
         <Route path="create" element={<ClinicCreate/>} />
         <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
@@ -58,6 +60,15 @@ function Root() {
       </Route>
 
      {/* ЛК ВРАЧА*/}
+     <Route path="/mydoctor" element={<ClinicPage/>}>
+        <Route index element={<ClinicPage/>} />
+        <Route path="schedule" element={<ClinicDoctors/>} />
+        <Route path="patients" element={<ClinicCreate/>} />
+        {/* <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
+        <Route path="edit/:doctorId" element={<ClinicEdit/>} /> */}
+      </Route>
+
+      {/* ЛК ПАЦИЕНТА*/}
      <Route path="/mydoctor" element={<ClinicPage/>}>
         <Route index element={<ClinicPage/>} />
         <Route path="schedule" element={<ClinicDoctors/>} />

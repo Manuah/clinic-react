@@ -66,15 +66,19 @@ export function LoginModal(props: Props) {
     authStorage.token = data.token;
    // alert(authStorage.token);
    //alert(data.user.user_id);
-   if (data.user.role_id == "1")
+   if (data.user.role_id == 1)
    {
-      navigate(props.pathToRedirect);
+    navigate(props.pathToRedirect);
    }
    else if (data.user.role_id == 2)
    {
     navigate("/mydoctor");
    }
    else if (data.user.role_id == 3)
+   {
+    navigate("/myclinic");
+   }
+   else if (data.user.role_id == 4)
    {
     navigate("/myadmin");
    }
