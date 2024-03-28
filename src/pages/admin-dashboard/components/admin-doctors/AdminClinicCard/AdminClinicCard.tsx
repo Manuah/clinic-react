@@ -26,7 +26,7 @@ export function AdminClinicCard(props: Props) {
           <button>
             Удалить
           </button>
-          <button>Составить расписание</button>
+          <button onClick={() => navigate("/landing/" + props.doctorName)}>Открыть страницу</button>
           <button>Редактировать</button>
        </div>
        </div>

@@ -17,6 +17,7 @@ import { ClinicSchedule } from './pages/clinic-dashboard/components/clinic-shedu
 import { ClinicEdit } from './pages/clinic-dashboard/components/clinic-edit/ClinicEdit';
 import { ClinicLandingEdit } from './pages/clinic-dashboard/components/clinic-edit-landing/ClinicIndex';
 import { AdminCreateClinic } from './pages/admin-dashboard/components/admin-create-clinic/AdminCreateClinic';
+import { LandingClinic } from './pages/landing-clinic/LandingClinic';
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
@@ -39,6 +40,8 @@ function Root() {
         <Route path="services" element={<ServicesPage/>} />
         <Route path="clinics" element={<ClinicsPage/>} />
       </Route>
+      
+      <Route path="/landing/:clinicId" element={<LandingClinic/>}/> 
       <Route path="register" element={<div>Окно регистрации</div>}/> 
       <Route path="/about/*" element={<div>About</div>} />
 

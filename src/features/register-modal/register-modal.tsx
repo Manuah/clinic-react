@@ -137,18 +137,12 @@ export function RegisterModal(props: Props) {
       const data = await response.json();
       alert(JSON.stringify(data));
       authStorage.token = data.token;
+      authStorage.roleId = data.user.role_id;
        alert(authStorage.token);
       alert(data.user.name);
-      if (data.user.role_id == "1") {
-        navigate(props.pathToRedirect);
-      }
-      else if (data.user.role_id == 2) {
-        navigate("/mydoctor");
-      }
-      else if (data.user.role_id == 3) {
-        navigate("/myadmin");
-      }
+      navigate(props.pathToRedirect);
 
+     
       //navigate(props.pathToRedirect);
 
       props.closeModal();

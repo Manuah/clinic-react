@@ -64,6 +64,7 @@ export function LoginModal(props: Props) {
     const data = await response.json();
     //alert(JSON.stringify(data));
     authStorage.token = data.token;
+    authStorage.roleId = data.user.role_id;
    // alert(authStorage.token);
    //alert(data.user.user_id);
    if (data.user.role_id == 1)

@@ -14,7 +14,8 @@ export function CloseModal(props: Props) {
   const navigate = useNavigate();
   async function logOut() {
     authStorage.token = "";
-    authStorage.userName = "";
+    authStorage.userName = ""; 
+    authStorage.roleId = "";
     window.location.href = "/";
     props.closeModal();
   }
