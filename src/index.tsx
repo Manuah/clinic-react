@@ -18,6 +18,8 @@ import { ClinicEdit } from './pages/clinic-dashboard/components/clinic-edit/Clin
 import { ClinicLandingEdit } from './pages/clinic-dashboard/components/clinic-edit-landing/ClinicIndex';
 import { AdminCreateClinic } from './pages/admin-dashboard/components/admin-create-clinic/AdminCreateClinic';
 import { LandingClinic } from './pages/landing-clinic/LandingClinic';
+import { DoctorPage } from './pages/doctor-dashboard/DoctorDashboard';
+import { DoctorsSchedule } from './pages/doctor-dashboard/components/doctor-shedule/DoctorSchedule';
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
@@ -63,10 +65,10 @@ function Root() {
       </Route>
 
      {/* ЛК ВРАЧА*/}
-     <Route path="/mydoctor" element={<ClinicPage/>}>
-        <Route index element={<ClinicPage/>} />
-        <Route path="schedule" element={<ClinicDoctors/>} />
-        <Route path="patients" element={<ClinicCreate/>} />
+     <Route path="/mydoctor" element={<DoctorPage/>}>
+         <Route index element={<DoctorPage/>} />
+        <Route path="schedule" element={<DoctorsSchedule/>} />
+        {/* <Route path="patients" element={<DoctorsSchedule/>} /> */}
         {/* <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
         <Route path="edit/:doctorId" element={<ClinicEdit/>} /> */}
       </Route>
