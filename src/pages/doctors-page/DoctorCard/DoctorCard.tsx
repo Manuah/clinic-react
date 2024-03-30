@@ -21,7 +21,7 @@ export function DoctorCard(props: Props) {
 
     return (
             <div className="card-doc">
-                <img src="https://gas-kvas.com/grafic/uploads/posts/2023-09/1695968146_gas-kvas-com-p-kartinki-vracha-18.jpg" alt="Doctor" />
+                <img src="" alt="Doctor" />
                 <div className="card-info">
                     <p>{props.doctorName}</p>
                     <p>{props.doctorSpecialty}</p>

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { authStorage } from "../../../../authStorage";
 import { useDirty } from "../../../../hooks/useDirty";
 import "./ClinicCreate.scss";
+import { UploadAndDisplayImage } from "../../../../components/UploadAndDisplayImage";
 
 function getEmailError(email: string) {
   if (email == "")
@@ -50,6 +51,7 @@ export function ClinicCreate() {
   const [name, setName, isNameDirty] = useDirty("");
   const [otch, setOtch, isOtchDirty] = useDirty("");
   const [specialty, setSpecialty, isSpecialtyDirty] = useDirty("");
+  const [photoFile, setPhotoFile] = useState<null | File>(null);
 
   const [isButtonClicked, setisButtonClicked] = useState(false);
 
@@ -63,6 +65,9 @@ export function ClinicCreate() {
   //const emailErrorMessage = isButtonClicked ? emailError : null;
   //const passErrorMessage = isButtonClicked ? passError : null;
   const [serverErrorMessage, setServerErrorMessage] = useState("");
+  
+
+
   
     async function addDoctor() {
       setisButtonClicked(true);
@@ -88,9 +93,11 @@ export function ClinicCreate() {
           fam: fam,
           name: name,
           otch: otch,
-          specialty: specialty
+          specialty: specialty,
+          photo: photoFile
         }),
       })
+
 
       if (response.status == 401) {
         setServerErrorMessage("Ошибка данных");
@@ -166,10 +173,13 @@ export function ClinicCreate() {
     <div className="card-action">
       <button  onClick={addDoctor}  className="btn">Добавить</button>
     </div>
-    <div className="file-upload">
+
+    <UploadAndDisplayImage onImageChange={setPhotoFile}/>
+
+    {/* <div className="file-upload">
     <input type="file" accept=".xlsx, .xls" />
     <button>Загрузить Excel</button>
-  </div>
+  </div> */}
 
   </div>
 
