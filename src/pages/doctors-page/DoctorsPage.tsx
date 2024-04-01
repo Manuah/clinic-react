@@ -40,7 +40,7 @@ export function DoctorsPage() {
 
       }
       useEffect(() => {
-       // alert(debouncedValue)
+       // alert(debouncedValue   )
         fetchDoctors(debouncedValue)
     }, [debouncedValue])
     return (
