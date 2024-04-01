@@ -1,5 +1,6 @@
 export const authStorage = {
     token: "",
     userName: "",
-    roleId: ""
+    roleId: "", 
+    userId: ""
 }

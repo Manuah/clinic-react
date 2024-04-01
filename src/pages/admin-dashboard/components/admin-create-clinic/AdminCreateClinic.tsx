@@ -1,75 +1,163 @@
+import { useNavigate } from "react-router-dom";
 import "./AdminCreateClinic.scss";
+import { useState } from "react";
+import { UploadAndDisplayImage } from "../../../../components/UploadAndDisplayImage";
+import { useDirty } from "../../../../hooks/useDirty";
+
+function getEmailError(email: string) {
+  if (email == "")
+    return "Email не должен быть пустым.";
+  return null;
+}
+
+function getPassError(password: string) {
+  if (password == "")
+    return "Пароль обязателен.";
+  if (password.length < 4)
+    return "Пароль должен быть не менее 4 символов.";
+  return null;
+}
+
+function getNameError(name: string, isDirty: boolean) {
+  if (isDirty && !name)
+    return "Поле обязательно для заполнения.";
+  return null;
+}
+
+function getPhoneError(phone: string, isDirty: boolean) {
+  if (!phone) return null;
+  if (/^\+?\d{10,15}$/.test(phone)) 
+  return null;
+  return "Неверный формат";
+}
+
+function getAddressError(address: string, isDirty: boolean) {
+  if (isDirty && !address)
+  return "Поле обязательно для заполнения.";
+return null;
+}
 
 export function AdminCreateClinic() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPass] = useState("");
+  const [name, setName, isNameDirty] = useDirty("");
+  const [address, setAddress, isAddressDirty] = useDirty("");
+  const [phone, setPhone, isPhoneDirty] = useDirty("");
+  const [photoFile, setPhotoFile] = useState<null | File>(null);
+
+  const [isButtonClicked, setisButtonClicked] = useState(false);
+
+  const emailErrorMessage = getEmailError(email);
+  const passErrorMessage = getPassError(password);
+  const nameErrorMessage = getNameError(name, isNameDirty);
+  const addressErrorMessage = getAddressError(address, isAddressDirty);
+  const phoneErrorMessage = getPhoneError(phone, isPhoneDirty);
+
+  //const emailErrorMessage = isButtonClicked ? emailError : null;
+  //const passErrorMessage = isButtonClicked ? passError : null;
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
+  
+
+    async function addClinic() {
+      setisButtonClicked(true);
+      if (emailErrorMessage || passErrorMessage || nameErrorMessage || addressErrorMessage || phoneErrorMessage) {
+        return;
+      }
+      if (!email || !password || !name|| !address || !phone) {
+        alert("не заполнены поля")
+        return;
+      }
+      // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+      //   email: email,
+      //   password: password
+      // }))
+      const response = await fetch('http://localhost:5000/admin/addClinic', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          name: name,
+          address: address,
+          phone: phone
+        }),
+      })
+
+
+      if (response.status == 401) {
+        setServerErrorMessage("Ошибка данных");
+        return;
+      }
+      const data = await response.json();
+     // alert(JSON.stringify(data));
+      // надо еще очистить все поля 
+      
+    }
     return (
 <div>
 <div className="card">
     <div className="card-content">
-      <span className="card-title">Добавить поликлинику</span>
+      <span className="card-title">Добавить Поликлинику</span>
   
       <div className="input-field">
-        <label htmlFor="firstName">Имя:</label>
-        <input id="firstName" type="text" />
+        <label htmlFor="firstName">Название: <span  className={"red-text"}>*</span></label>
+        <input id="firstName" type="text" 
+        onChange={event => { setName(event.target.value); setServerErrorMessage("") }} />
         <span className="helper-text red-text">
-          Имя обязательно.
+          {nameErrorMessage}
         </span>
       </div>
   
       <div className="input-field">
-        <label htmlFor="lastName">Фамилия:</label>
-        <input id="lastName" type="text" />
+        <label htmlFor="lastName">Адрес: <span  className={"red-text"}>*</span></label>
+        <input id="lastName" type="text" 
+        onChange={event => { setAddress(event.target.value); setServerErrorMessage("") }}/>
         <span className="helper-text red-text">
-          Фамилия обязательна.
+         {addressErrorMessage}
         </span>
       </div>
   
       <div className="input-field">
-        <label htmlFor="middleName">Отчество:</label>
-        <input id="middleName" type="text" />
+        <label htmlFor="middleName">Телефон: <span  className={"red-text"}>*</span></label>
+        <input id="middleName" type="text"
+        onChange={event => { setPhone(event.target.value); setServerErrorMessage("") }} />
         <span className="helper-text red-text">
-            Отчество обязательна.
+            {phoneErrorMessage}
           </span>
       </div>
-  
-      <div className="input-field">
-        <label htmlFor="specialty">Специальность:</label>
-        <input id="specialty" type="text" />
-        <span className="helper-text red-text">
-            Специальность обязательна.
-          </span>
-      </div>
-  
 
       <div className="input-field">
-        <label htmlFor="email">Email:</label>
-        <input  id="email" type="email" />
+        <label htmlFor="email">Логин: <span  className={"red-text"}>*</span></label>
+        <input autoComplete="one-time-code"  id="email" type="email" 
+        onChange={event => { setEmail(event.target.value); setServerErrorMessage("") }}/>
         <span className="helper-text red-text">
-          Email не должен быть пустым.
-        </span>
-        <span className="helper-text red-text">
-          Введите корректный email.
+          {emailErrorMessage}
         </span>
       </div>
   
       <div className="input-field">
-        <label htmlFor="password">Пароль:</label>
-        <input id="password" type="password" />
+        <label htmlFor="password">Пароль: <span  className={"red-text"}>*</span></label>
+        <input  autoComplete="one-time-code" id="password" type="password" 
+        onChange={event => { setPass(event.target.value); setServerErrorMessage("") }}/>
         <span className="helper-text red-text">
-          Пароль обязателен.
-        </span>
-        <span className="helper-text red-text">
-          Пароль должен быть не менее 4 символов.
+          {passErrorMessage}
         </span>
       </div>
     </div>
   
     <div className="card-action">
-      <button className="btn">Добавить</button>
+      <button  onClick={addClinic}  className="btn">Добавить</button>
     </div>
-    <div className="file-upload">
+
+    <UploadAndDisplayImage onImageChange={setPhotoFile}/>
+
+    {/* <div className="file-upload">
     <input type="file" accept=".xlsx, .xls" />
     <button>Загрузить Excel</button>
-  </div>
+  </div> */}
 
   </div>
 

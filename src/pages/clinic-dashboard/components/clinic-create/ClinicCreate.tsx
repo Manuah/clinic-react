@@ -66,9 +66,6 @@ export function ClinicCreate() {
   //const passErrorMessage = isButtonClicked ? passError : null;
   const [serverErrorMessage, setServerErrorMessage] = useState("");
   
-
-
-  
     async function addDoctor() {
       setisButtonClicked(true);
       if (emailErrorMessage || passErrorMessage || famErrorMessage || nameErrorMessage || otchErrorMessage || specialtyErrorMessage) {
@@ -94,7 +91,8 @@ export function ClinicCreate() {
           name: name,
           otch: otch,
           specialty: specialty,
-          photo: photoFile
+          id_policlinic: authStorage.userId
+          // photo: photoFile
         }),
       })
 
