@@ -2,202 +2,240 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./ClinicIndex.scss";
 import { useEffect, useState } from "react";
 import { useDirty } from "../../../../hooks/useDirty";
+import { authStorage } from "../../../../authStorage";
 
 
-function getEmailError(email: string, isDirty: boolean) {
-  if (isDirty && email == "")
-    return "Email не должен быть пустым.";
-  return null;
-}
 
-function getPassError(password: string, isDirty: boolean) {
-  if (isDirty)
-  {
-   // if (password.length < 4)
-   // return "Пароль должен быть не менее 4 символов.";
-  }
-  return null;
-}
-function getFamError(fam: string | undefined, isDirty: boolean) {
-  if (isDirty && !fam)
-  {
-    return "Поле обязательно для заполнения.";
-  }
-  return null;
-}
-
-function getNameError(name: string | undefined, isDirty: boolean) {
+function getNameError(name: string, isDirty: boolean) {
   if (isDirty && !name)
     return "Поле обязательно для заполнения.";
   return null;
 }
-function getOtchError(otch: string | undefined, isDirty: boolean) {
-  if (isDirty && !otch)
-    return "Поле обязательно для заполнения.";
+
+function getPhoneError(phone: string, isDirty: boolean) {
+  if (!phone) return null;
+  if (/^\+?\d{10,15}$/.test(phone)) 
   return null;
+  return "Неверный формат";
 }
 
-function getSpecialtyError(specialty: string | undefined, isDirty: boolean) {
-  if (isDirty && !specialty)
-    return "Поле обязательно для заполнения.";
-  return null;
+function getAddressError(address: string, isDirty: boolean) {
+  if (isDirty && !address)
+  return "Поле обязательно для заполнения.";
+return null;
 }
+
+function getWorkHoursError(workHours: string, isDirty: boolean) {
+  if (isDirty && !workHours)
+  return "Поле обязательно для заполнения.";
+return null;
+}
+
+type BlogPost = {
+  header: string,
+  text: string
+}
+const timeRangesInitialValue: BlogPost[] = [{header: "", text: ""}];
 
 export function ClinicLandingEdit() {
  // const { doctorId } = useParams();
   //useEffect(() => alert(doctorId), []);
-  const navigate = useNavigate();
-  const [clinic, setClinic] = useState<null>(null)
+  //const navigate = useNavigate();
+  //const [clinic, setClinic] = useState<null>(null)
+  //const navigate = useNavigate();
 
-  //const [email, setEmail, isEmailDirty] = useDirty("");
-  //const [password, setPass, IsPassDirty] = useDirty("");
-  // const [fam, setFam, isFamDirty] = useDirty(""); // dirty для того чтобы отслеживать модиф ли пользватель
-  // const [name, setName, isNameDirty] = useDirty("");
-  // const [otch, setOtch, isOtchDirty] = useDirty("");
-  // const [specialty, setSpecialty, isSpecialtyDirty] = useDirty("");
+  const [name, setName, isNameDirty] = useDirty("");
+  const [address, setAddress, isAddressDirty] = useDirty("");
+  const [phone, setPhone, isPhoneDirty] = useDirty("");
+  const [workHours, setWorkHours, isWorkHoursDirty] = useDirty("");
+  const [photoFile, setPhotoFile] = useState<null | File>(null);
 
-  // const [isButtonClicked, setisButtonClicked] = useState(false);
+  const [isButtonClicked, setisButtonClicked] = useState(false);
 
- // const emailErrorMessage = getEmailError(email, isEmailDirty);
-  //const passErrorMessage = getPassError(password, IsPassDirty);
-  // const famErrorMessage = getFamError(fam, isFamDirty); //добавляем isDirty как параметр функции 
-  // const nameErrorMessage = getNameError(name, isNameDirty);
-  // const otchErrorMessage = getOtchError(otch, isOtchDirty);
-  // const specialtyErrorMessage = getSpecialtyError(specialty, isSpecialtyDirty);
+  const nameErrorMessage = getNameError(name, isNameDirty);
+  const addressErrorMessage = getAddressError(address, isAddressDirty);
+  const phoneErrorMessage = getPhoneError(phone, isPhoneDirty);
+  const hoursErrorMessage = getWorkHoursError(workHours, isWorkHoursDirty);
 
   //const emailErrorMessage = isButtonClicked ? emailError : null;
   //const passErrorMessage = isButtonClicked ? passError : null;
- // const [serverErrorMessage, setServerErrorMessage] = useState("");
-  // useEffect(() => { 
-  //   console.log(name)
-  // }, [name])
-  //   async function editDoctor() {
-  //     setisButtonClicked(true);
-  //     if ( famErrorMessage || nameErrorMessage || otchErrorMessage || specialtyErrorMessage) {
-  //       return;
-  //     }
-  //     if ( !fam || !name || !otch || !specialty) {
-  //       return;
-  //     }
-  //     // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
-  //     //   email: email,
-  //     //   password: password
-  //     // }))
-  //     const response = await fetch('http://localhost:5000/clinic/editDoctor', {
-  //       method: 'PUT',
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         doctorId: doctorId,
-  //         fam: fam,
-  //         name: name,
-  //         otch: otch,
-  //         specialty: specialty
-  //       }),
-  //     })
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
+  const [timeRanges, setTimeRanges] = useState<BlogPost[]>(timeRangesInitialValue);
 
-  //     if (response.status == 401) {
-  //       setServerErrorMessage("Ошибка данных");
-  //       return;
-  //     }
-  //     const data = await response.json();
-  //     alert(JSON.stringify(data));
-  //     //очистить все поля 
+//добавлять еще один обект в массив
+function addTimeRange() {
+  const newTimeRanges: BlogPost[] = [...timeRanges, {header: "", text: ""}]; //взять жлементы из массива и поместить в новый
+  setTimeRanges(newTimeRanges);
+}
 
-  //   }
-  
+function setTimeStart(index: number, header: string) {
+  timeRanges[index].header = header;
+  const newTimeRanges: BlogPost[] = [...timeRanges]; // если без точек то массив из массивов
+  setTimeRanges(newTimeRanges);
+  //если задать в сет тот эе масви реакции не будет
+}
 
+function setTimeEnd(index: number, text: string) {
+  timeRanges[index].text = text;
+  const newTimeRanges: BlogPost[] = [...timeRanges]; // если без точек то массив из массивов
+  setTimeRanges(newTimeRanges);
+  //если задать в сет тот эе масви реакции не будет
+}
 
-
-  
-
+  async function createBlogs() {
+    setisButtonClicked(true);
     
- // const [intervalsCount, setIntervalsCount] = useState(1);
+    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //   email: email,
+    //   password: password
+    // }))
+    const response = await fetch('http://localhost:5000/clinic/createSchedule', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        timeRanges: timeRanges
+      }),
+    })
 
-  // async function fetchDoctors(filter = doctorId) {
-  //   // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
-  //   //   email: email,
-  //   //   password: password
-  //   // }))
-  //   const response = await fetch('http://localhost:5000/clinic/getDoctorById/?id=' + filter, {
-  //    }) 
-     
-  //   const data = await response.json();
-  //   //alert(JSON.stringify(data));
-  //   if (response.status == 404)
-  //   {
-  //       setServerErrorMessage("Врачи не найдены");
-  //       setDoctor(null);
-  //       return;
-  //   }
-  //   else{
-  //       setDoctor(data);
-  //       setServerErrorMessage("");
-  //       setFam(data.name.split(" ", 3)[1])
-  //       setName(data.name.split(" ", 3)[0])
-  //       setOtch(data.name.split(" ", 3)[2])
-  //       setSpecialty(data.specialty)
-  //       //alert(doctor?.name.split(" ", 3))
+    alert(response);
+    if (response.status == 401) {
+      setServerErrorMessage("Ошибка данных");
+      return;
+    }
+    const data = await response.json();
+    alert(JSON.stringify(data));
+    if (response.status == 201) {
+      alert("расписание успешно создано")
+      return;
+    }
+  
+  }
 
-  //   }
-  // }
+  async function editClinic() {
+    setisButtonClicked(true);
+    if ( nameErrorMessage || addressErrorMessage || phoneErrorMessage || hoursErrorMessage) {
+      return;
+    }
+    if ( !name || !address || !phone) {
+      return;
+    }
+    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //   email: email,
+    //   password: password
+    // }))
+    const response = await fetch('http://localhost:5000/clinic/editClinic', {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+       id_policlinic: authStorage.userId,
+       name: name, 
+       address: address, 
+       phone: phone,
+       workHours: workHours
+      }),
+    })
 
-  // const [splittedName, setSplittedName] = useState([]);
-  // setSplittedName(doctor?.name.split(" ", 3))
+    if (response.status == 401) {
+      setServerErrorMessage("Ошибка данных");
+      return;
+    }
+    const data = await response.json();
+    alert(JSON.stringify(data));
+    //очистить все поля 
 
-//   useEffect(() => {
-//     // alert(debouncedValue)
-//      fetchDoctors()
-//  }, [])
+  }
+
+  
+// const [intervalsCount, setIntervalsCount] = useState(1);
+
+async function fetchClinic(filter = authStorage.userId) {
+  // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+  //   email: email,
+  //   password: password
+  // }))
+  const response = await fetch('http://localhost:5000/clinicsPublic/getClinicById/?id=' + filter, {
+   }) 
+   
+  const data = await response.json();
+  //alert(JSON.stringify(data));
+  if (response.status == 404)
+  {
+      setServerErrorMessage("Врачи не найдены");
+     // setDoctor(null);
+      return;
+  }
+  else{
+   //   setDoctor(data);
+      setServerErrorMessage("");
+      setName(data.title)
+      setPhone(data.phone)
+      setAddress(data.address)
+      setWorkHours(data.work_hours)
+      //alert(doctor?.name.split(" ", 3))
+
+  }
+}
+
+// const [splittedName, setSplittedName] = useState([]);
+// setSplittedName(doctor?.name.split(" ", 3))
+
+useEffect(() => {
+  // alert(debouncedValue)
+   fetchClinic()
+}, [])
+
 
     return (
 <div>
 <div className="card">
     <div className="card-content">
-    <a className="brand-logo" onClick={() => { navigate("/myclinic/doctor/") }}>&#x2717;</a>
+    {/* <a className="brand-logo" onClick={() => { navigate("/myclinic/doctor/") }}>&#x2717;</a> */}
       <h3 className="card-title">Редактировать профиль</h3>
   
       <div className="input-field">
-        <label htmlFor="firstName">Имя:</label>
-        <input  autoComplete="one-time-code" id="firstName" type="text"/>
+        <label htmlFor="firstName">Название: <span className={"red-text"}>*</span></label>
+        <input autoComplete="one-time-code" id="firstName" type="text" onChange={event => { setName(event.target.value); setServerErrorMessage("") }} value={name} />
         <span className="helper-text red-text">
-      
+          {nameErrorMessage}
         </span>
       </div>
   
       <div className="input-field">
-        <label htmlFor="lastName">Фамилия:</label>
-        <input autoComplete="one-time-code" id="lastName" type="text"/>
+        <label htmlFor="lastName">Адрес: <span  className={"red-text"}>*</span></label>
+        <input autoComplete="one-time-code" id="firstName" type="text" 
+        onChange={event => { setAddress(event.target.value); setServerErrorMessage("") }} value={address}/>
         <span className="helper-text red-text">
- 
+         {addressErrorMessage}
         </span>
       </div>
   
       <div className="input-field">
-        <label htmlFor="middleName">Отчество:</label>
-        <input autoComplete="one-time-code" id="middleName" type="text"/>
+        <label htmlFor="middleName">Телефон: <span  className={"red-text"}>*</span></label>
+        <input autoComplete="one-time-code" id="firstName" type="text" 
+        onChange={event => { setPhone(event.target.value); setServerErrorMessage("") }} value={phone} />
         <span className="helper-text red-text">
-       
+            {phoneErrorMessage}
           </span>
       </div>
-  
+
       <div className="input-field">
-        <label htmlFor="specialty">Специальность:</label>
-        <input autoComplete="one-time-code" id="specialty" type="text"/>
+        <label htmlFor="middleName">Часы работы: <span  className={"red-text"}></span></label>
+        <input autoComplete="one-time-code" id="firstName" type="text" 
+        onChange={event => { setWorkHours(event.target.value); setServerErrorMessage("") }} value={workHours} />
         <span className="helper-text red-text">
-         
+            {phoneErrorMessage}
           </span>
       </div>
-  
-
-      <div className="input-field">
-        <label htmlFor="email">Email:</label>
-        <input disabled autoComplete="one-time-code" id="email" type="email" />
-        <span className="helper-text red-text">
-
-        </span>
-      </div>
+      <div className="card-action">
+      <button onClick={editClinic} className="btn">Сохранить изменения</button>
+    </div>
+    <br/>
+    <br/>
+    <br/>
   
       {/* <div className="input-field">
         <label htmlFor="password">Пароль:</label>
@@ -209,8 +247,12 @@ export function ClinicLandingEdit() {
     </div>
   
     <div className="card-action">
-      <button className="btn">Сохранить изменения</button>
-    </div>
+        <button onClick={addTimeRange} type="button" className="btn btn-secondary">Добавить интервал времени</button>
+        <button  onClick={createBlogs} className="btn btn-primary">Создать расписание</button>
+      </div>
+
+
+   
     <div className="file-upload"> 
   </div>
 

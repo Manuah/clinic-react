@@ -7,6 +7,7 @@ import useModal from '../../components/Modal/useModal';
 import { CloseModal } from '../../features/close-modal/close-modal';
 import { LoginModal } from '../../features/login-modal/login-modal';
 import { RegisterModal } from '../../features/register-modal/register-modal';
+import { isPropertySignature } from 'typescript';
 
 //import { Button, Modal, ModalBody } from "reactstrap";
 
@@ -33,12 +34,15 @@ import { RegisterModal } from '../../features/register-modal/register-modal';
 //   }
 // }
 
+
+
 export function LandingClinic() {
-   const navigate = useNavigate();
-   const location = useLocation();
-   const loginModal = useModal();
-   const registerModal = useModal();
-   const closeConfirmModal = useModal();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const loginModal = useModal();
+  const registerModal = useModal();
+  const closeConfirmModal = useModal();
+  const { clinicId } = useParams();
 
   function openRegister() {
     loginModal.closeModal();
@@ -50,12 +54,10 @@ export function LandingClinic() {
     if (authStorage.token == "") {
       loginModal.openModal("/my")//после авторизации идем на продолжение записи
     }
-    else 
-    {
+    else {
       navigate("/my")//сразу переходим на страницу записи
     }
-}
-  const { clinicId } = useParams();
+  }
 
   return (
     <div>
@@ -69,22 +71,70 @@ export function LandingClinic() {
             {/* <button disabled={true} onClick={() => openModal("/")}>Вход</button> */}
             {/* className={`${authStorage.token == "" ? "" : "disabledLink"}`} */}
             <li>
-             {authStorage.token == "" ? (
-              <a onClick={() => loginModal.openModal(location.pathname)}>
-              Вход
-              </a>
-             ) : (
-              <a onClick={() => closeConfirmModal.openModal(location.pathname)}>
-              Выход
-              </a>
-             )} 
-              </li>
+              {authStorage.token == "" ? (
+                <a onClick={() => loginModal.openModal(location.pathname)}>
+                  Вход
+                </a>
+              ) : (
+                <a onClick={() => closeConfirmModal.openModal(location.pathname)}>
+                  Выход
+                </a>
+              )}
+            </li>
           </ul>
         </div>
       </nav>
       <div className="auth-block">
         <div className="landing-container">
-          <div>{clinicId}</div>
+          {/* <div>{clinicId}</div> */}
+            <div className='container'>
+              <img src="https://s3-alpha-sig.figma.com/img/9f0e/92e1/5e5fb46aa43af8ebbd21494562e14460?Expires=1713139200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mj385AgZt8qN2RVzpYyAc1u~NFDjSb6Nbft1lYKTYT0Nr4xgC25ei89AIB9~OusILLQItlvdWWYyVnnwaLLOh-AE117ivUwRAY4t1FTuLIJ2Re8Vanfs4fLBg-UE9aonBBxN4u2YuFWsV7SgYzAfGvvZcCJ0uaf80kZJ06aY1rd-sKh5V1CZAK5bY2nzIrWeh3kORUoCUfpTGHqqIVFV4VSc5ma89vcJwn2L0XnyThJytp76sgZousXhof1B-dgoJjsdZN8GVj29dJFvHKiKKOHuQ54TMizGFJDD1FCB3cH-DUZjDLG7os7c7RLGjcpEtLQvn53u0MyCMUgpNrhTUA__" alt="Логотип поликлиники" className="logo" />
+              <div className="clinic-name">Название поликлиники {clinicId}</div>
+              <div className="info">Адрес: Улица, дом</div>
+              <div className="info">Телефон: +7 (123) 456-78-90</div>
+              <div className="info">Часы работы: Пн-Пт 08:00 - 20:00</div>
+              <div className="info-block">
+              <div className="services-container">
+              <div className="service">
+              <h2>Общая медицина</h2>
+              <p>
+                Комплексная медицинская помощь для взрослых и детей, включая
+                профилактические услуги, регулярные обследования и лечение общих
+                заболеваний.
+              </p>
+            </div>
+            <div className="service">
+              <h2>Специализированные клиники</h2>
+              <p>
+                Специализированные клиники по различным медицинским состояниям, где
+                работают эксперты в соответствующих областях для оказания
+                целенаправленной помощи и лечения.
+              </p>
+            </div>
+            <div className="service">
+              <h2>Диагностические услуги</h2>
+              <p>
+                Современные диагностические услуги, включая лабораторные анализы,
+                изображение и передовые диагностические процедуры для точного и
+                своевременного выявления заболеваний.
+              </p>
+            </div>
+            </div>
+              </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
           {/* <div>  {authStorage.token}</div>
           <h1>Welcome to Aegle Polyclinic</h1>
           <p>Ваш надежный партнер в сфере здравоохранения</p>
@@ -109,11 +159,11 @@ export function LandingClinic() {
             <button className={`tab ${location.pathname == "/doctors" ? "active" : ""}`} onClick={() => { navigate("/doctors") }}>По врачам</button>
             <button className={`tab ${location.pathname == "/services" ? "active" : ""}`} onClick={() => { navigate("/services") }}>По услугам</button>
           </div> */}
-             {authStorage.token == "" || authStorage.roleId == "1"? (
-               <button onClick={book}>Записаться</button>
-             ) : (""
-             )} 
-         
+          {authStorage.token == "" || authStorage.roleId == "1" ? (
+            <button onClick={book}>Записаться</button>
+          ) : (""
+          )}
+
           {/* <Outlet context={{ openLoginModal: loginModal.openModal }} /> */}
           <div>
             <LoginModal isOpen={loginModal.isOpen} closeModal={loginModal.closeModal}
@@ -122,7 +172,7 @@ export function LandingClinic() {
             <RegisterModal isOpen={registerModal.isOpen} closeModal={registerModal.closeModal}
               pathToRedirect={registerModal.pathToRedirect} />
 
-          <CloseModal isOpen={closeConfirmModal.isOpen} closeModal={closeConfirmModal.closeModal}/>
+            <CloseModal isOpen={closeConfirmModal.isOpen} closeModal={closeConfirmModal.closeModal} />
           </div>
           {/* <p>
             Мы предлагаем широкий спектр медицинских услуг для обеспечения вашего
