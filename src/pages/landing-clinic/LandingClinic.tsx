@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './LandingClinic.scss';
 import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { CloseModal } from '../../features/close-modal/close-modal';
 import { LoginModal } from '../../features/login-modal/login-modal';
 import { RegisterModal } from '../../features/register-modal/register-modal';
 import { isPropertySignature } from 'typescript';
+import { useDirty } from '../../hooks/useDirty';
 
 //import { Button, Modal, ModalBody } from "reactstrap";
 
@@ -34,7 +35,10 @@ import { isPropertySignature } from 'typescript';
 //   }
 // }
 
-
+interface Blog {
+  header: string, 
+  text: string
+}
 
 export function LandingClinic() {
   const navigate = useNavigate();
@@ -43,12 +47,84 @@ export function LandingClinic() {
   const registerModal = useModal();
   const closeConfirmModal = useModal();
   const { clinicId } = useParams();
+  const [blogs, setBlogs] = useState<Blog[]>([])
 
   function openRegister() {
     loginModal.closeModal();
     registerModal.openModal(loginModal.pathToRedirect);
     return
   }
+
+  const [name, setName, isNameDirty] = useDirty("");
+  const [address, setAddress, isAddressDirty] = useDirty("");
+  const [phone, setPhone, isPhoneDirty] = useDirty("");
+  const [workHours, setWorkHours, isWorkHoursDirty] = useDirty("");
+  const [photoFile, setPhotoFile] = useState<null | File>(null);
+
+  const [isButtonClicked, setisButtonClicked] = useState(false);
+
+  // const nameErrorMessage = getNameError(name, isNameDirty);
+  // const addressErrorMessage = getAddressError(address, isAddressDirty);
+  // const phoneErrorMessage = getPhoneError(phone, isPhoneDirty);
+  // const hoursErrorMessage = getWorkHoursError(workHours, isWorkHoursDirty);
+
+  //const emailErrorMessage = isButtonClicked ? emailError : null;
+  //const passErrorMessage = isButtonClicked ? passError : null;
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
+  //const [timeRanges, setTimeRanges] = useState<BlogPost[]>(timeRangesInitialValue);
+
+
+
+  async function fetchBlogs(filter = clinicId) {
+    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //   email: email,
+    //   password: password
+    // }))
+    const response = await fetch('http://localhost:5000/clinicsPublic/getBlogs/?id=' + filter, {
+     }) 
+     
+    const data = await response.json();
+    //alert(JSON.stringify(data));
+    if (response.status == 404)
+    {
+        setServerErrorMessage("Блоки не найдены");
+        setBlogs([]);
+        return;
+    }
+    else{
+        setBlogs(data);
+        setServerErrorMessage("");
+    }
+  }
+
+
+  async function fetchClinic(filter = clinicId) {
+    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //   email: email,
+    //   password: password
+    // }))
+    const response = await fetch('http://localhost:5000/clinicsPublic/getClinicByIdLanding/?id=' + filter, {
+    })
+
+    const data = await response.json();
+    //alert(JSON.stringify(data));
+    if (response.status == 404) {
+      setServerErrorMessage("Врачи не найдены");
+      // setDoctor(null);
+      return;
+    }
+    else {
+      //   setDoctor(data);
+      setServerErrorMessage("");
+      setName(data.title)
+      setPhone(data.phone)
+      setAddress(data.address)
+      setWorkHours(data.work_hours)
+      //alert(doctor?.name.split(" ", 3))
+
+    }
+  }
+
 
   async function book() {
     if (authStorage.token == "") {
@@ -58,6 +134,10 @@ export function LandingClinic() {
       navigate("/my")//сразу переходим на страницу записи
     }
   }
+  useEffect(() => {
+    // alert(debouncedValue)
+    fetchClinic(); fetchBlogs()
+  }, [])
 
   return (
     <div>
@@ -89,13 +169,24 @@ export function LandingClinic() {
           {/* <div>{clinicId}</div> */}
             <div className='container'>
               <img src="https://s3-alpha-sig.figma.com/img/9f0e/92e1/5e5fb46aa43af8ebbd21494562e14460?Expires=1713139200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mj385AgZt8qN2RVzpYyAc1u~NFDjSb6Nbft1lYKTYT0Nr4xgC25ei89AIB9~OusILLQItlvdWWYyVnnwaLLOh-AE117ivUwRAY4t1FTuLIJ2Re8Vanfs4fLBg-UE9aonBBxN4u2YuFWsV7SgYzAfGvvZcCJ0uaf80kZJ06aY1rd-sKh5V1CZAK5bY2nzIrWeh3kORUoCUfpTGHqqIVFV4VSc5ma89vcJwn2L0XnyThJytp76sgZousXhof1B-dgoJjsdZN8GVj29dJFvHKiKKOHuQ54TMizGFJDD1FCB3cH-DUZjDLG7os7c7RLGjcpEtLQvn53u0MyCMUgpNrhTUA__" alt="Логотип поликлиники" className="logo" />
-              <div className="clinic-name">Название поликлиники {clinicId}</div>
-              <div className="info">Адрес: Улица, дом</div>
-              <div className="info">Телефон: +7 (123) 456-78-90</div>
-              <div className="info">Часы работы: Пн-Пт 08:00 - 20:00</div>
+              <div className="clinic-name">{name}</div>
+              <div className="info">Адрес: {address}</div>
+              <div className="info">Телефон: {phone}</div>
+              <div className="info">Часы работы: {workHours}</div>
               <div className="info-block">
               <div className="services-container">
-              <div className="service">
+              {blogs.map(blogs => {
+                return (
+                  <div className="service">
+                  <h2>{blogs.header}</h2>
+                  <p>
+                    {blogs.text}
+                  </p>
+                </div>
+                )
+              })} 
+            {/* вытаскиваем массив и распределяем по карточкам */}
+              {/* <div className="service">
               <h2>Общая медицина</h2>
               <p>
                 Комплексная медицинская помощь для взрослых и детей, включая
@@ -118,7 +209,7 @@ export function LandingClinic() {
                 изображение и передовые диагностические процедуры для точного и
                 своевременного выявления заболеваний.
               </p>
-            </div>
+            </div> */}
             </div>
               </div>
             </div>

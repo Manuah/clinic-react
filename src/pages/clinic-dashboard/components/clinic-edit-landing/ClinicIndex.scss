@@ -7,6 +7,14 @@
   margin: auto;
   width: 300px;
 }
+.card-landing {
+  background: #f7f7f7;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  margin: auto;
+  width: 30%;
+}
 
 .card-action {
   text-align: center;
@@ -28,6 +36,29 @@
   border-radius: 4px;
   padding: 10px;
   width: 100%;
+}
+
+
+.input_text {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  width: 100%;
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.input_header {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  width: 100%;
+  font-size: 1.8rem;
+  color: $text-color;
+  margin-bottom: 10px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .input-field label {
