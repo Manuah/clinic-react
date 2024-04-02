@@ -40,7 +40,7 @@ const timeRangesInitialValue: BlogPost[] = [{ header: "", text: "" }];
 export function ClinicLandingEdit() {
   // const { doctorId } = useParams();
   //useEffect(() => alert(doctorId), []);
-  //const navigate = useNavigate();
+const navigate = useNavigate();
   //const [clinic, setClinic] = useState<null>(null)
   //const navigate = useNavigate();
 
@@ -49,6 +49,7 @@ export function ClinicLandingEdit() {
   const [phone, setPhone, isPhoneDirty] = useDirty("");
   const [workHours, setWorkHours, isWorkHoursDirty] = useDirty("");
   const [photoFile, setPhotoFile] = useState<null | File>(null);
+  const [clinicId, setClinicId] = useState("");
 
   const [isButtonClicked, setisButtonClicked] = useState(false);
 
@@ -175,6 +176,7 @@ export function ClinicLandingEdit() {
       setPhone(data.phone)
       setAddress(data.address)
       setWorkHours(data.work_hours)
+      setClinicId(data.id_policlinics)
       //alert(doctor?.name.split(" ", 3))
 
     }
@@ -194,6 +196,7 @@ export function ClinicLandingEdit() {
       <div className="card-landing">
         <div className="card-content">
           {/* <a className="brand-logo" onClick={() => { navigate("/myclinic/doctor/") }}>&#x2717;</a> */}
+          <button onClick={() => navigate("/landing/" + clinicId)}>Открыть страницу</button>
           <h3 className="card-title">Редактировать профиль</h3>
 
           <div className="input-field">
@@ -254,15 +257,11 @@ export function ClinicLandingEdit() {
         </span>
       </div> */}
         </div>
-
-  
     
         <div className="card-action">
           <button onClick={addTimeRange} type="button" className="btn btn-secondary">Добавить блок текста</button>
-          <button onClick={createBlogs} className="btn btn-primary">Создать расписание</button>
+          <button onClick={createBlogs} className="btn btn-primary">Сохранить записи</button>
         </div>
-
-
 
         <div className="file-upload">
         </div>

@@ -36,7 +36,7 @@ import { useDirty } from '../../hooks/useDirty';
 // }
 
 interface Blog {
-  header: string, 
+  header: string,
   text: string
 }
 
@@ -81,19 +81,18 @@ export function LandingClinic() {
     //   password: password
     // }))
     const response = await fetch('http://localhost:5000/clinicsPublic/getBlogs/?id=' + filter, {
-     }) 
-     
+    })
+
     const data = await response.json();
     //alert(JSON.stringify(data));
-    if (response.status == 404)
-    {
-        setServerErrorMessage("Блоки не найдены");
-        setBlogs([]);
-        return;
+    if (response.status == 404) {
+      setServerErrorMessage("Блоки не найдены");
+      setBlogs([]);
+      return;
     }
-    else{
-        setBlogs(data);
-        setServerErrorMessage("");
+    else {
+      setBlogs(data);
+      setServerErrorMessage("");
     }
   }
 
@@ -143,7 +142,10 @@ export function LandingClinic() {
     <div>
       <nav>
         <div className="nav-wrapper grey darken-1">
-          <a onClick={() => navigate("/")} className="brand-logo">Aegle</a>
+          {authStorage.token == "" || authStorage.roleId == "1" ? (
+            <a onClick={() => navigate("/")} className="brand-logo">Aegle</a>
+          ) : (<a className="brand-logo">Aegle</a>)}
+
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             {/* <li><a onClick={() => { navigate("/login") }}>Вход</a></li>
             <li><a onClick={() => { navigate("/register") }}>Регистрация</a></li> */}
@@ -155,11 +157,22 @@ export function LandingClinic() {
                 <a onClick={() => loginModal.openModal(location.pathname)}>
                   Вход
                 </a>
+              ) : (authStorage.roleId == "1") ? (<a onClick={() => closeConfirmModal.openModal(location.pathname)}>
+                Выход
+              </a>) : (""
+              )}
+
+              {/* 
+              {authStorage.token == "" || authStorage.token == "1" ? (
+                <a onClick={() => loginModal.openModal(location.pathname)}>
+                  Вход
+                </a>
               ) : (
                 <a onClick={() => closeConfirmModal.openModal(location.pathname)}>
                   Выход
                 </a>
-              )}
+              )} */}
+
             </li>
           </ul>
         </div>
@@ -167,26 +180,26 @@ export function LandingClinic() {
       <div className="auth-block">
         <div className="landing-container">
           {/* <div>{clinicId}</div> */}
-            <div className='container'>
-              <img src="https://s3-alpha-sig.figma.com/img/9f0e/92e1/5e5fb46aa43af8ebbd21494562e14460?Expires=1713139200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mj385AgZt8qN2RVzpYyAc1u~NFDjSb6Nbft1lYKTYT0Nr4xgC25ei89AIB9~OusILLQItlvdWWYyVnnwaLLOh-AE117ivUwRAY4t1FTuLIJ2Re8Vanfs4fLBg-UE9aonBBxN4u2YuFWsV7SgYzAfGvvZcCJ0uaf80kZJ06aY1rd-sKh5V1CZAK5bY2nzIrWeh3kORUoCUfpTGHqqIVFV4VSc5ma89vcJwn2L0XnyThJytp76sgZousXhof1B-dgoJjsdZN8GVj29dJFvHKiKKOHuQ54TMizGFJDD1FCB3cH-DUZjDLG7os7c7RLGjcpEtLQvn53u0MyCMUgpNrhTUA__" alt="Логотип поликлиники" className="logo" />
-              <div className="clinic-name">{name}</div>
-              <div className="info">Адрес: {address}</div>
-              <div className="info">Телефон: {phone}</div>
-              <div className="info">Часы работы: {workHours}</div>
-              <div className="info-block">
+          <div className='container'>
+            <img src="https://s3-alpha-sig.figma.com/img/9f0e/92e1/5e5fb46aa43af8ebbd21494562e14460?Expires=1713139200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mj385AgZt8qN2RVzpYyAc1u~NFDjSb6Nbft1lYKTYT0Nr4xgC25ei89AIB9~OusILLQItlvdWWYyVnnwaLLOh-AE117ivUwRAY4t1FTuLIJ2Re8Vanfs4fLBg-UE9aonBBxN4u2YuFWsV7SgYzAfGvvZcCJ0uaf80kZJ06aY1rd-sKh5V1CZAK5bY2nzIrWeh3kORUoCUfpTGHqqIVFV4VSc5ma89vcJwn2L0XnyThJytp76sgZousXhof1B-dgoJjsdZN8GVj29dJFvHKiKKOHuQ54TMizGFJDD1FCB3cH-DUZjDLG7os7c7RLGjcpEtLQvn53u0MyCMUgpNrhTUA__" alt="Логотип поликлиники" className="logo" />
+            <div className="clinic-name">{name}</div>
+            <div className="info">Адрес: {address}</div>
+            <div className="info">Телефон: {phone}</div>
+            <div className="info">Часы работы: {workHours}</div>
+            <div className="info-block">
               <div className="services-container">
-              {blogs.map(blogs => {
-                return (
-                  <div className="service">
-                  <h2>{blogs.header}</h2>
-                  <p>
-                    {blogs.text}
-                  </p>
-                </div>
-                )
-              })} 
-            {/* вытаскиваем массив и распределяем по карточкам */}
-              {/* <div className="service">
+                {blogs.map(blogs => {
+                  return (
+                    <div className="service">
+                      <h2>{blogs.header}</h2>
+                      <p>
+                        {blogs.text}
+                      </p>
+                    </div>
+                  )
+                })}
+                {/* вытаскиваем массив и распределяем по карточкам */}
+                {/* <div className="service">
               <h2>Общая медицина</h2>
               <p>
                 Комплексная медицинская помощь для взрослых и детей, включая
@@ -210,9 +223,9 @@ export function LandingClinic() {
                 своевременного выявления заболеваний.
               </p>
             </div> */}
-            </div>
               </div>
             </div>
+          </div>
 
 
 

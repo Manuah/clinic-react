@@ -20,6 +20,7 @@ import { AdminCreateClinic } from './pages/admin-dashboard/components/admin-crea
 import { LandingClinic } from './pages/landing-clinic/LandingClinic';
 import { DoctorPage } from './pages/doctor-dashboard/DoctorDashboard';
 import { DoctorsSchedule } from './pages/doctor-dashboard/components/doctor-shedule/DoctorSchedule';
+import { ClinicServices } from './pages/clinic-dashboard/components/clinic-services/ClinicServices';
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
@@ -62,6 +63,7 @@ function Root() {
         <Route path="create" element={<ClinicCreate/>} />
         <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
         <Route path="edit/:doctorId" element={<ClinicEdit/>} />
+        <Route path="services" element={<ClinicServices/>} />
       </Route>
 
      {/* ЛК ВРАЧА*/}
