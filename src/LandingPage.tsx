@@ -90,7 +90,7 @@ export function LandingPage() {
           </div>
           {/*пока что временная вещь, здесь только будет переход на лк пациента
           
-        <img myadmin myclinic
+        <img myadmin myclinic my 
             className="clinic-image"
             src="http://klublady.ru/uploads/posts/2022-07/thumbs/1658582446_18-klublady-ru-p-posokh-asklepiya-tatu-eskiz-foto-18.jpg"
             alt="Clinic Image"
