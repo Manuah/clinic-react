@@ -3,7 +3,7 @@ import { DoctorCard } from './DoctorCard/DoctorCard';
 import './DoctorsPage.scss';
 import { useDebounce } from '../../hooks/useDebounce';
 type Doctor = {
-    id: string, 
+    doctor_id: string, 
     name: string
     specialty: string
 }
@@ -36,8 +36,7 @@ export function DoctorsPage() {
         else{
             setDoctors(data);
         }
-        
-
+    
       }
       useEffect(() => {
        // alert(debouncedValue   )
@@ -52,7 +51,7 @@ export function DoctorsPage() {
             <br></br>
             <span className="errormes">{serverErrorMessage}</span>
             <div className="card-container-doctor">
-            {doctors.map(doctor => <DoctorCard doctorName={doctor.name} doctorSpecialty={doctor.specialty}/>)} 
+            {doctors.map(doctor => <DoctorCard doctorName={doctor.name} doctorSpecialty={doctor.specialty} doctorId={doctor.doctor_id}/>)} 
             {/* вытаскиваем массив и распределяем по карточкам */}
             </div>
            

@@ -4,6 +4,7 @@ import { authStorage } from "../../../../authStorage";
 import { useDirty } from "../../../../hooks/useDirty";
 import "./ClinicCreate.scss";
 import { UploadAndDisplayImage } from "../../../../components/UploadAndDisplayImage";
+import { forEachChild } from "typescript";
 
 function getEmailError(email: string) {
   if (email == "")
@@ -62,16 +63,19 @@ export function ClinicCreate() {
   const otchErrorMessage = getOtchError(otch, isOtchDirty);
   const specialtyErrorMessage = getSpecialtyError(specialty, isSpecialtyDirty);
 
+
   //const emailErrorMessage = isButtonClicked ? emailError : null;
   //const passErrorMessage = isButtonClicked ? passError : null;
   const [serverErrorMessage, setServerErrorMessage] = useState("");
+  
+
   
     async function addDoctor() {
       setisButtonClicked(true);
       if (emailErrorMessage || passErrorMessage || famErrorMessage || nameErrorMessage || otchErrorMessage || specialtyErrorMessage) {
         return;
       }
-      if (!email || !password || !fam || !name|| !otch || !specialty) {
+      if (!email || !password || !fam || !name|| !otch || !specialty || !photoFile) {
         alert("не заполнены поля")
         return;
       }
@@ -79,21 +83,19 @@ export function ClinicCreate() {
       //   email: email,
       //   password: password
       // }))
+      const formData = new FormData();
+      formData.append('file', photoFile);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('fam', fam);
+      formData.append('name', name);
+      formData.append('otch', otch);
+      formData.append('specialty', specialty);
+      formData.append('id_policlinic', authStorage.userId);
+
       const response = await fetch('http://localhost:5000/clinic/addDoctor', {
         method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          fam: fam,
-          name: name,
-          otch: otch,
-          specialty: specialty,
-          id_policlinic: authStorage.userId
-          // photo: photoFile
-        }),
+        body: formData,
       })
 
 

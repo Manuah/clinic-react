@@ -2,12 +2,14 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { authStorage } from '../../../authStorage';
 import './DoctorsCard.scss';
 type Props = {
+    doctorId: string
     doctorName: string
     doctorSpecialty: string
 }
 export function DoctorCard(props: Props) {
     const navigate = useNavigate();
     const outletContext = useOutletContext<{openLoginModal: (pathToRedirect: string) => void}>();
+    ///doctorImage
     async function book() {
         if (authStorage.token == "") {
             outletContext.openLoginModal("/my") //после авторизации идем на продолжение записи
@@ -21,7 +23,7 @@ export function DoctorCard(props: Props) {
 
     return (
             <div className="card-doc">
-                <img src="" alt="Doctor" />
+                <img src={"http://localhost:5000/doctors/doctorImage?id=" + props.doctorId} alt="Doctor" />
                 <div className="card-info">
                     <p>{props.doctorName}</p>
                     <p>{props.doctorSpecialty}</p>
