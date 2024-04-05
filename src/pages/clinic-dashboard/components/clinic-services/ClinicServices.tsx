@@ -3,6 +3,7 @@ import './ClinicServices.scss';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { ClinicServiceCard } from './ClinicServiceCard/ClinicServiceCard';
 import { useNavigate } from 'react-router-dom';
+import { authStorage } from '../../../../authStorage';
 // import { useDebounce } from '../../hooks/useDebounce';
 type Service = {
     id_services: string;
@@ -19,12 +20,12 @@ export function ClinicServices() {
     setValue(event.target.value)
     setServerErrorMessage("")
   }
-    async function fetchServices(filter = '') {
+    async function fetchServices(filter = authStorage.userId) {
         // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
         //   email: email,
         //   password: password
         // }))
-        const response = await fetch('http://localhost:5000/service/?filter=' + filter, {
+        const response = await fetch('http://localhost:5000/clinic/getServiceByClinic/?filter=' + filter, {
          }) 
          
         const data = await response.json();
@@ -43,18 +44,18 @@ export function ClinicServices() {
       
       useEffect(() => {
        // alert(debouncedValue)
-        fetchServices(debouncedValue)
-    }, [debouncedValue])
+        fetchServices()
+    }, [])
 
     return (
             <div className="doctors-container">
             <h2>Список доступных услуг</h2>
-            <button onClick={() => { navigate("/myclinic/edit/") }}>Редактировать</button>
+            <button onClick={() => { navigate("/myclinic/editServices/") }}>Редактировать</button>
             <br/>
-            <div className="search-container">
+            {/* <div className="search-container">
                 <input onChange={handleChange} value={value} type="text" id="searchInput" className="search-input" placeholder="Начните вводить" />
                     <img id="searchButton" className="search-button" src="https://palantinnsk.ru/local/templates/palantinnsk/assets/search.png" alt="Search" />
-            </div>
+            </div> */}
             <br></br>
             <span className="errormes">{serverErrorMessage}</span>
             <div className="card-container">

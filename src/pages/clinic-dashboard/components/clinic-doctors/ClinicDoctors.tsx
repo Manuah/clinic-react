@@ -2,10 +2,10 @@ import { useDebounce } from '../../../../hooks/useDebounce';
 import './ClinicDoctor.scss';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { ClinicDoctorCard } from './ClinicDoctorCard/ClinicDoctorCard';
+import { authStorage } from '../../../../authStorage';
 // import { useDebounce } from '../../hooks/useDebounce';
 type Doctor = {
     doctor_id: string;
-    id: string, 
     name: string
     specialty: string
 }
@@ -19,32 +19,58 @@ export function ClinicDoctors() {
     setValue(event.target.value)
     setServerErrorMessage("")
   }
-    async function fetchDoctors(filter = '') {
-        // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
-        //   email: email,
-        //   password: password
-        // }))
-        const response = await fetch('http://localhost:5000/doctors/?filter=' + filter, {
-         }) 
+  
+  async function fetchDoctorsClinic(filter = authStorage.userId) {
+ //  alert(filter)
+    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //   email: email,
+    //   password: password
+    // }))
+    const response = await fetch('http://localhost:5000/clinic/getDoctorsByClinic/?id=' + filter, {
+    })
+//http://localhost:5000/clinic/getDoctorByClinic/?id=55
+//http://localhost:5000/clinic/getDoctorsByClinic/?id=
+    const data = await response.json();
+    //alert(JSON.stringify(data));
+    if (response.status == 404) {
+      setServerErrorMessage("Врачи не найдены");
+      setDoctors([]);
+      return;
+    }
+    else {
+      setDoctors(data); 
+      setServerErrorMessage("");
+
+    }
+  }
+
+    // async function fetchDoctorsClinic(filter = authStorage.userId) {
+    //     alert(filter)
+    //     // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //     //   email: email,
+    //     //   password: password
+    //     // }))
+    //     const response = await fetch('http://localhost:5000/clinic/getDoctorsByClinic?id=' + filter, {
+    //      }) 
          
-        const data = await response.json();
-        //alert(JSON.stringify(data));
-        if (response.status == 404)
-        {
-            setServerErrorMessage("Врачи не найдены");
-            setDoctors([]);
-            return;
-        }
-        else{
-            setDoctors(data);
-            setServerErrorMessage("");
-        }
-      }
+    //     const data = await response.json();
+    //     //alert(JSON.stringify(data));
+    //     if (response.status == 404)
+    //     {
+    //         setServerErrorMessage("Врачи не найдены");
+    //         setDoctors([]);
+    //         return;
+    //     }
+    //     else{
+    //         setDoctors(data);
+    //         setServerErrorMessage("");
+    //     }
+    //   }
       
       useEffect(() => {
        // alert(debouncedValue)
-        fetchDoctors(debouncedValue)
-    }, [debouncedValue])
+       fetchDoctorsClinic()
+    }, [])
     return (
             <div className="doctors-container">
             <h2>Список Врачей</h2>
@@ -55,8 +81,9 @@ export function ClinicDoctors() {
             <br></br>
             <span className="errormes">{serverErrorMessage}</span>
             <div className="card-container">
-            {doctors.map(doctor => <ClinicDoctorCard doctorId={doctor.doctor_id} doctorName={doctor.name} doctorSpecialty={doctor.specialty} refreshList={fetchDoctors}/>)} 
-            {/* вытаскиваем массив и распределяем по карточкам */}
+{doctors.map(doctor => <ClinicDoctorCard doctorId={doctor.doctor_id} 
+                        doctorName={doctor.name} doctorSpecialty={doctor.specialty} refreshList={fetchDoctorsClinic}/>)}
+
             </div>
            
         </div>

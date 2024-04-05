@@ -163,7 +163,7 @@ export function ClinicEdit() {
 <div>
 <div className="card">
     <div className="card-content">
-    <a className="brand-logo" onClick={() => { navigate("/myclinic/doctor/") }}>&#x2717;</a>
+    <a className="brand-logo" onClick={() => { navigate("/myclinic/doctor") }}>&#x2717;</a>
       <h3 className="card-title">Редактировать Доктора {doctor?.name}
 </h3>
   

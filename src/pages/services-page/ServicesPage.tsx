@@ -3,8 +3,8 @@ import './ServicePage.scss';
 import { useDebounce } from '../../hooks/useDebounce';
 import { ServiceCard } from './ServiceCard/ServiceCard';
 type Service = {
-    id: string, 
-    name: string
+    id_services: string, 
+    title: string
 }
 export function ServicesPage() {
     const [service, setService] = useState<Service[]>([])
@@ -51,7 +51,7 @@ export function ServicesPage() {
             <br></br>
             <span>{serverErrorMessage}</span>
             <div className="card-container">
-            {service.map(service => <ServiceCard serviceName={service.name}/>)} 
+            {service.map(service => <ServiceCard serviceName={service.title}/>)} 
             {/* вытаскиваем массив и распределяем по карточкам */}
             </div>
            

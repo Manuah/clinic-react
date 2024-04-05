@@ -206,10 +206,21 @@ body {
 
 .service {
   background-color: #fff;
+  // overflow: hidden;
+  // height: max-content;
+   max-height: 300px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px #ccc;
   padding: 20px;
   text-align: center;
+  overflow: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none; 
+}
+
+.service::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
 }
 
 .service h2 {

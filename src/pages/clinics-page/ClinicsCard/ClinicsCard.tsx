@@ -3,6 +3,7 @@ import './ClinicsCard.scss';
 type Props = {
     clinicName: string
     clinicId: string
+    clinicAddress: string
 }
 export function ClinicCard(props: Props) {
     const navigate = useNavigate();
@@ -14,7 +15,8 @@ export function ClinicCard(props: Props) {
             <div className="card-doc">
                 <img src="https://alcovin-sale.goodsalediscount.com/files/alkowin_1/img/icon04.png" alt="Doctor" /> 
                 <div className="card-info">
-                    <p>{props.clinicName}</p>
+                    <h2>{props.clinicName}</h2>
+                    <p className='address'>{props.clinicAddress}</p>
                     {/* <p>{props.doctorSpecialty}</p> */}
                     <button onClick={goToClinic}>Выбрать больницу</button>
                 </div>

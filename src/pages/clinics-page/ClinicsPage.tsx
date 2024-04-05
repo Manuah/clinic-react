@@ -3,8 +3,9 @@ import './ClinicsPage.scss';
 import { useDebounce } from '../../hooks/useDebounce';
 import { ClinicCard } from './ClinicsCard/ClinicsCard';
 type Clinics = {
-    id: string, 
-    name: string
+    id_policlinics: string, 
+    title: string, 
+    address: string
 }
 export function ClinicsPage() {
     const [clinic, setClinic] = useState<Clinics[]>([])
@@ -21,14 +22,14 @@ export function ClinicsPage() {
         //   email: email,
         //   password: password
         // }))
-        const response = await fetch('http://localhost:5000/service/?filter=' + filter, {
+        const response = await fetch('http://localhost:5000/clinicsPublic/?filter=' + filter, {
          }) 
          
         const data = await response.json();
         //alert(JSON.stringify(data));
         if (response.status == 404)
         {
-            setServerErrorMessage("Услуги не найдены");
+            setServerErrorMessage("Поликлиники не найдены");
             setClinic([]);
             return;
         }
@@ -51,7 +52,7 @@ export function ClinicsPage() {
             <br></br>
             <span>{serverErrorMessage}</span>
             <div className="card-container">
-            {clinic.map(clinic => <ClinicCard clinicName={clinic.name} clinicId={clinic.id}/>)} 
+            {clinic.map(clinic => <ClinicCard clinicName={clinic.title} clinicId={clinic.id_policlinics} clinicAddress={clinic.address}/>)} 
             {/* вытаскиваем массив и распределяем по карточкам */}
             </div>
            

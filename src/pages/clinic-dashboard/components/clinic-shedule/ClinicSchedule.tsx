@@ -128,7 +128,7 @@ export function ClinicSchedule() {
     return (
 <div>
 <div className="card">
-  <a className="brand-logo" onClick={() => { navigate("/myclinic/doctor/") }}>&#x2717;</a>
+  <a className="brand-logo" onClick={() => { navigate("/myclinic/doctor") }}>&#x2717;</a>
 
     <h3 className="card-title">Создание расписания {doctor?.name} </h3>
   

@@ -155,6 +155,7 @@ const navigate = useNavigate();
   // const [intervalsCount, setIntervalsCount] = useState(1);
 
   async function fetchClinic(filter = authStorage.userId) {
+   // alert(filter)
     // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
     //   email: email,
     //   password: password
