@@ -3,6 +3,7 @@ import "./ClinicIndex.scss";
 import { useEffect, useState } from "react";
 import { useDirty } from "../../../../hooks/useDirty";
 import { authStorage } from "../../../../authStorage";
+import { UploadAndDisplayImage } from "../../../../components/UploadAndDisplayImage";
 
 
 
@@ -183,6 +184,39 @@ const navigate = useNavigate();
     }
   }
 
+
+  
+  async function editClinicImage() {
+    //setisButtonClicked(true);
+    if (!photoFile) {
+      alert("не заполнены поля")
+      return;
+    }
+    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //   email: email,
+    //   password: password
+    // }))
+    const formData = new FormData();
+    formData.append('file', photoFile);
+    formData.append('id_policlinic', clinicId);
+
+    const response = await fetch('http://localhost:5000/clinic/editClinicImage', {
+      method: 'PUT',
+      body: formData,
+    })
+
+    if (response.status == 401) {
+      setServerErrorMessage("Ошибка данных");
+      return;
+    }
+    fetchClinic();
+    const data = await response.json();
+    alert(JSON.stringify(data));
+    // надо еще очистить все поля 
+    
+  }
+
+
   // const [splittedName, setSplittedName] = useState([]);
   // setSplittedName(doctor?.name.split(" ", 3))
 
@@ -236,6 +270,9 @@ const navigate = useNavigate();
           </div>
           <div className="card-action">
             <button onClick={editClinic} className="btn">Сохранить изменения</button>
+            <img src={"http://localhost:5000/clinicsPublic/clinicImage?id=" + clinicId} alt="ClinicPhoto" />
+      <UploadAndDisplayImage onImageChange={setPhotoFile}/>
+      <button onClick={editClinicImage} className="btn">Изменить изображение</button>
           </div>
           <br />
           <br />

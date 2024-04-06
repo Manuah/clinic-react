@@ -181,7 +181,7 @@ export function LandingClinic() {
         <div className="landing-container">
           {/* <div>{clinicId}</div> */}
           <div className='container'>
-            <img src="https://s3-alpha-sig.figma.com/img/9f0e/92e1/5e5fb46aa43af8ebbd21494562e14460?Expires=1713139200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mj385AgZt8qN2RVzpYyAc1u~NFDjSb6Nbft1lYKTYT0Nr4xgC25ei89AIB9~OusILLQItlvdWWYyVnnwaLLOh-AE117ivUwRAY4t1FTuLIJ2Re8Vanfs4fLBg-UE9aonBBxN4u2YuFWsV7SgYzAfGvvZcCJ0uaf80kZJ06aY1rd-sKh5V1CZAK5bY2nzIrWeh3kORUoCUfpTGHqqIVFV4VSc5ma89vcJwn2L0XnyThJytp76sgZousXhof1B-dgoJjsdZN8GVj29dJFvHKiKKOHuQ54TMizGFJDD1FCB3cH-DUZjDLG7os7c7RLGjcpEtLQvn53u0MyCMUgpNrhTUA__" alt="Логотип поликлиники" className="logo" />
+            <img src={"http://localhost:5000/clinicsPublic/clinicImage?id=" + clinicId} alt="Логотип поликлиники" className="logo" />
             <div className="clinic-name">{name}</div>
             <div className="info">Адрес: {address}</div>
             <div className="info">Телефон: {phone}</div>

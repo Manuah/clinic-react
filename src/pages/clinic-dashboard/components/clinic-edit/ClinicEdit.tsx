@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./ClinicEdit.scss";
 import { useEffect, useState } from "react";
 import { useDirty } from "../../../../hooks/useDirty";
+import { UploadAndDisplayImage } from "../../../../components/UploadAndDisplayImage";
 type Doctor = {
   doctor_id: string;
   id: string, 
@@ -63,6 +64,7 @@ export function ClinicEdit() {
   const [name, setName, isNameDirty] = useDirty("");
   const [otch, setOtch, isOtchDirty] = useDirty("");
   const [specialty, setSpecialty, isSpecialtyDirty] = useDirty("");
+  const [doctor_id, setDoctor_id] = useState("");
 
   const [isButtonClicked, setisButtonClicked] = useState(false);
 
@@ -72,6 +74,8 @@ export function ClinicEdit() {
   const nameErrorMessage = getNameError(name, isNameDirty);
   const otchErrorMessage = getOtchError(otch, isOtchDirty);
   const specialtyErrorMessage = getSpecialtyError(specialty, isSpecialtyDirty);
+
+  const [photoFile, setPhotoFile] = useState<null | File>(null);
 
   //const emailErrorMessage = isButtonClicked ? emailError : null;
   //const passErrorMessage = isButtonClicked ? passError : null;
@@ -109,6 +113,7 @@ export function ClinicEdit() {
         setServerErrorMessage("Ошибка данных");
         return;
       }
+      fetchDoctors()
       const data = await response.json();
       alert(JSON.stringify(data));
       //очистить все поля 
@@ -146,9 +151,39 @@ export function ClinicEdit() {
         setName(data.name.split(" ", 3)[0])
         setOtch(data.name.split(" ", 3)[2])
         setSpecialty(data.specialty)
+        setDoctor_id(data.doctor_id)
         //alert(doctor?.name.split(" ", 3))
 
     }
+  }
+  async function editDoctorImage() {
+    //setisButtonClicked(true);
+    if (!photoFile) {
+      alert("не заполнены поля")
+      return;
+    }
+    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //   email: email,
+    //   password: password
+    // }))
+    const formData = new FormData();
+    formData.append('file', photoFile);
+    formData.append('doctorId', doctor_id);
+
+    const response = await fetch('http://localhost:5000/clinic/editDoctorImage', {
+      method: 'PUT',
+      body: formData,
+    })
+
+    if (response.status == 401) {
+      setServerErrorMessage("Ошибка данных");
+      return;
+    }
+    fetchDoctors();
+    const data = await response.json();
+    alert(JSON.stringify(data));
+    // надо еще очистить все поля 
+    
   }
 
   // const [splittedName, setSplittedName] = useState([]);
@@ -219,9 +254,12 @@ export function ClinicEdit() {
   
     <div className="card-action">
       <button onClick={editDoctor} className="btn">Сохранить изменения</button>
+      <img src={"http://localhost:5000/doctors/doctorImage?id=" + doctor?.doctor_id} alt="Doctor" />
+      <UploadAndDisplayImage onImageChange={setPhotoFile}/>
+      <button onClick={editDoctorImage} className="btn">Изменить изображение</button>
     </div>
-    <div className="file-upload"> 
-  </div>
+
+   
 
   </div>
 
