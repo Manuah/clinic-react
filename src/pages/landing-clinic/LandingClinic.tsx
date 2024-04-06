@@ -123,14 +123,16 @@ export function LandingClinic() {
 
     }
   }
-
+  const type = "clinic"
 
   async function book() {
     if (authStorage.token == "") {
-      loginModal.openModal("/my")//после авторизации идем на продолжение записи
-    }
-    else {
-      navigate("/my")//сразу переходим на страницу записи
+             const stringToGo:string = "/continueRegisterService/" + type + "/" + clinicId
+            loginModal.openModal(stringToGo) //после авторизации идем на продолжение записи
+        }
+        else 
+        {
+            navigate("/continueRegisterService/" + type + "/" + clinicId) //сразу переходим на страницу записи
     }
   }
   useEffect(() => {
@@ -186,6 +188,10 @@ export function LandingClinic() {
             <div className="info">Адрес: {address}</div>
             <div className="info">Телефон: {phone}</div>
             <div className="info">Часы работы: {workHours}</div>
+            {authStorage.token == "" || authStorage.roleId == "1" ? (
+            <button onClick={book}>Записаться</button>
+          ) : (""
+          )}
             <div className="info-block">
               <div className="services-container">
                 {blogs.map(blogs => {
@@ -263,10 +269,7 @@ export function LandingClinic() {
             <button className={`tab ${location.pathname == "/doctors" ? "active" : ""}`} onClick={() => { navigate("/doctors") }}>По врачам</button>
             <button className={`tab ${location.pathname == "/services" ? "active" : ""}`} onClick={() => { navigate("/services") }}>По услугам</button>
           </div> */}
-          {authStorage.token == "" || authStorage.roleId == "1" ? (
-            <button onClick={book}>Записаться</button>
-          ) : (""
-          )}
+  
 
           {/* <Outlet context={{ openLoginModal: loginModal.openModal }} /> */}
           <div>

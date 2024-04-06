@@ -22,6 +22,7 @@ import { DoctorPage } from './pages/doctor-dashboard/DoctorDashboard';
 import { DoctorsSchedule } from './pages/doctor-dashboard/components/doctor-shedule/DoctorSchedule';
 import { ClinicServices } from './pages/clinic-dashboard/components/clinic-services/ClinicServices';
 import { ClinicServicesEdit } from './pages/clinic-dashboard/components/clinic-services-edit/ClinicServicesEdit';
+import { ContinueRegisterService } from './pages/continue-register-1/ContinueRegisterService';
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
 // 1️⃣ Changed from App to Root
 function Root() {
   // 2️⃣ `BrowserRouter` component removed, but the <Routes>/<Route>
-  // component below are unchanged
+  // component below are unchanged ContinueRegisterService
   return (
     <Routes>
       <Route path="/" element={<LandingPage />}>
@@ -44,7 +45,9 @@ function Root() {
         <Route path="services" element={<ServicesPage/>} />
         <Route path="clinics" element={<ClinicsPage/>} />
       </Route>
-      
+
+      <Route path="/continueRegisterService/:type/:id" element={<ContinueRegisterService/>}/> 
+
       <Route path="/landing/:clinicId" element={<LandingClinic/>}/> 
       <Route path="register" element={<div>Окно регистрации</div>}/> 
       <Route path="/about/*" element={<div>About</div>} />

@@ -7,6 +7,7 @@ type Service = {
     title: string
 }
 export function ServicesPage() {
+    
     const [service, setService] = useState<Service[]>([])
     const [value, setValue] = useState<string>('')
     const debouncedValue = useDebounce<string>(value, 500) //для задержки при вводе фильтра
@@ -51,7 +52,7 @@ export function ServicesPage() {
             <br></br>
             <span>{serverErrorMessage}</span>
             <div className="card-container">
-            {service.map(service => <ServiceCard serviceName={service.title}/>)} 
+            {service.map(service => <ServiceCard serviceName={service.title} serviceId={service.id_services}/>)} 
             {/* вытаскиваем массив и распределяем по карточкам */}
             </div>
            
