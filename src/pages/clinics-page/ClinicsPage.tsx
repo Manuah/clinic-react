@@ -39,10 +39,13 @@ export function ClinicsPage() {
         
 
       }
+
+      
       useEffect(() => {
        // alert(debouncedValue)
        fetchService(debouncedValue)
     }, [debouncedValue])
+    
     return (
         <div className="container">
             <div className="search-container">

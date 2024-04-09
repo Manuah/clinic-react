@@ -123,18 +123,32 @@ export function LandingClinic() {
 
     }
   }
-  const type = "clinic"
+  //const type = "clinic"
+  const type1 = "clinicService"
+  const type2 = "clinicDoctor"
 
-  async function book() {
+  async function bookService() {
     if (authStorage.token == "") {
-             const stringToGo:string = "/continueRegisterService/" + type + "/" + clinicId
+             const stringToGo: string = "/continueRegisterService/" + type1 + "/" + clinicId
             loginModal.openModal(stringToGo) //после авторизации идем на продолжение записи
         }
         else 
         {
-            navigate("/continueRegisterService/" + type + "/" + clinicId) //сразу переходим на страницу записи
+            navigate("/continueRegisterService/" + type1 + "/" + clinicId) //сразу переходим на страницу записи
     }
   }
+
+  async function bookDoctor() {
+    if (authStorage.token == "") {
+             const stringToGo: string = "/continueRegisterService/" + type2 + "/" + clinicId
+            loginModal.openModal(stringToGo) //после авторизации идем на продолжение записи
+        }
+        else 
+        {
+            navigate("/continueRegisterService/" + type2 + "/" + clinicId) //сразу переходим на страницу записи
+    }
+  }
+
   useEffect(() => {
     // alert(debouncedValue)
     fetchClinic(); fetchBlogs()
@@ -189,7 +203,10 @@ export function LandingClinic() {
             <div className="info">Телефон: {phone}</div>
             <div className="info">Часы работы: {workHours}</div>
             {authStorage.token == "" || authStorage.roleId == "1" ? (
-            <button onClick={book}>Записаться</button>
+              <div className="book-buttons">
+                <button onClick={bookDoctor}>Записаться к врачу</button>
+                <button onClick={bookService}>Записаться на услугу</button>
+              </div>
           ) : (""
           )}
             <div className="info-block">

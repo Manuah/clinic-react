@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ChangeEvent, ReactNode, useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './ContinueRegisterService.scss';
 import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -151,6 +151,11 @@ export function ContinueRegisterService() {
   //   // alert(id)
   //   //fetchClinic(); fetchBlogs()
   // }, [])
+  
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value)
+    setServerErrorMessage("")
+  }
   const [title, setTitle] = useState("")
 //const [serviceById, setServiceById] = useState<ServiceById[]>([])
   const [clinic, setClinic] = useState<Clinics[]>([])
@@ -181,12 +186,12 @@ export function ContinueRegisterService() {
     }
   }
 
-  async function fetchClinicForRegister(filter = id) {
+  async function fetchClinicForRegister(filter = '') {
     // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
     //   email: email,
     //   password: password
     // }))
-    const response = await fetch('http://localhost:5000/clinicsPublic/getClinicsByService?filter=' + filter, {
+    const response = await fetch(`http://localhost:5000/clinicsPublic/getClinicsByService?id=${id}&filter=${filter}`, {
     })
 
     const data = await response.json();
@@ -209,8 +214,8 @@ export function ContinueRegisterService() {
 
   useEffect(() => {
     // alert(debouncedValue)
-    fetchClinicForRegister(); fetchServiceById();
-  }, [])
+    fetchClinicForRegister(debouncedValue); fetchServiceById();
+  }, [debouncedValue])
 
   async function createServiceAppointment() {
 
@@ -244,8 +249,10 @@ export function ContinueRegisterService() {
   }
 
 
-
+if (type == "service") {
   return (
+    
+
     <div>
       <nav>
         <div className="nav-wrapper grey darken-1">
@@ -283,7 +290,12 @@ export function ContinueRegisterService() {
           {/* <div>{clinicId}</div> */}
           <div className='container-continue'>
             <div className='column-left'>
-              {serverErrorMessage}
+            <div className="search-container">
+                <input onChange={handleChange} value={value} type="text" id="searchInput" className="search-input" placeholder="Начните вводить" />
+                    <img id="searchButton" className="search-button" src="https://palantinnsk.ru/local/templates/palantinnsk/assets/search.png" alt="Search" />
+            </div>
+            <br></br>
+            <span>{serverErrorMessage}</span>
               {clinic.map(clinic => <ClinicCardContinue clinicName={clinic.title} clinicId={clinic.id_policlinics} clinicAddress={clinic.address} onConfirm={changeClinic}/>)}
               {/* вытаскиваем массив и распределяем по карточкам */}
             </div>
@@ -388,4 +400,155 @@ export function ContinueRegisterService() {
     </div>
 
   );
+}
+return (
+    
+
+  <div>
+    <nav>
+      <div className="nav-wrapper grey darken-1">
+        <a onClick={() => navigate("/")} className="brand-logo">Aegle2
+        </a>
+
+        <ul id="nav-mobile" className="right hide-on-med-and-down">
+          {/* <li><a onClick={() => { navigate("/login") }}>Вход</a></li>
+          <li><a onClick={() => { navigate("/register") }}>Регистрация</a></li> */}
+
+          {/* <button disabled={true} onClick={() => openModal("/")}>Вход</button> */}
+          {/* className={`${authStorage.token == "" ? "" : "disabledLink"}`} */}
+          <li>
+            <a onClick={() => closeConfirmModal.openModal(location.pathname)}>
+              Выход
+            </a>
+
+            {/* 
+            {authStorage.token == "" || authStorage.token == "1" ? (
+              <a onClick={() => loginModal.openModal(location.pathname)}>
+                Вход
+              </a>
+            ) : (
+              <a onClick={() => closeConfirmModal.openModal(location.pathname)}>
+                Выход
+              </a>
+            )} */}
+
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div className="auth-block">
+      <div className="landing-container">
+        {/* <div>{clinicId}</div> */}
+        <div className='container-continue'>
+          <div className='column-left'>
+          <div className="search-container">
+              <input onChange={handleChange} value={value} type="text" id="searchInput" className="search-input" placeholder="Начните вводить" />
+                  <img id="searchButton" className="search-button" src="https://palantinnsk.ru/local/templates/palantinnsk/assets/search.png" alt="Search" />
+          </div>
+          <br></br>
+          <span>{serverErrorMessage}</span>
+            {clinic.map(clinic => <ClinicCardContinue clinicName={clinic.title} clinicId={clinic.id_policlinics} clinicAddress={clinic.address} onConfirm={changeClinic}/>)}
+            {/* вытаскиваем массив и распределяем по карточкам */}
+          </div>
+          <div className='column-right'>
+            <div>
+              <h2 className={ "card-title" }>Продолжение записи</h2>
+              <div className={ "red-text" }>{serverErrorMessage}</div>
+              <p>Чтобы записаться на услугу, выберите больницу</p>
+              {/* <a className={ "brand-logo" } onClick={props.closeModal}>&#x2717;</a> */}
+              <div className={ "card-content" }>
+                <div className={ "input-field" }>
+                  <label htmlFor="email">Клиника:</label>
+                  <input name="clinic" id="clinic" value={chosenClinic} disabled={true} required onChange={event => {
+                    setChosenClinic(event.target.value)
+                    // setEmail(event.target.value);
+                    setServerErrorMessage("")
+                  }} />
+                  <span
+
+                    className={ "red-text" }
+                  >
+                  </span>
+
+                </div>
+                <div className={ "input-field" }>
+                  <label htmlFor="password">Услуга:</label>
+                  <input disabled name="service" id="service" value={title} onChange={event => { 
+
+                    // setPass(event.target.value); setServerErrorMessage("") 
+                    }} />
+                  <span
+
+                    className={ "red-text" }
+                  >
+                  </span>
+                </div>
+
+                <button onClick={createServiceAppointment}>Записаться на услугу</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <CloseModal isOpen={closeConfirmModal.isOpen} closeModal={closeConfirmModal.closeModal} />
+        </div>
+        {/* <p>
+          Мы предлагаем широкий спектр медицинских услуг для обеспечения вашего
+          благополучия. Наша команда опытных врачей и персонала стремится
+          предоставить высококачественную помощь в комфортных условиях.
+        </p>
+        <div className="services-container">
+          <div className="service">
+            <h2>Общая медицина</h2>
+            <p>
+              Комплексная медицинская помощь для взрослых и детей, включая
+              профилактические услуги, регулярные обследования и лечение общих
+              заболеваний.
+            </p>
+          </div>
+          <div className="service">
+            <h2>Специализированные клиники</h2>
+            <p>
+              Специализированные клиники по различным медицинским состояниям, где
+              работают эксперты в соответствующих областях для оказания
+              целенаправленной помощи и лечения.
+            </p>
+          </div>
+          <div className="service">
+            <h2>Диагностические услуги</h2>
+            <p>
+              Современные диагностические услуги, включая лабораторные анализы,
+              изображение и передовые диагностические процедуры для точного и
+              своевременного выявления заболеваний.
+            </p>
+          </div>
+        </div> */}
+      </div>
+      <div className="footer">
+        <div className="decorative-line"></div>
+        <div className="footer-info">
+          <div className="contact-info">
+            <h3>Contact Us</h3>
+            <p><i className="fas fa-envelope"></i>Email: info@aegleclinic.com</p>
+            <p><i className="fas fa-phone"></i>Phone: +1 123-456-7890</p>
+          </div>
+          <div className="social-media">
+            <h3>Follow Us</h3>
+            <p>
+              <i className="fab fa-facebook"></i>Facebook |
+              <i className="fab fa-twitter"></i>Twitter |
+              <i className="fab fa-instagram"></i>Instagram
+            </p>
+          </div>
+        </div>
+        <div className="decorative-line"></div>
+        <p>&copy; 2023 Aegle Polyclinic. All rights reserved.</p>
+        <p>Designed with ❤️ by Aegle Team</p>
+      </div>
+    </div>
+  </div>
+
+);
 }
