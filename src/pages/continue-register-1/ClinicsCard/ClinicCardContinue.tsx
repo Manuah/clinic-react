@@ -5,6 +5,7 @@ type Props = {
     clinicName: string
     clinicId: string
     clinicAddress: string
+    chosenClinicId: string
     onConfirm: (id:string, name: string) => void;
 }
 export function ClinicCardContinue(props: Props) {
@@ -19,8 +20,8 @@ export function ClinicCardContinue(props: Props) {
      }
 
     return (
-            // <div className={`${chosenClinicItem == true ? "card-clinic-continue-active" : "card-clinic-continue"}`}>
-            <div className={"card-clinic-continue"}>
+             <div className={`${props.chosenClinicId == props.clinicId ? "card-clinic-continue-active" : "card-clinic-continue"}`}>
+            {/* <div className={"card-clinic-continue"}> */}
                <img src={"http://localhost:5000/clinicsPublic/clinicImage?id=" + props.clinicId} alt="ClinicPhoto"/>
                 <div className="card-info">
                     <h2>{props.clinicName}</h2>

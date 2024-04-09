@@ -57,6 +57,7 @@ export function ContinueRegisterService() {
   const location = useLocation();
   const closeConfirmModal = useModal();
   const { id, type } = useParams();
+ // const [chosenClinicItem, setChosenClinicItem] = useState(false)
   // const [blogs, setBlogs] = useState<Blog[]>([])
 
   // function openRegister() {
@@ -66,7 +67,6 @@ export function ContinueRegisterService() {
   // }
 
   const [chosenClinic, setChosenClinic] = useState("");
-  
   const [chosenClinicId, setChosenClinicId] = useState("");
 
 
@@ -296,7 +296,7 @@ if (type == "service") {
             </div>
             <br></br>
             <span>{serverErrorMessage}</span>
-              {clinic.map(clinic => <ClinicCardContinue clinicName={clinic.title} clinicId={clinic.id_policlinics} clinicAddress={clinic.address} onConfirm={changeClinic}/>)}
+              {clinic.map(clinic => <ClinicCardContinue clinicName={clinic.title} clinicId={clinic.id_policlinics} clinicAddress={clinic.address} onConfirm={changeClinic} chosenClinicId={chosenClinicId}/>)}
               {/* вытаскиваем массив и распределяем по карточкам */}
             </div>
             <div className='column-right'>
@@ -447,7 +447,7 @@ return (
           </div>
           <br></br>
           <span>{serverErrorMessage}</span>
-            {clinic.map(clinic => <ClinicCardContinue clinicName={clinic.title} clinicId={clinic.id_policlinics} clinicAddress={clinic.address} onConfirm={changeClinic}/>)}
+            {clinic.map(clinic => <ClinicCardContinue clinicName={clinic.title} clinicId={clinic.id_policlinics} clinicAddress={clinic.address} onConfirm={changeClinic} chosenClinicId={chosenClinicId}/>)}
             {/* вытаскиваем массив и распределяем по карточкам */}
           </div>
           <div className='column-right'>
