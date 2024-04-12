@@ -168,7 +168,9 @@ async function addDoctorfromExcel(doctors: Array<ExcelDoctor>) {
         return;
       }
       const data = await response.json();
-      alert(JSON.stringify(data));
+      //alert(JSON.stringify(data));
+      alert("Данные успешно загружены");
+      navigate("/myclinic/doctor")
       // надо еще очистить все поля 
       
     }
@@ -233,13 +235,11 @@ async function addDoctorfromExcel(doctors: Array<ExcelDoctor>) {
         </span>
       </div>
     </div>
-  
+    <UploadAndDisplayImage onImageChange={setPhotoFile}/>
     <div className="card-action">
       <button  onClick={addDoctor}  className="btn">Добавить врача</button>
     </div>
-
-    <label>Добавить изображение</label>
-    <UploadAndDisplayImage onImageChange={setPhotoFile}/>
+   <h2>ИЛИ</h2>
     <label>Загрузить файлом Excel</label>
     <div className="file-upload">
     <input  onChange={readUploadFile} type="file" accept=".xlsx, .xls" />

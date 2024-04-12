@@ -12,6 +12,7 @@ export const UploadAndDisplayImage = (props: Props) => {
 
   return (
     <div>
+      <label>Добавить изображение: <span  className={"red-text"}>*</span></label>
       {/* <h1>Upload and Display Image usign React Hook's</h1> */}
       {selectedImage && (
         <div>

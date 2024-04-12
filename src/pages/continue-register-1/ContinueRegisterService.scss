@@ -148,10 +148,17 @@ body {
   justify-content: space-between;
   height: 100vh;
 }
-.input-field input {
+
+.input-field-BIG input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
   margin-bottom: 20px;
   font-size: 20px;
 }
+
 .auth-block {
   display: flex;
   flex-direction: column;
