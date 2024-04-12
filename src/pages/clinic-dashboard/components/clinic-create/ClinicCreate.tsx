@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authStorage } from "../../../../authStorage";
 import { useDirty } from "../../../../hooks/useDirty";
 import "./ClinicCreate.scss";
 import { UploadAndDisplayImage } from "../../../../components/UploadAndDisplayImage";
 import { forEachChild } from "typescript";
+import * as xlsx from 'xlsx';
+import { json } from "stream/consumers";
 
 function getEmailError(email: string) {
   if (email == "")
@@ -44,6 +46,15 @@ function getSpecialtyError(specialty: string, isDirty: boolean) {
   return null;
 }
 
+type ExcelDoctor = {
+  Имя: string,
+  Фамилия: string,
+  Отчество: string,
+  Специальность: string,
+  Email: string,
+  Пароль: string
+}
+
 export function ClinicCreate() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -68,6 +79,59 @@ export function ClinicCreate() {
   //const passErrorMessage = isButtonClicked ? passError : null;
   const [serverErrorMessage, setServerErrorMessage] = useState("");
   
+  const readUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (e.target.files) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const data = e?.target?.result;
+            const workbook = xlsx.read(data, { type: "array" });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            const json = xlsx.utils.sheet_to_json(worksheet);
+            console.log(json);
+            addDoctorfromExcel(json as Array<ExcelDoctor>);
+        };
+        reader.readAsArrayBuffer(e.target.files[0]);
+    }
+
+}
+
+async function addDoctorfromExcel(doctors: Array<ExcelDoctor>) {
+  if (window.confirm("Вы уверены, что хотите загрузить данные?") ){
+    doctors.forEach(async (doctor) => {
+      const formData = new FormData();
+      formData.append('email', doctor.Email);
+      formData.append('password', doctor.Пароль);
+      formData.append('fam', doctor.Фамилия);
+      formData.append('name', doctor.Имя);
+      formData.append('otch', doctor.Отчество);
+      formData.append('specialty', doctor.Специальность);
+      formData.append('id_policlinic', authStorage.userId);
+  
+      const response = await fetch('http://localhost:5000/clinic/addDoctor', {
+        method: 'POST',
+        body: formData,
+      })
+      
+      if (response.status == 401) {
+        setServerErrorMessage("Ошибка данных");
+        return;
+      }
+      const data = await response.json();
+     
+      navigate("/myclinic/doctor")
+  
+      // надо еще очистить все поля 
+  
+    })
+
+    alert("Данные успешно загружены");
+      }
+
+      
+}
+
 
   
     async function addDoctor() {
@@ -171,15 +235,15 @@ export function ClinicCreate() {
     </div>
   
     <div className="card-action">
-      <button  onClick={addDoctor}  className="btn">Добавить</button>
+      <button  onClick={addDoctor}  className="btn">Добавить врача</button>
     </div>
 
+    <label>Добавить изображение</label>
     <UploadAndDisplayImage onImageChange={setPhotoFile}/>
-
-    {/* <div className="file-upload">
-    <input type="file" accept=".xlsx, .xls" />
-    <button>Загрузить Excel</button>
-  </div> */}
+    <label>Загрузить файлом Excel</label>
+    <div className="file-upload">
+    <input  onChange={readUploadFile} type="file" accept=".xlsx, .xls" />
+  </div>
 
   </div>
 

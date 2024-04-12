@@ -13,7 +13,6 @@ export const UploadAndDisplayImage = (props: Props) => {
   return (
     <div>
       {/* <h1>Upload and Display Image usign React Hook's</h1> */}
-
       {selectedImage && (
         <div>
           <img

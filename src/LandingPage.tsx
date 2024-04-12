@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.scss';
 import './LandingPage.scss';
@@ -48,6 +48,18 @@ export function LandingPage() {
     registerModal.openModal(loginModal.pathToRedirect);
     return
   }
+
+  useEffect(
+    () => {
+      if (authStorage.roleId != "1" && !!authStorage.roleId){
+        authStorage.token = "";
+        authStorage.userName = ""; 
+        authStorage.roleId = "";
+        window.location.href = "/";
+        }
+
+    }, []
+  )
 
   return (
     <div>
