@@ -13,6 +13,7 @@ import { useDebounce } from '../../hooks/useDebounce';
 import { ClinicCard } from '../clinics-page/ClinicsCard/ClinicsCard';
 import { ClinicCardContinue } from './ClinicsCard/ClinicCardContinue';
 import { ServiceCardContinue } from './ServiceCard/ServiceCardContinue';
+import { DoctorCardContinue } from './DoctorCard/DoctorCardContinue';
 
 //import { Button, Modal, ModalBody } from "reactstrap";
 
@@ -52,10 +53,22 @@ type Services = {
   id_services: string,
   title: string
 }  
+type Doctors = {
+  doctor_id: string,
+  name: string, 
+  specialty: string
+}  
+type Shedules = {
+  date: string, 
+  start_time: string, 
+  end_time: string
+}  
 type ServiceById = {
   id_services: string, 
   title: string
 }
+
+const timeRangesInitialValue: Shedules[] = [{date: "", start_time: "", end_time: ""}, {date: "", start_time: "", end_time: ""}];
 //export const [chosenClinicItem, setChosenClinicItem] = useState(false);
 export function ContinueRegisterService() {
   const navigate = useNavigate();
@@ -78,6 +91,9 @@ export function ContinueRegisterService() {
   const [chosenService, setChosenService] = useState("");
   const [chosenServiceId, setChosenServiceId] = useState("");
 
+  const [chosenDoctor, setChosenDoctor] = useState("");
+  const [chosenDoctorId, setChosenDoctorId] = useState("");
+
 
   // const [address, setAddress, isAddressDirty] = useDirty("");
   // const [phone, setPhone, isPhoneDirty] = useDirty("");
@@ -94,6 +110,7 @@ export function ContinueRegisterService() {
   //const emailErrorMessage = isButtonClicked ? emailError : null;
   //const passErrorMessage = isButtonClicked ? passError : null;
   const [serverErrorMessage, setServerErrorMessage] = useState("");
+  
   //const [timeRanges, setTimeRanges] = useState<BlogPost[]>(timeRangesInitialValue);
 
 
@@ -169,6 +186,8 @@ export function ContinueRegisterService() {
 //const [serviceById, setServiceById] = useState<ServiceById[]>([])
   const [clinic, setClinic] = useState<Clinics[]>([])
   const [service, setService] = useState<Services[]>([])
+  const [doctors, setDoctors] = useState<Doctors[]>([])
+  const [shedules, setShedules] = useState<Shedules[]>(timeRangesInitialValue)
   const [value, setValue] = useState<string>('')
   const debouncedValue = useDebounce<string>(value, 500) //для задержки при вводе фильтра
 
@@ -180,7 +199,7 @@ export function ContinueRegisterService() {
     fetchServiceForRegister(debouncedValue); fetchClinicById();
     }
   if (type == "clinicDoctor"){
-
+    fetchDoctorForRegister(debouncedValue); fetchClinicById();
     }
   if (type == "doctor"){
     
@@ -253,6 +272,29 @@ export function ContinueRegisterService() {
     }
   }
 
+  
+  async function fetchDoctorForRegister(filter = '') {
+    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //   email: email,
+    //   password: password
+    // }))
+    const response = await fetch(`http://localhost:5000/doctors/getDoctorByClinic?id=${id}&filter=${filter}`, {
+    })
+
+    const data = await response.json();
+    //alert(JSON.stringify(data));
+    if (response.status == 404) {
+      setServerErrorMessage("Врачи не найдены");
+      setDoctors([]);
+      return;
+    }
+    else {
+      setDoctors(data)
+        ;
+    }
+  }
+
+
   async function fetchClinicById(filter = id) {
     // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
     //   email: email,
@@ -277,10 +319,40 @@ export function ContinueRegisterService() {
     }
   }
 
-  async function changeClinic(id:string, name:string) {
-  setChosenClinic(name);
-  setChosenClinicId(id);
+  async function fetchShedulesById(id: string) {
+    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //   email: email,
+    //   password: password
+    // }))
+    const response = await fetch('http://localhost:5000/doctors/getSchedules/?id=' + id, {
+     }) 
+     
+    const data = await response.json();
+    //alert(JSON.stringify(data));
+    if (response.status == 404)
+    {
+        setServerErrorMessage("Расписание для данного врача не найдено");
+       setShedules([]);
+        //setServiceById([]);
+        return;
+    }
+    else{
+      setShedules(data);
+      setServerErrorMessage("")
+      //setServiceById(data);
+       // setTitle(data);
+    }
   }
+
+  async function changeClinic(id:string, name:string) {
+    setChosenClinic(name);
+    setChosenClinicId(id);
+  }
+
+  async function changeDoctor(id:string, name:string) {
+    setChosenDoctor(name);
+    setChosenDoctorId(id);
+    }
 
   async function changeService(id:string, name:string) {
     setChosenService(name);
@@ -292,6 +364,12 @@ export function ContinueRegisterService() {
     // fetchClinicForRegister(debouncedValue); fetchServiceById(); 
     render(debouncedValue)
   }, [debouncedValue])
+
+  useEffect(() => {
+    // alert(debouncedValue)
+    // fetchClinicForRegister(debouncedValue); fetchServiceById(); 
+    fetchShedulesById(chosenDoctorId)
+  }, [chosenDoctorId])
 
   async function createServiceAppointment() {
 
@@ -653,7 +731,10 @@ return (
 
 );
 }
-
+//ИСКАТЬ ВРАЧА 
+//ПО АЙДИ КЛИНИКУ 
+//ПРИ ВЫБОРЕ ВРАЧА (КОГДА !!CHOSENDOCTOR) ВЫЗЫВАТЬ ФУНКЦИЮ ВЫЗОВА СКЕДУЛЕЙ 
+//ДОЛЖЕН БЫТЬ DOCTOR ID И ДОЛЖЕН БЫТЬ FALSE ТОЖЕ ЧРЕЕЗ МАП
 if (type == "clinicDoctor") {
   return (
     <div>
@@ -699,22 +780,21 @@ if (type == "clinicDoctor") {
             </div>
             <br></br>
             <span>{serverErrorMessage}</span>
-              {clinic.map(clinic => <ClinicCardContinue clinicName={clinic.title} clinicId={clinic.id_policlinics} clinicAddress={clinic.address} onConfirm={changeClinic} chosenClinicId={chosenClinicId}/>)}
+              {doctors.map(doctor => <DoctorCardContinue doctorId={doctor.doctor_id} doctorName={doctor.name} doctorSpecialty={doctor.specialty} onConfirm={changeDoctor} chosenDoctorId={chosenDoctorId}/>)}
               {/* вытаскиваем массив и распределяем по карточкам */}
             </div>
             <div className='column-right'>
               <div>
                 <h2 className={ "card-title" }>Продолжение записи</h2>
                 <div className={ "red-text" }>{serverErrorMessage}</div>
-                <p>Чтобы записаться на услугу, выберите больницу</p>
+                <p>Чтобы записаться, выберите врача</p>
                 {/* <a className={ "brand-logo" } onClick={props.closeModal}>&#x2717;</a> */}
                 <div className={ "card-content" }>
-                  <div className={ "input-field" }>
+
+                  <div className={ "input-field-BIG" }>
                     <label htmlFor="email">Клиника:</label>
-                    <input name="clinic" id="clinic" value={chosenClinic} disabled={true} required onChange={event => {
-                      setChosenClinic(event.target.value)
-                      // setEmail(event.target.value);
-                      setServerErrorMessage("")
+                    <input name="clinic" id="clinic" value={title} disabled required onChange={event => {
+                  
                     }} />
                     <span
   
@@ -723,18 +803,36 @@ if (type == "clinicDoctor") {
                     </span>
   
                   </div>
-                  <div className={ "input-field" }>
-                    <label htmlFor="password">Услуга:</label>
-                    <input disabled name="service" id="service" value={title} onChange={event => { 
-  
-                      // setPass(event.target.value); setServerErrorMessage("") 
-                      }} />
+                  <div className={ "input-field-BIG" }>
+                    <label htmlFor="password">Врач:</label>
+                    <input disabled name="service" id="service" value={chosenDoctor} required onChange={event => {
+                      setChosenDoctor(event.target.value)
+                      // setEmail(event.target.value);
+                      setServerErrorMessage("")
+                    }} />
                     <span
   
                       className={ "red-text" }
                     >
                     </span>
                   </div>
+
+                  <span>{serverErrorMessage}</span>
+
+{/* //ВЫБИРАТЬ ДАТУ ВЫПАДАЮЩИМ СПИСКОМ И ПОТОМ ОТ НЕЕ ВЫВОДИТЬ СКЕДУЛИ */}
+
+                  {/* {shedules?.map(shedule => {
+                  return (
+                    <div className="service">
+                      <h2>{shedule.date}</h2>
+                      <p>
+                        {shedule.start_time}  :  {shedule.end_time}
+                      </p>
+                    </div>
+                  )
+                })} */}
+
+              {/* вытаскиваем массив и распределяем по карточкам */}
   
                   <button onClick={createServiceAppointment}>Записаться на услугу</button>
                 </div>
