@@ -5,7 +5,7 @@ type Props = {
     doctorId: string
     doctorName: string
     doctorSpecialty: string
-    chosenDoctorId: string
+    chosenDoctorId: string | undefined
     onConfirm: (id:string, name: string) => void;
 }
 let n = 1;
@@ -24,7 +24,7 @@ export function DoctorCardContinue(props: Props) {
                 <div className="card-info">
                     <p>{props.doctorName}</p>
                     <p>{props.doctorSpecialty}</p>
-                    <button onClick={chooseDoctor}>Выбрать врача</button>
+                    {props.chosenDoctorId == props.doctorId ? <div></div> : <button onClick={chooseDoctor}>Выбрать врача</button>} 
                 </div>
         </div>
     );

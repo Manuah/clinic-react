@@ -7,7 +7,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useModal from './components/Modal/useModal';
 import Modal from './components/Modal/Modal';
 import { LoginModal } from './features/login-modal/login-modal';
-import { authStorage } from './authStorage';
+import { authStorage, signOut } from './authStorage';
 import { RegisterModal } from './features/register-modal/register-modal';
 import { CloseModal } from './features/close-modal/close-modal';
 //import { Button, Modal, ModalBody } from "reactstrap";
@@ -52,8 +52,7 @@ export function LandingPage() {
   useEffect(
     () => {
       if (authStorage.roleId != "1" && !!authStorage.roleId){
-        authStorage.token = "";
-        authStorage.roleId = "";
+       signOut()    
         window.location.href = "/";
         }
 

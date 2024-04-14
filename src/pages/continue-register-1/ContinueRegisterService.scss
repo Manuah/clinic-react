@@ -10,6 +10,16 @@
   overflow: auto;
 }
 
+.service-active {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px #20d471;
+  padding: 20px;
+  text-align: center;
+ // animation: fadeInUp 1s ease-out forwards;
+  
+}
+
 .container-continue {
   display: flex;
   padding: 20px;
@@ -22,6 +32,14 @@
   flex: 1; 
   padding: 10px;
   border-right: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+.column-center {
+  min-width: 400px;
+  flex: 1; 
+  padding: 10px;
+  border: 1px solid #ddd;
   background-color: #f9f9f9;
 }
 

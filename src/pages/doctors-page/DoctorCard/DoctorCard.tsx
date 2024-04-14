@@ -10,13 +10,15 @@ export function DoctorCard(props: Props) {
     const navigate = useNavigate();
     const outletContext = useOutletContext<{openLoginModal: (pathToRedirect: string) => void}>();
     ///doctorImage
+    const type = "doctor"
     async function book() {
         if (authStorage.token == "") {
-            outletContext.openLoginModal("/my") //после авторизации идем на продолжение записи
+            const stringToGo:string = "/continueRegisterService/" + type + "/" + props.doctorId
+            outletContext.openLoginModal(stringToGo) //после авторизации идем на продолжение записи
         }
         else 
         {
-            navigate("/clinics"); //сразу переходим на страницу записи
+            navigate("/continueRegisterService/" + type + "/" + props.doctorId) //сразу переходим на страницу записи
            
         }
     }

@@ -59,6 +59,7 @@ type Doctors = {
   specialty: string
 }  
 type Shedules = {
+  schedule_id: string,
   date: string, 
   start_time: string, 
   end_time: string
@@ -68,7 +69,7 @@ type ServiceById = {
   title: string
 }
 
-const timeRangesInitialValue: Shedules[] = [{date: "", start_time: "", end_time: ""}, {date: "", start_time: "", end_time: ""}];
+//const timeRangesInitialValue: Shedules[] = [{date: "", start_time: "", end_time: ""}, {date: "", start_time: "", end_time: ""}];
 //export const [chosenClinicItem, setChosenClinicItem] = useState(false);
 export function ContinueRegisterService() {
   console.log("ContinueRegisterService");
@@ -93,7 +94,9 @@ export function ContinueRegisterService() {
   const [chosenServiceId, setChosenServiceId] = useState("");
 
   const [chosenDoctor, setChosenDoctor] = useState("");
-  const [chosenDoctorId, setChosenDoctorId] = useState("");
+  const [chosenDoctorId, setChosenDoctorId] = useState<string | undefined>("");
+
+  const [chosenSheduleId, setChosenSheduleId] = useState("");
 
 
   // const [address, setAddress, isAddressDirty] = useDirty("");
@@ -184,12 +187,15 @@ export function ContinueRegisterService() {
     setServerErrorMessage("")
   }
   const [title, setTitle] = useState("")
+  const [doctorName, setDoctorName] = useState("")
 //const [serviceById, setServiceById] = useState<ServiceById[]>([])
   const [clinic, setClinic] = useState<Clinics[]>([])
   const [service, setService] = useState<Services[]>([])
   const [doctors, setDoctors] = useState<Doctors[]>([])
-  const [shedules, setShedules] = useState<Shedules[]>(timeRangesInitialValue)
+  const [shedules, setShedules] = useState<Shedules[]>([])
   const [value, setValue] = useState<string>('')
+
+  const [problem, setProblem] = useState<string>('')
   const debouncedValue = useDebounce<string>(value, 500) //для задержки при вводе фильтра
 
   async function render(debouncedValue: string) {
@@ -203,7 +209,7 @@ export function ContinueRegisterService() {
     fetchDoctorForRegister(debouncedValue); fetchClinicById();
     }
   if (type == "doctor"){
-    
+    fetchDoctorById(); setChosenDoctorId(id);
     }
   }
 
@@ -319,8 +325,33 @@ export function ContinueRegisterService() {
        // setTitle(data);
     }
   }
+//достать по айдишнику имя и айди клиники 
 
-  async function fetchShedulesById(id: string) {
+  async function fetchDoctorById(filter = id) {
+    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //   email: email,
+    //   password: password
+    // }))
+    const response = await fetch('http://localhost:5000/doctors/getDoctorById/?id=' + filter, {
+     }) 
+     
+    const data = await response.json();
+    //alert(JSON.stringify(data));
+    if (response.status == 404)
+    {
+        setServerErrorMessage("Врач не найден");
+        setDoctors([])
+        //setServiceById([]);
+        return;
+    }
+    if (response.ok) {
+      setDoctors(data); 
+      //setServiceById(data);
+       // setTitle(data);
+    }
+  }
+
+  async function fetchShedulesById(id: string | undefined) {
     // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
     //   email: email,
     //   password: password
@@ -360,6 +391,12 @@ export function ContinueRegisterService() {
   async function changeDoctor(id:string, name:string) {
     setChosenDoctor(name);
     setChosenDoctorId(id);
+    }
+
+    
+  async function changeShedule(id:string) {
+    console.log(id);
+    setChosenSheduleId(id);
     }
 
   async function changeService(id:string, name:string) {
@@ -407,9 +444,11 @@ export function ContinueRegisterService() {
           setServerErrorMessage("Ошибка данных");
           return;
         }
-        const data = await response.json();
-        alert("Запись прошла успешно!");
-        // надо еще очистить все поля 
+        if (response.ok){
+          const data = await response.json();
+          alert("Запись прошла успешно!");
+          navigate("/")
+        }
 
       }
     if (type == "clinicService")
@@ -429,10 +468,50 @@ export function ContinueRegisterService() {
           setServerErrorMessage("Ошибка данных");
           return;
         }
-        const data = await response.json();
-        alert("Запись прошла успешно!");
+        if (response.ok){
+          const data = await response.json();
+          alert("Запись прошла успешно!");
+          navigate("/")
+        }
+     
         // надо еще очистить все поля 
       }
+      
+  }
+
+  async function createDoctorAppointment() {
+
+    if ( !chosenSheduleId || !problem ) { 
+      alert("Не заполнены поля")
+      return;
+    }
+    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //   email: email,
+    //   password: password
+    // }))
+        const response = await fetch('http://localhost:5000/patient/createAppointmentDoctor', {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            patient_id: authStorage.userId,
+            schedule_id: chosenSheduleId,
+            problem_description: problem
+          }),
+        })
+
+        if (response.status == 401) {
+          setServerErrorMessage("Ошибка данных");
+          return;
+        } 
+        if (response.ok)
+          {
+            const data = await response.json();
+            alert("Запись прошла успешно!");
+            navigate("/")
+            // надо еще очистить все поля 
+          }
       
   }
 
@@ -826,25 +905,29 @@ if (type == "clinicDoctor") {
                     >
                     </span>
                   </div>
-
+                  <p>Опишите свою проблему</p>
+                  <textarea className= "input_text" onChange={event => { setProblem(event.target.value) }}  
+           id="endTime" name="endTime" required/>
+                  <p>Выберите время</p>
                   <span>{serverErrorMessage}</span>
 
 {/* //ВЫБИРАТЬ ДАТУ ВЫПАДАЮЩИМ СПИСКОМ И ПОТОМ ОТ НЕЕ ВЫВОДИТЬ СКЕДУЛИ */}
 
                   {shedules?.map(shedule => {
                   return (
-                    <div className="service">
+                    <div className={`${chosenSheduleId == shedule.schedule_id ? "service-active" : "service"}`}>
                       <h2>{shedule.date}</h2>
                       <p>
                         {shedule.start_time}  :  {shedule.end_time}
                       </p>
+                      <button onClick={() => changeShedule(shedule.schedule_id)} >Выбрать время</button>
                     </div>
                   )
                 })}
 
               {/* вытаскиваем массив и распределяем по карточкам */}
   
-                  <button onClick={createServiceAppointment}>Записаться на услугу</button>
+                  <button onClick={createDoctorAppointment}>Записаться на услугу</button>
                 </div>
   
               </div>
@@ -917,7 +1000,7 @@ if (type == "clinicDoctor") {
     <div>
       <nav>
         <div className="nav-wrapper grey darken-1">
-          <a onClick={() => navigate("/")} className="brand-logo">Aegle2
+          <a onClick={() => navigate("/")} className="brand-logo">Aegle
           </a>
   
           <ul id="nav-mobile" className="right hide-on-med-and-down">
@@ -951,26 +1034,19 @@ if (type == "clinicDoctor") {
           {/* <div>{clinicId}</div> */}
           <div className='container-continue'>
             <div className='column-left'>
-            <div className="search-container">
+            {/* <div className="search-container">
                 <input onChange={handleChange} value={value} type="text" id="searchInput" className="search-input" placeholder="Начните вводить" />
                     <img id="searchButton" className="search-button" src="https://palantinnsk.ru/local/templates/palantinnsk/assets/search.png" alt="Search" />
-            </div>
+            </div> */}
             <br></br>
             <span>{serverErrorMessage}</span>
-              {clinic.map(clinic => <ClinicCardContinue clinicName={clinic.title} clinicId={clinic.id_policlinics} clinicAddress={clinic.address} onConfirm={changeClinic} chosenClinicId={chosenClinicId}/>)}
+              {doctors.map(doctor => <DoctorCardContinue doctorId={doctor.doctor_id} doctorName={doctor.name} doctorSpecialty={doctor.specialty} onConfirm={changeDoctor} chosenDoctorId={chosenDoctorId}/>)}
               {/* вытаскиваем массив и распределяем по карточкам */}
-            </div>
-            <div className='column-right'>
-              <div>
-                <h2 className={ "card-title" }>Продолжение записи</h2>
-                <div className={ "red-text" }>{serverErrorMessage}</div>
-                <p>Чтобы записаться на услугу, выберите больницу</p>
-                {/* <a className={ "brand-logo" } onClick={props.closeModal}>&#x2717;</a> */}
-                <div className={ "card-content" }>
-                  <div className={ "input-field" }>
-                    <label htmlFor="email">Клиника:</label>
-                    <input name="clinic" id="clinic" value={chosenClinic} disabled={true} required onChange={event => {
-                      setChosenClinic(event.target.value)
+
+              <div className={ "input-field-BIG" }>
+                    <label htmlFor="password">Врач:</label>
+                    <input disabled name="service" id="service" value={doctors[0].name} required onChange={event => {
+                      // setChosenDoctor(event.target.value)
                       // setEmail(event.target.value);
                       setServerErrorMessage("")
                     }} />
@@ -979,22 +1055,52 @@ if (type == "clinicDoctor") {
                       className={ "red-text" }
                     >
                     </span>
-  
                   </div>
-                  <div className={ "input-field" }>
-                    <label htmlFor="password">Услуга:</label>
-                    <input disabled name="service" id="service" value={title} onChange={event => { 
-  
-                      // setPass(event.target.value); setServerErrorMessage("") 
-                      }} />
+            </div>
+            
+            <div className='column-right'>
+              <div>
+                <h2 className={ "card-title" }>Продолжение записи</h2>
+                <div className={ "red-text" }>{serverErrorMessage}</div>
+                {/* <a className={ "brand-logo" } onClick={props.closeModal}>&#x2717;</a> */}
+                <div className={ "card-content" }>
+
+                  {/* <div className={ "input-field-BIG" }>
+                    <label htmlFor="email">Клиника:</label>
+                    <input name="clinic" id="clinic" value={title} disabled required onChange={event => {
+                  
+                    }} />
                     <span
   
                       className={ "red-text" }
                     >
                     </span>
-                  </div>
   
-                  <button onClick={createServiceAppointment}>Записаться на услугу</button>
+                  </div> */}
+
+                  <p>Опишите свою проблему</p>
+                  <textarea className= "input_text" onChange={event => { setProblem(event.target.value) }}  
+           id="endTime" name="endTime" required/>
+                  <p>Выберите время</p>
+                  <span>{serverErrorMessage}</span>
+
+{/* //ВЫБИРАТЬ ДАТУ ВЫПАДАЮЩИМ СПИСКОМ И ПОТОМ ОТ НЕЕ ВЫВОДИТЬ СКЕДУЛИ */}
+
+                  {shedules?.map(shedule => {
+                  return (
+                    <div className={`${chosenSheduleId == shedule.schedule_id ? "service-active" : "service"}`}>
+                      <h2>{shedule.date}</h2>
+                      <p>
+                        {shedule.start_time}  :  {shedule.end_time}
+                      </p>
+                      <button onClick={() => changeShedule(shedule.schedule_id)} >Выбрать время</button>
+                    </div>
+                  )
+                })}
+
+              {/* вытаскиваем массив и распределяем по карточкам */}
+  
+                  <button onClick={createDoctorAppointment}>Записаться на услугу</button>
                 </div>
   
               </div>
