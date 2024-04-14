@@ -71,6 +71,7 @@ type ServiceById = {
 const timeRangesInitialValue: Shedules[] = [{date: "", start_time: "", end_time: ""}, {date: "", start_time: "", end_time: ""}];
 //export const [chosenClinicItem, setChosenClinicItem] = useState(false);
 export function ContinueRegisterService() {
+  console.log("ContinueRegisterService");
   const navigate = useNavigate();
   const location = useLocation();
   const closeConfirmModal = useModal();
@@ -324,6 +325,9 @@ export function ContinueRegisterService() {
     //   email: email,
     //   password: password
     // }))
+    if (!id){
+      return
+    }
     const response = await fetch('http://localhost:5000/doctors/getSchedules/?id=' + id, {
      }) 
      
@@ -336,9 +340,13 @@ export function ContinueRegisterService() {
         //setServiceById([]);
         return;
     }
+    if (!response.ok) {
+      setServerErrorMessage("Ошибка");
+      setShedules([]);
+    }
     else{
-      setShedules(data);
-      setServerErrorMessage("")
+        setShedules(data);
+        setServerErrorMessage("")
       //setServiceById(data);
        // setTitle(data);
     }
@@ -736,6 +744,8 @@ return (
 //ПРИ ВЫБОРЕ ВРАЧА (КОГДА !!CHOSENDOCTOR) ВЫЗЫВАТЬ ФУНКЦИЮ ВЫЗОВА СКЕДУЛЕЙ 
 //ДОЛЖЕН БЫТЬ DOCTOR ID И ДОЛЖЕН БЫТЬ FALSE ТОЖЕ ЧРЕЕЗ МАП
 if (type == "clinicDoctor") {
+  // console.log("shedules");
+  // console.log(shedules);
   return (
     <div>
       <nav>
@@ -806,7 +816,7 @@ if (type == "clinicDoctor") {
                   <div className={ "input-field-BIG" }>
                     <label htmlFor="password">Врач:</label>
                     <input disabled name="service" id="service" value={chosenDoctor} required onChange={event => {
-                      setChosenDoctor(event.target.value)
+                      // setChosenDoctor(event.target.value)
                       // setEmail(event.target.value);
                       setServerErrorMessage("")
                     }} />
@@ -821,7 +831,7 @@ if (type == "clinicDoctor") {
 
 {/* //ВЫБИРАТЬ ДАТУ ВЫПАДАЮЩИМ СПИСКОМ И ПОТОМ ОТ НЕЕ ВЫВОДИТЬ СКЕДУЛИ */}
 
-                  {/* {shedules?.map(shedule => {
+                  {shedules?.map(shedule => {
                   return (
                     <div className="service">
                       <h2>{shedule.date}</h2>
@@ -830,7 +840,7 @@ if (type == "clinicDoctor") {
                       </p>
                     </div>
                   )
-                })} */}
+                })}
 
               {/* вытаскиваем массив и распределяем по карточкам */}
   

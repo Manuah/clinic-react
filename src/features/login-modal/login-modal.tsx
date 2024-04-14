@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './login-modal.module.scss'
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
-import { authStorage } from '../../authStorage';
+import { authStorage, signIn } from '../../authStorage';
 
 function getEmailError(email: string) {
   if (email == "")
@@ -63,9 +63,10 @@ export function LoginModal(props: Props) {
     }
     const data = await response.json();
     //alert(JSON.stringify(data));
-    authStorage.token = data.token;
-    authStorage.roleId = data.user.role_id;
-    authStorage.userId = data.user.user_id;
+    // authStorage.token = data.token;
+    // authStorage.roleId = data.user.role_id;
+    // authStorage.userId = data.user.user_id;
+    signIn({token: data.token, roleId: data.user.role_id, userId: data.user.user_id});
    // alert(authStorage.token);
    //alert(data.user.user_id);
    if (data.user.role_id == 1)

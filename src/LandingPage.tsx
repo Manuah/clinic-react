@@ -53,7 +53,6 @@ export function LandingPage() {
     () => {
       if (authStorage.roleId != "1" && !!authStorage.roleId){
         authStorage.token = "";
-        authStorage.userName = ""; 
         authStorage.roleId = "";
         window.location.href = "/";
         }

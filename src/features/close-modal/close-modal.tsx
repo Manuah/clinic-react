@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './close-modal.module.scss'
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
-import { authStorage } from '../../authStorage';
+import { authStorage, signOut } from '../../authStorage';
 interface Props {
   isOpen: boolean;
   closeModal: () => void;
@@ -13,9 +13,7 @@ interface Props {
 export function CloseModal(props: Props) {
   const navigate = useNavigate();
   async function logOut() {
-    authStorage.token = "";
-    authStorage.userName = ""; 
-    authStorage.roleId = "";
+    signOut()
     window.location.href = "/";
     props.closeModal();
   }

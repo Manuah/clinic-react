@@ -8,7 +8,9 @@ type Props = {
     chosenDoctorId: string
     onConfirm: (id:string, name: string) => void;
 }
+let n = 1;
 export function DoctorCardContinue(props: Props) {
+    console.log("DoctorCardContinue", n++);
     const navigate = useNavigate();
     const outletContext = useOutletContext<{openLoginModal: (pathToRedirect: string) => void}>();
     ///doctorImage
