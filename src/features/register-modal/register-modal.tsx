@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './register-modal.module.scss';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
-import { authStorage } from '../../authStorage';
+import { authStorage, signIn } from '../../authStorage';
 import { useDirty } from '../../hooks/useDirty';
 import { BlobOptions } from 'buffer';
 
@@ -134,15 +134,15 @@ export function RegisterModal(props: Props) {
         setServerErrorMessage("Ошибка данных");
         return;
       }
-      const data = await response.json();
-      alert(JSON.stringify(data));
-      authStorage.token = data.token;
-      authStorage.roleId = data.user.role_id;
-       alert(authStorage.token);
-      alert(data.user.name);
-      navigate(props.pathToRedirect);
-
-     
+      if (response.ok) 
+        {
+          const data = await response.json();
+          alert("Регистрация прошла успешно!");
+          signIn({token: data.token, roleId: data.user.role_id, userId: data.user.user_id});
+           //alert(authStorage.token);
+          //alert(data.user.name);
+          navigate(props.pathToRedirect);
+        }
       //navigate(props.pathToRedirect);
 
       props.closeModal();

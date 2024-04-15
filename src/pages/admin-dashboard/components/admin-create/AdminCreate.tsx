@@ -54,8 +54,11 @@ export function AdminCreate() {
         setServerErrorMessage("Ошибка данных");
         return;
       }
-      const data = await response.json();
-      alert(JSON.stringify(data));
+      if (response.ok) {
+        const data = await response.json();
+        alert("Админ создан успешно!");
+      }
+
       // надо еще очистить все поля 
     }
 

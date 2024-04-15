@@ -113,10 +113,13 @@ export function ClinicEdit() {
         setServerErrorMessage("Ошибка данных");
         return;
       }
-      fetchDoctors()
-      const data = await response.json();
-      alert(JSON.stringify(data));
-      //очистить все поля 
+      if (response.ok) {
+        fetchDoctors()
+        const data = await response.json();
+        alert("Данные успешно обновлены!");
+        //очистить все поля 
+      }
+     
 
     }
   
@@ -179,10 +182,14 @@ export function ClinicEdit() {
       setServerErrorMessage("Ошибка данных");
       return;
     }
-    fetchDoctors();
-    const data = await response.json();
-    alert(JSON.stringify(data));
-    // надо еще очистить все поля 
+
+    if (response.ok) {
+      fetchDoctors();
+      const data = await response.json();
+      alert("Фото успешно обновлено!");
+      // надо еще очистить все поля 
+    }
+  
     
   }
 

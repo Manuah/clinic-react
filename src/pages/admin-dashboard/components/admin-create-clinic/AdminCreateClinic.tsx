@@ -86,6 +86,9 @@ export function AdminCreateClinic() {
         }),
       })
 
+      if (response.ok) {
+        alert("Поликлиника успешно добавлена!");
+      }
 
       if (response.status == 401) {
         setServerErrorMessage("Ошибка данных");

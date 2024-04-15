@@ -167,12 +167,14 @@ async function addDoctorfromExcel(doctors: Array<ExcelDoctor>) {
         setServerErrorMessage("Ошибка данных");
         return;
       }
-      const data = await response.json();
-      //alert(JSON.stringify(data));
-      alert("Данные успешно загружены");
-      navigate("/myclinic/doctor")
-      // надо еще очистить все поля 
-      
+      if (response.ok) 
+        {
+          const data = await response.json();
+          //alert(JSON.stringify(data));
+          alert("Данные успешно загружены");
+          navigate("/myclinic/doctor")
+          // надо еще очистить все поля 
+        }
     }
     return (
 <div>

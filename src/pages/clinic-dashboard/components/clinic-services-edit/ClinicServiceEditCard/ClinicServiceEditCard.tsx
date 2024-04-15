@@ -40,7 +40,7 @@ export function ClinicServiceEditCard(props: Props) {
 
 
   async function deleteService() {
-    alert()
+    //alert()
     const response = await fetch('http://localhost:5000/clinic/deleteService', {
       method: 'DELETE',
       headers: {

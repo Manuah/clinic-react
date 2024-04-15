@@ -102,17 +102,15 @@ const navigate = useNavigate();
       }),
     })
 
-    alert(response);
-    if (response.status == 401) {
+    //alert(response);
+    //alert(JSON.stringify(data));
+    alert("Блог успешно создан!")
+
+    if (!response.ok) {
       setServerErrorMessage("Ошибка данных");
       return;
     }
-    const data = await response.json();
-    alert(JSON.stringify(data));
-    if (response.status == 201) {
-      alert("блог успешно создан")
-      return;
-    }
+
 
   }
 
@@ -146,9 +144,11 @@ const navigate = useNavigate();
       setServerErrorMessage("Ошибка данных");
       return;
     }
-    const data = await response.json();
-    alert(JSON.stringify(data));
-    //очистить все поля 
+    if (response.ok) {
+      const data = await response.json();
+      alert("Данные успешно изменены!");
+      //очистить все поля 
+    }
 
   }
 
@@ -209,10 +209,14 @@ const navigate = useNavigate();
       setServerErrorMessage("Ошибка данных");
       return;
     }
-    fetchClinic();
-    const data = await response.json();
-    alert(JSON.stringify(data));
-    // надо еще очистить все поля 
+    if (response.ok)
+       {
+        fetchClinic();
+        const data = await response.json();
+        alert("Изображение успешно изменено!");
+        // надо еще очистить все поля 
+       }
+
     
   }
 

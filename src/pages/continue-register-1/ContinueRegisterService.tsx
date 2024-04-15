@@ -346,6 +346,7 @@ export function ContinueRegisterService() {
     }
     if (response.ok) {
       setDoctors(data); 
+      setDoctorName(data[0].name)
       //setServiceById(data);
        // setTitle(data);
     }
@@ -1045,7 +1046,7 @@ if (type == "clinicDoctor") {
 
               <div className={ "input-field-BIG" }>
                     <label htmlFor="password">Врач:</label>
-                    <input disabled name="service" id="service" value={doctors[0].name} required onChange={event => {
+                    <input disabled name="service" id="service" value={doctorName} required onChange={event => {
                       // setChosenDoctor(event.target.value)
                       // setEmail(event.target.value);
                       setServerErrorMessage("")

@@ -142,16 +142,16 @@ export function ClinicServicesEdit() {
         servicesToAdd: servicesToAdd
       }),
     })
-    fetchServices(); 
-    alert(response);
+      //const data = await response.json();
+      alert("Успешно добавлены услуги!");
+      fetchServices(); 
+   // alert(response);
     if (response.status == 401) {
       setServerErrorMessage("Ошибка данных");
       return;
     }
-    const data = await response.json();
-    alert(JSON.stringify(data));
-    
-  
+
+
   }
 
     return (
