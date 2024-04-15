@@ -6,6 +6,8 @@ import { Route, RouterProvider, Routes, createBrowserRouter } from 'react-router
 import { LandingPage } from './LandingPage';
 import { DoctorsPage } from './pages/doctors-page/DoctorsPage';
 import { ServicesPage } from './pages/services-page/ServicesPage';
+import { PatientPage } from './pages/patient-page/PatientPage';
+
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
@@ -32,7 +34,7 @@ function Root() {
 
 
       <Route path="/about/*" element={<div>About</div>} />
-      <Route path = "/patient" element = {<div> Patient</div>}/>
+      <Route path = "/patient" element = {<PatientPage/>}/>
     </Routes>
   );
 }
