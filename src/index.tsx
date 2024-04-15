@@ -28,7 +28,11 @@ function Root() {
         <Route path="/doctors" element={<DoctorsPage/>} />
         <Route path="/services" element={<ServicesPage/>} />
       </Route>
+
+
+
       <Route path="/about/*" element={<div>About</div>} />
+      <Route path = "/patient" element = {<div> Patient</div>}/>
     </Routes>
   );
 }
