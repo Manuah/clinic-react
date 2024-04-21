@@ -61,6 +61,7 @@ function Root() {
         <Route path="clinics" element={<AdminClinics/>} />
         <Route path="cliniccreate" element={<AdminCreateClinic/>} />
       </Route>
+      
     {/* ЛК КЛИНИКИ*/}
       <Route path="/myclinic" element={<ClinicPage/>}>
         <Route index element={<ClinicLandingEdit/>} />

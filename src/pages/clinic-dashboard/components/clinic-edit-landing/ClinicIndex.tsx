@@ -45,6 +45,9 @@ const navigate = useNavigate();
   //const [clinic, setClinic] = useState<null>(null)
   //const navigate = useNavigate();
 
+  // const [имя переменной, set имя переменной] = useState(деволтное значение);
+  //setName("привет") => name == "привет"
+
   const [name, setName, isNameDirty] = useDirty("");
   const [address, setAddress, isAddressDirty] = useDirty("");
   const [phone, setPhone, isPhoneDirty] = useDirty("");
