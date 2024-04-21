@@ -477,8 +477,9 @@ export function ContinueRegisterService() {
           },
           body: JSON.stringify({
             patient_id: authStorage.userId,
-            policlinic_id: chosenClinicId,
-            service_id: id
+            policlinic_id: id,
+            service_id: chosenServiceId, 
+            id_time: chosenTimeId
           }),
         })
         if (response.status == 401) {
@@ -807,6 +808,23 @@ return (
                   >
                   </span>
                 </div>
+
+                <p>Выберите время</p>
+                  <span>{serverErrorMessage}</span>
+
+{/* //ВЫБИРАТЬ ДАТУ ВЫПАДАЮЩИМ СПИСКОМ И ПОТОМ ОТ НЕЕ ВЫВОДИТЬ СКЕДУЛИ */}
+
+                  {appTimes?.map(appTime => {
+                    console.log(appTime.start_time)
+                  return (
+                    <div className={`${chosenTimeId == appTime.id_time ? "service-active" : "service"}`}>
+                      <h2>
+                        {appTime.start_time}  :  {appTime.end_time}
+                      </h2>
+                      <button onClick={() => changeAppTimeService(appTime.id_time)} >Выбрать время</button>
+                    </div>
+                  )
+                })}
 
                 <button onClick={createServiceAppointment}>Записаться на услугу</button>
               </div>
