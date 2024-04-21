@@ -58,6 +58,13 @@ type Doctors = {
   name: string, 
   specialty: string
 }  
+
+type AppTimes = {
+  id_time: string,
+  start_time: string, 
+  end_time: string
+}  
+
 type Shedules = {
   schedule_id: string,
   date: string, 
@@ -97,6 +104,8 @@ export function ContinueRegisterService() {
   const [chosenDoctorId, setChosenDoctorId] = useState<string | undefined>("");
 
   const [chosenSheduleId, setChosenSheduleId] = useState("");
+
+  const [chosenTimeId, setChosenTimeId] = useState("");
 
 
   // const [address, setAddress, isAddressDirty] = useDirty("");
@@ -194,16 +203,17 @@ export function ContinueRegisterService() {
   const [doctors, setDoctors] = useState<Doctors[]>([])
   const [shedules, setShedules] = useState<Shedules[]>([])
   const [value, setValue] = useState<string>('')
+  const [appTimes, setAppTimes] = useState<AppTimes[]>([])
 
   const [problem, setProblem] = useState<string>('')
   const debouncedValue = useDebounce<string>(value, 500) //для задержки при вводе фильтра
 
   async function render(debouncedValue: string) {
   if (type == "service"){
-    fetchClinicForRegister(debouncedValue); fetchServiceById(); 
+    fetchClinicForRegister(debouncedValue); fetchServiceById(); getTimesService()
     }
   if (type == "clinicService"){
-    fetchServiceForRegister(debouncedValue); fetchClinicById();
+    fetchServiceForRegister(debouncedValue); fetchClinicById(); getTimesService()
     }
   if (type == "clinicDoctor"){
     fetchDoctorForRegister(debouncedValue); fetchClinicById();
@@ -400,6 +410,11 @@ export function ContinueRegisterService() {
     setChosenSheduleId(id);
     }
 
+    async function changeAppTimeService(id:string) {
+      console.log("changeAppTimeService", id);
+      setChosenTimeId(id);
+      }
+
   async function changeService(id:string, name:string) {
     setChosenService(name);
     setChosenServiceId(id);
@@ -437,7 +452,8 @@ export function ContinueRegisterService() {
           body: JSON.stringify({
             patient_id: authStorage.userId,
             policlinic_id: chosenClinicId,
-            service_id: id
+            service_id: id, 
+            id_time: chosenTimeId
           }),
         })
 
@@ -514,6 +530,32 @@ export function ContinueRegisterService() {
             // надо еще очистить все поля 
           }
       
+  }
+
+  // getTimesService
+  async function getTimesService() {
+    // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
+    //   email: email,
+    //   password: password
+    // }))
+    const response = await fetch('http://localhost:5000/service/getTimesService', {
+     }) 
+     
+    const data = await response.json();
+    //alert(JSON.stringify(data));
+    if (response.status == 404)
+    {
+        setServerErrorMessage("Расписание не найдено");
+        setAppTimes([])
+        //setServiceById([]);
+        return;
+    }
+    if (response.ok) {
+      setAppTimes(data); 
+      console.log(appTimes);
+      //setServiceById(data);
+       // setTitle(data);
+    }
   }
 
 
@@ -598,10 +640,25 @@ if (type == "service") {
                     >
                     </span>
                   </div>
+                  <p>Выберите время</p>
+                  <span>{serverErrorMessage}</span>
+
+{/* //ВЫБИРАТЬ ДАТУ ВЫПАДАЮЩИМ СПИСКОМ И ПОТОМ ОТ НЕЕ ВЫВОДИТЬ СКЕДУЛИ */}
+
+                  {appTimes?.map(appTime => {
+                    console.log(appTime.start_time)
+                  return (
+                    <div className={`${chosenTimeId == appTime.id_time ? "service-active" : "service"}`}>
+                      <h2>
+                        {appTime.start_time}  :  {appTime.end_time}
+                      </h2>
+                      <button onClick={() => changeAppTimeService(appTime.id_time)} >Выбрать время</button>
+                    </div>
+                  )
+                })}
 
                   <button onClick={createServiceAppointment}>Записаться на услугу</button>
-                </div>
-
+                </div> 
               </div>
             </div>
           </div>
