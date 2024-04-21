@@ -23,6 +23,7 @@ import { DoctorsSchedule } from './pages/doctor-dashboard/components/doctor-shed
 import { ClinicServices } from './pages/clinic-dashboard/components/clinic-services/ClinicServices';
 import { ClinicServicesEdit } from './pages/clinic-dashboard/components/clinic-services-edit/ClinicServicesEdit';
 import { ContinueRegisterService } from './pages/continue-register-1/ContinueRegisterService';
+import { DoctorPatient } from './pages/doctor-dashboard/components/doctor-patients/DoctorPatient';
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
@@ -75,6 +76,7 @@ function Root() {
      <Route path="/mydoctor" element={<DoctorPage/>}>
          <Route index element={<DoctorPage/>} />
         <Route path="schedule" element={<DoctorsSchedule/>} />
+        <Route path="medinfo/:patientId" element={<DoctorPatient/>} />
         {/* <Route path="patients" element={<DoctorsSchedule/>} /> */}
         {/* <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
         <Route path="edit/:doctorId" element={<ClinicEdit/>} /> */}

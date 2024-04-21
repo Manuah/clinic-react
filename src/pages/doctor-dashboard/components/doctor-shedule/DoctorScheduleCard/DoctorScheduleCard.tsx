@@ -71,7 +71,7 @@ export function DoctorScheduleCard(props: Props) {
           <p><strong>Пациент:</strong> {props.patient_name} </p>
           <p><strong>Телефон:</strong> {props.patient_phone} </p>
           <p><strong>Проблема:</strong> {props.problem_description} </p>
-          <button className="btn">
+          <button onClick={() => navigate("/mydoctor/medinfo/" + props.patient_id)} className="btn">
             Просмотреть мед. карту
           </button>
         </div>

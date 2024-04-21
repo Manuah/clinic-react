@@ -2,6 +2,7 @@ import { useDebounce } from '../../../../hooks/useDebounce';
 import './DoctorSchedule.scss';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { DoctorScheduleCard } from './DoctorScheduleCard/DoctorScheduleCard';
+import { authStorage } from '../../../../authStorage';
 // import { useDebounce } from '../../hooks/useDebounce';
  interface Schedule {
     schedule_id: number, 
@@ -12,8 +13,10 @@ import { DoctorScheduleCard } from './DoctorScheduleCard/DoctorScheduleCard';
     patient_name: string,
     patient_phone: string
   }
+
 export function DoctorsSchedule() {
     const [schedules, setSchedules] = useState<Schedule[]>([])
+
     // const [value, setValue] = useState<string>('')
     // const debouncedValue = useDebounce<string>(value, 500) //для задержки при вводе фильтра
     const [serverErrorMessage, setServerErrorMessage] = useState("");
@@ -21,12 +24,12 @@ export function DoctorsSchedule() {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setServerErrorMessage("")
   }
-    async function fetchSchedules(filter = '') {
+    async function fetchSchedules() {
         // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
         //   email: email,
         //   password: password
         // }))
-        const response = await fetch('http://localhost:5000/doctors/?filter=' + filter, {
+        const response = await fetch('http://localhost:5000/doctors/getSchedulesByUser?id=' + authStorage.userId + "&isBooked=" + true, {
          }) 
          
         const data = await response.json();
@@ -42,6 +45,8 @@ export function DoctorsSchedule() {
             setServerErrorMessage("");
         }
       }
+
+      
       
       useEffect(() => {
        // alert(debouncedValue)

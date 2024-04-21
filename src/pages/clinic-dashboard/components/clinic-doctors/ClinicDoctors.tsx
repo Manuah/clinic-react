@@ -3,6 +3,7 @@ import './ClinicDoctor.scss';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { ClinicDoctorCard } from './ClinicDoctorCard/ClinicDoctorCard';
 import { authStorage } from '../../../../authStorage';
+import * as xlsx from 'xlsx';
 // import { useDebounce } from '../../hooks/useDebounce';
 type Doctor = {
     doctor_id: string;
@@ -44,6 +45,13 @@ export function ClinicDoctors() {
     }
   }
 
+  async function exportDoctors () {
+    const worksheet = xlsx.utils.json_to_sheet(doctors);
+    const workbook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(workbook, worksheet, "Doctors");
+    xlsx.writeFile(workbook, "Doctors.xlsx");
+  }
+
     // async function fetchDoctorsClinic(filter = authStorage.userId) {
     //     alert(filter)
     //     // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
@@ -74,6 +82,7 @@ export function ClinicDoctors() {
     return (
             <div className="doctors-container">
             <h2>Список Врачей</h2>
+            <button onClick={exportDoctors}>Скачать список</button>
             {/* <div className="search-container">
                 <input onChange={handleChange} value={value} type="text" id="searchInput" className="search-input" placeholder="Начните вводить" />
                     <img id="searchButton" className="search-button" src="https://palantinnsk.ru/local/templates/palantinnsk/assets/search.png" alt="Search" />
