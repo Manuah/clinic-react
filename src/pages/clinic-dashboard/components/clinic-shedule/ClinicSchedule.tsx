@@ -111,7 +111,7 @@ export function ClinicSchedule() {
         }),
       })
       //const data = await response.json();
-      alert("ЛМАО скедули созданы успешно");
+      alert("Расписание создано успешно");
       //alert(response);
       if (response.status == 401) {
         setServerErrorMessage("Ошибка данных");
