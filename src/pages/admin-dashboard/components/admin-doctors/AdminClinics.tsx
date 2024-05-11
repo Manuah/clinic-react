@@ -8,6 +8,7 @@ type Clinics = {
     title: string
     address: string
     phone: string
+    banned: boolean
 }
 export function AdminClinics() {
     const [clinics, setClinics] = useState<Clinics[]>([])
@@ -55,7 +56,7 @@ export function AdminClinics() {
             <br></br>
             <span className="errormes">{serverErrorMessage}</span>
             <div className="card-container">
-            {clinics.map(clinics => <AdminClinicCard clinic_id={clinics.id_policlinics} clinic_title={clinics.title} clinic_address={clinics.address}  clinic_phone={clinics.phone} refreshList={fetchDoctors}/>)} 
+            {clinics.map(clinics => <AdminClinicCard banned={clinics.banned} clinic_id={clinics.id_policlinics} clinic_title={clinics.title} clinic_address={clinics.address} clinic_phone={clinics.phone} refreshList={fetchDoctors}/>)} 
             {/* вытаскиваем массив и распределяем по карточкам */}
             </div>
            

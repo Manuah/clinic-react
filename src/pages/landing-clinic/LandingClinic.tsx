@@ -250,45 +250,6 @@ export function LandingClinic() {
             </div>
           </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-          {/* <div>  {authStorage.token}</div>
-          <h1>Welcome to Aegle Polyclinic</h1>
-          <p>Ваш надежный партнер в сфере здравоохранения</p>
-          <div>
-            {authStorage.token == "" ?
-              <div></div> :
-              <div>
-                <p>Вы вошли в систему!</p>
-                <a className='lka' onClick={() => navigate("/myadmin")}>&gt;&gt;&gt;В ЛИЧНЫЙ КАБИНЕТ&lt;&lt;&lt;</a>
-              </div>}
-          </div>
-          {/*пока что временная вещь, здесь только будет переход на лк пациента
-          
-        <img myadmin myclinic
-            className="clinic-image"
-            src="http://klublady.ru/uploads/posts/2022-07/thumbs/1658582446_18-klublady-ru-p-posokh-asklepiya-tatu-eskiz-foto-18.jpg"
-            alt="Clinic Image"
-          /> 
-          <div className="search-tabs">
-            <button className={`tab ${location.pathname == "/clinics" ? "active" : ""}`}
-              onClick={() => { navigate("/clinics") }}>По поликлиникам</button>
-            <button className={`tab ${location.pathname == "/doctors" ? "active" : ""}`} onClick={() => { navigate("/doctors") }}>По врачам</button>
-            <button className={`tab ${location.pathname == "/services" ? "active" : ""}`} onClick={() => { navigate("/services") }}>По услугам</button>
-          </div> */}
-  
-
-          {/* <Outlet context={{ openLoginModal: loginModal.openModal }} /> */}
           <div>
             <LoginModal isOpen={loginModal.isOpen} closeModal={loginModal.closeModal}
               pathToRedirect={loginModal.pathToRedirect} openRegister={openRegister} />
