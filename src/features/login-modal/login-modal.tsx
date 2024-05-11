@@ -21,7 +21,7 @@ function getPassError(password: string) {
 interface Props {
   isOpen: boolean;
   closeModal: () => void;
-  pathToRedirect : string;
+  pathToRedirect: string;
   openRegister: () => void;
 }
 export function LoginModal(props: Props) {
@@ -35,10 +35,24 @@ export function LoginModal(props: Props) {
   const emailErrorMessage = isButtonClicked ? emailError : null;
   const passErrorMessage = isButtonClicked ? passError : null;
   const [serverErrorMessage, setServerErrorMessage] = useState("");
+  const [checkBan, setcheckBan] = useState(false);
+
+
+  // async function checkBanUser(user_id: string) {
+  //   const response = await fetch('http://localhost:5000/auth/checkBanUser/?id=' + user_id, {
+  //     method: 'GET',
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     }
+  //   })
+  //   const data = await response.json();
+  //   setcheckBan(data)
+  // }
+
 
   async function logIn() {
     setisButtonClicked(true);
-    if (emailError||passError){
+    if (emailError || passError) {
       return;
     }
     // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
@@ -46,18 +60,17 @@ export function LoginModal(props: Props) {
     //   password: password
     // }))
     const response = await fetch('http://localhost:5000/auth/login', {
-       method: 'POST',
-       headers: {
-         "Content-Type": "application/json",
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
       },
-       body: JSON.stringify({
-         email: email,
-         password: password
-       }),
-     }) 
-     
-    if (response.status == 401)
-    {
+      body: JSON.stringify({
+        email: email,
+        password: password
+      }),
+    })
+
+    if (!response.ok) {
       setServerErrorMessage("Ошибка данных");
       return;
     }
@@ -66,31 +79,34 @@ export function LoginModal(props: Props) {
     // authStorage.token = data.token;
     // authStorage.roleId = data.user.role_id;
     // authStorage.userId = data.user.user_id;
-    signIn({token: data.token, roleId: data.user.role_id, userId: data.user.user_id});
-   // alert(authStorage.token);
-   //alert(data.user.user_id);
-   if (data.user.role_id == 1)
-   {
-    navigate(props.pathToRedirect);
-   }
-   else if (data.user.role_id == 2)
-   {
-    navigate("/mydoctor");
-   }
-   else if (data.user.role_id == 3)
-   {
-    navigate("/myclinic");
-   }
-   else if (data.user.role_id == 4)
-   {
-    navigate("/myadmin");
-   }
+   // checkBanUser(data.user.user_id);
 
-   //navigate(props.pathToRedirect);
-    
-     props.closeModal();
+    if (!data.user.banned) {
+      signIn({ token: data.token, roleId: data.user.role_id, userId: data.user.user_id });
+      // alert(authStorage.token);
+      //alert(data.user.user_id);
+      if (data.user.role_id == 1) {
+        navigate(props.pathToRedirect);
+      }
+      else if (data.user.role_id == 2) {
+        navigate("/mydoctor");
+      }
+      else if (data.user.role_id == 3) {
+          navigate("/myclinic");
+      }
+      else if (data.user.role_id == 4) {
+        navigate("/myadmin");
+      }
+    }
+    else { alert("Ваш аккаунт был заблокирован. Свяжитесь с администраором для дальней ших указаний") }
+
+
+
+    //navigate(props.pathToRedirect);
+
+    props.closeModal();
   }
-  
+
   return (
     <Modal isOpen={props.isOpen}>
       <div>Hello</div>
@@ -98,10 +114,10 @@ export function LoginModal(props: Props) {
         <div className={styles.card}>
           <span className={styles["card-title"]}>Войти в систему</span>
           <span
-                className={styles["red-text"]}
-              >
-                {serverErrorMessage}
-              </span>
+            className={styles["red-text"]}
+          >
+            {serverErrorMessage}
+          </span>
           <div className={styles["red-text"]}></div>
 
           <a className={styles["brand-logo"]} onClick={props.closeModal}>&#x2717;</a>
@@ -109,9 +125,11 @@ export function LoginModal(props: Props) {
           <div className={styles["card-content"]}>
             <div className={styles["input-field"]}>
               <label htmlFor="email">Email:</label>
-              <input value={email} onChange={event => { setEmail(event.target.value); 
-              setServerErrorMessage("")}} 
-              name="email" id="email" type="email" required />
+              <input value={email} onChange={event => {
+                setEmail(event.target.value);
+                setServerErrorMessage("")
+              }}
+                name="email" id="email" type="email" required />
               <span
                 className={styles["red-text"]}
               >
@@ -120,8 +138,8 @@ export function LoginModal(props: Props) {
             </div>
             <div className={styles["input-field"]}>
               <label htmlFor="password">Пароль:</label>
-              <input value={password} onChange={event => {setPass(event.target.value); setServerErrorMessage("")}} 
-              name="password" id="password" type="password" />
+              <input value={password} onChange={event => { setPass(event.target.value); setServerErrorMessage("") }}
+                name="password" id="password" type="password" />
               <span
                 className={styles["red-text"]}
               >
@@ -130,12 +148,12 @@ export function LoginModal(props: Props) {
             </div>
           </div>
           <div className={styles["card-action"]}>
-            
+
             <button
               onClick={logIn}
               // disabled={!!emailError||!!passError}
               type="submit"
-              // className="modal-action btn waves-effect"
+            // className="modal-action btn waves-effect"
             >
               Войти
             </button>
