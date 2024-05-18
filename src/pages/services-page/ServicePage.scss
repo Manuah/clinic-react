@@ -6,12 +6,20 @@
  .card-container{
     width: 100%;
     margin: 20px;
+    max-height: 500px;
     //background-color: #ccc;
    // padding: 10px;
     border-radius: 10px;
    // padding-top: 30px;
    // padding-bottom: 30px;
+   overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
  }
+
+ .card-container::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
  .search-container {
     width: 80%;
     margin: 0 auto;
