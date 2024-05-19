@@ -31,6 +31,7 @@ import { PatientScheduleService } from './pages/patient-dashboard/components/pat
 import { PatientHistory } from './pages/patient-dashboard/components/patient-history/PatientHistory';
 import { PatientHistoryDoctor } from './pages/patient-dashboard/components/patient-history/PatientHistoryDoctor/PatientHistoryDoctor';
 import { PatientHistoryService } from './pages/patient-dashboard/components/patient-history/PatientHistoryService/PatientHistoryService';
+import { PatientIndex } from './pages/patient-dashboard/components/patient-info/PatientIndex';
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
@@ -92,7 +93,7 @@ function Root() {
 
       {/* ЛК ПАЦИЕНТА*/}
      <Route path="/my" element={<PatientPage/>}>
-        <Route index element={<PatientPage/>} />
+        <Route index element={<PatientIndex/>} />
         <Route path="schedule" element={<PatientSchedule/>}>
           <Route path="doctors" element={<PatientScheduleDoctor/>}/>
           <Route path="services" element={<PatientScheduleService/>}/>

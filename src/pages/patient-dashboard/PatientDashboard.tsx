@@ -11,7 +11,7 @@ export function PatientPage() {
     return(
         <div> 
 <div className="sidebar">
-<h2>ЛИЧНЫЙ КАБИНЕТ</h2>
+<h2 onClick={() => { navigate("/my") }}>ЛИЧНЫЙ КАБИНЕТ</h2>
   <a className= {`${location.pathname == "/my/schedule" ? "sidebar-active" : ""}`} onClick={() => { navigate("/my/schedule") }}>Запланированные приемы</a>
   {/* <a className= {`${location.pathname == "/myadmin/cliniccreate" ? "sidebar-active" : ""}`} onClick={() => { navigate("/myadmin/cliniccreate") }}>Мои отзывы</a> */}
   {/* <a  onClick={() => { navigate("/clinics") }}>Расписание</a> */}
