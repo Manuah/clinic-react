@@ -134,6 +134,7 @@ const navigate = useNavigate();
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         id_policlinic: authStorage.userId,
         name: name,

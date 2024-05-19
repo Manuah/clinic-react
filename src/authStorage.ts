@@ -25,5 +25,9 @@ export const signOut = () => {
     localStorage.removeItem("token")
     localStorage.removeItem("roleId")
     localStorage.removeItem("userId")
+    eraseCookie("jwt")
+}
+function eraseCookie(name: string) {   
+    document.cookie = name + '=; Max-Age=0; domain=localhost; path=/';
 }
 

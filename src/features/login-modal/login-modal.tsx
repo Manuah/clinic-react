@@ -64,6 +64,7 @@ export function LoginModal(props: Props) {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         email: email,
         password: password
@@ -99,8 +100,6 @@ export function LoginModal(props: Props) {
       }
     }
     else { alert("Ваш аккаунт был заблокирован. Свяжитесь с администраором для дальней ших указаний") }
-
-
 
     //navigate(props.pathToRedirect);
 
