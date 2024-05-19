@@ -1,5 +1,5 @@
 import { useDebounce } from '../../../../hooks/useDebounce';
-import './PatientSchedule.scss';
+import './PatientHistory.scss';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { authStorage } from '../../../../authStorage';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
@@ -12,7 +12,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
     doctor_name: string,
   }
 
-export function PatientSchedule() {
+export function PatientHistory() {
    const navigate = useNavigate();
    const location = useLocation();
     const [schedules, setSchedules] = useState<Schedule[]>([])
@@ -24,13 +24,13 @@ export function PatientSchedule() {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setServerErrorMessage("")
   }
+
     return (
             <div className="doctors-container">
-            <h2>Запланированные приемы</h2>
-            <button onClick={() => navigate("/my/history")}>История приемов</button>
+            <h2>История приемов</h2>
             <div className="search-tabs">
-            <button className={`tab ${location.pathname == "/my/schedule/doctors" ? "active" : ""}`} onClick={() => { navigate("/my/schedule/doctors") }}>По врачам</button>
-            <button className={`tab ${location.pathname == "/my/schedule/services" ? "active" : ""}`} onClick={() => { navigate("/my/schedule/services") }}>По услугам</button>
+            <button className={`tab ${location.pathname == "/my/history/doctors" ? "active" : ""}`} onClick={() => { navigate("/my/history/doctors") }}>По врачам</button>
+            <button className={`tab ${location.pathname == "/my/history/services" ? "active" : ""}`} onClick={() => { navigate("/my/history/services") }}>По услугам</button>
           </div>
           <Outlet/>
         </div>
