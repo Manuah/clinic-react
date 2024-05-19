@@ -24,6 +24,9 @@ import { ClinicServices } from './pages/clinic-dashboard/components/clinic-servi
 import { ClinicServicesEdit } from './pages/clinic-dashboard/components/clinic-services-edit/ClinicServicesEdit';
 import { ContinueRegisterService } from './pages/continue-register-1/ContinueRegisterService';
 import { DoctorPatient } from './pages/doctor-dashboard/components/doctor-patients/DoctorPatient';
+import { PatientPage } from './pages/patient-dashboard/PatientDashboard';
+import { PatientSchedule } from './pages/patient-dashboard/components/patient-shedule/PatientSchedule';
+import { PatientScheduleDoctor } from './pages/patient-dashboard/components/patient-shedule/PatientScheduleDoctor/PatientScheduleDoctor';
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
@@ -84,10 +87,15 @@ function Root() {
       </Route>
 
       {/* ЛК ПАЦИЕНТА*/}
-     <Route path="/mydoctor" element={<ClinicPage/>}>
-        <Route index element={<ClinicPage/>} />
-        <Route path="schedule" element={<ClinicDoctors/>} />
-        <Route path="patients" element={<ClinicCreate/>} />
+     <Route path="/my" element={<PatientPage/>}>
+        <Route index element={<PatientPage/>} />
+        <Route path="schedule" element={<PatientSchedule/>}>
+          <Route path="doctors" element={<PatientScheduleDoctor/>}/>
+          <Route path="services" element={<PatientSchedule/>}/>
+        </Route>
+        <Route path="history" element={<ClinicDoctors/>} />
+        <Route path="personalinfo" element={<ClinicCreate/>} />
+        <Route path="personalinfoedit" element={<ClinicCreate/>} />
         {/* <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
         <Route path="edit/:doctorId" element={<ClinicEdit/>} /> */}
       </Route>
