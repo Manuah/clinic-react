@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDirty } from "../../../../hooks/useDirty";
-import { authStorage } from "../../../../authStorage";
+import { authStorage, signOut } from "../../../../authStorage";
 import { UploadAndDisplayImage } from "../../../../components/UploadAndDisplayImage";
 import styles from './PatientIndex.module.scss';
 function getEmailError(email: string) {
@@ -141,34 +141,41 @@ export function PatientIndex() {
   // }
 
 
-  async function editClinic() {
+  async function editPersonalInfo() {
     setisButtonClicked(true);
-    if (nameErrorMessage || addressErrorMessage || phoneErrorMessage) {
+    if (famErrorMessage || nameErrorMessage || otchErrorMessage || phoneErrorMessage || birthErrorMessage || addressErrorMessage || SNILSErrorMessage) {
       return;
     }
-    if (!name || !address || !phone) {
+    if (!fam || !name|| !otch) {
+      alert("не заполнены поля")
       return;
     }
     // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
     //   email: email,
     //   password: password
     // }))
-    const response = await fetch('http://localhost:5000/clinic/editClinic', {
+    const response = await fetch('http://localhost:5000/patient/editPersonalInfo', {
       method: 'PUT',
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
       body: JSON.stringify({
-        id_policlinic: authStorage.userId,
+        id_patient: authStorage.userId,
+        fam: fam,
         name: name,
-        address: address,
+        otch: otch,
+        birth: birth,
         phone: phone,
+        address: address,
+        SNILS: SNILS
       }),
     })
 
     if (response.status == 401) {
-      setServerErrorMessage("Ошибка данных");
+      alert("Сессия закончилась, обновите");
+      signOut();
+      window.location.href = "/";
       return;
     }
     if (response.ok) {
@@ -229,31 +236,6 @@ export function PatientIndex() {
           <h3 className="card-title">Редактировать профиль</h3>
 
           <div className={styles["card-content"]}>
-            <div className={styles["input-field"]}>
-              <label htmlFor="email">Email: <span className={styles["red-text"]}>*</span></label>
-              <input name="email" id="email" type="email" value={email} required onChange={event => {
-                setEmail(event.target.value);
-                setServerErrorMessage("")
-              }} />
-              <span
-
-                className={styles["red-text"]}
-              >
-                {emailErrorMessage}
-              </span>
-
-            </div>
-            <div className={styles["input-field"]}>
-              <label htmlFor="password">Пароль: <span className={styles["red-text"]}>*</span></label>
-              <input name="password" id="password" type="password" value={password}  onChange={event => { setPass(event.target.value); setServerErrorMessage("") }} />
-              <span
-
-                className={styles["red-text"]}
-              >
-                {passErrorMessage}
-              </span>
-            </div>
-
             <div className={styles["input-field"]}>
               <label htmlFor="lastName">Ваша фамилия: <span className={styles["red-text"]}>*</span></label>
               <input
@@ -370,8 +352,8 @@ export function PatientIndex() {
               </span>
             </div>
             <div className={styles["card-action"]}>
-              <button className={styles["modal-action btn waves-effect"]}>
-                Создать
+              <button onClick={editPersonalInfo} className={styles["modal-action btn waves-effect"]}>
+                Сохранить изменения
               </button>
             </div>
           </div>
