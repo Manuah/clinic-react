@@ -20,12 +20,12 @@ export function AdminClinics() {
     setValue(event.target.value)
     setServerErrorMessage("")
   }
-    async function fetchDoctors(filter = '') {
+    async function fetchClinics(filter = '') {
         // const response = await request.post('http://localhost:5000/auth/login').send(JSON.stringify({
         //   email: email,
         //   password: password
         // }))
-        const response = await fetch('http://localhost:5000/clinicsPublic/?filter=' + filter, {
+        const response = await fetch('http://localhost:5000/admin/getClinics?filter=' + filter, {
          }) 
          
         const data = await response.json();
@@ -44,7 +44,7 @@ export function AdminClinics() {
       
       useEffect(() => {
        // alert(debouncedValue)
-        fetchDoctors(debouncedValue)
+       fetchClinics(debouncedValue)
     }, [debouncedValue])
     return (
             <div className="doctors-container">
@@ -56,7 +56,7 @@ export function AdminClinics() {
             <br></br>
             <span className="errormes">{serverErrorMessage}</span>
             <div className="card-container">
-            {clinics.map(clinics => <AdminClinicCard banned={clinics.banned} clinic_id={clinics.id_policlinics} clinic_title={clinics.title} clinic_address={clinics.address} clinic_phone={clinics.phone} refreshList={fetchDoctors}/>)} 
+            {clinics.map(clinics => <AdminClinicCard banned={clinics.banned} clinic_id={clinics.id_policlinics} clinic_title={clinics.title} clinic_address={clinics.address} clinic_phone={clinics.phone} refreshList={fetchClinics}/>)} 
             {/* вытаскиваем массив и распределяем по карточкам */}
             </div>
            

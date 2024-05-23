@@ -1,6 +1,5 @@
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import './ServiceCard.scss';
-import { ContinueRegisterService } from '../../continue-register-1/ContinueRegisterService';
 import { authStorage } from '../../../authStorage';
 type Props = {
     serviceId:string
@@ -25,7 +24,7 @@ export function ServiceCard(props: Props) {
     const navigate = useNavigate();
     return (
             <div className="card-doc">
-                <img src="https://alcovin-sale.goodsalediscount.com/files/alkowin_1/img/icon04.png" alt="Doctor" /> 
+                <img src="https://cdn3.iconfinder.com/data/icons/science-v2/32/test-tube-1024.png" alt="Doctor" /> 
                 <div className="card-info">
                     <p>{props.serviceName}</p>
                     {/* <p>{props.doctorSpecialty}</p> */}
