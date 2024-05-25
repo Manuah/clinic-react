@@ -32,9 +32,11 @@ import { PatientHistory } from './pages/patient-dashboard/components/patient-his
 import { PatientHistoryDoctor } from './pages/patient-dashboard/components/patient-history/PatientHistoryDoctor/PatientHistoryDoctor';
 import { PatientHistoryService } from './pages/patient-dashboard/components/patient-history/PatientHistoryService/PatientHistoryService';
 import { PatientIndex } from './pages/patient-dashboard/components/patient-info/PatientIndex';
+import { PrivateRoute } from './privateRouter';
 // import { LoginPage } from './pages/LoginPage';
 // import { LoginPageModal } from './features/login-page/login-page';
 // import { Register } from './features/register-page/register-page';
+// 1- пациент 2 - доктор 3 -клиника 4- админ
 
 const router = createBrowserRouter([
   { path: "*", Component: Root }, 
@@ -55,55 +57,49 @@ function Root() {
         <Route path="clinics" element={<ClinicsPage/>} />
       </Route>
 
-      <Route path="/continueRegisterService/:type/:id" element={<ContinueRegisterService/>}/> 
+      <Route path="/continueRegisterService/:type/:id" element={<PrivateRoute Component={ContinueRegisterService} role={"1"}/>}/> 
 
       <Route path="/landing/:clinicId" element={<LandingClinic/>}/> 
-      <Route path="register" element={<div>Окно регистрации</div>}/> 
-      <Route path="/about/*" element={<div>About</div>} />
-
-      <Route path="/my" element={<div>Мой личный кабинет пациента</div>} />
 
     {/* ЛК АДМИНА*/}
-      <Route path="/myadmin" element={<AdminPage/>}>
-       <Route index element={<AdminCreate/>} />
-        <Route path="clinics" element={<AdminClinics/>} />
-        <Route path="cliniccreate" element={<AdminCreateClinic/>} />
+      <Route path="/myadmin" element={<PrivateRoute Component={AdminPage} role={"4"}/>}>
+       <Route index element={<PrivateRoute Component={AdminCreate} role={"4"}/>} />
+        <Route path="clinics" element={<PrivateRoute Component={AdminClinics} role={"4"}/>} />
+        <Route path="cliniccreate" element={<PrivateRoute Component={AdminCreateClinic} role={"4"}/>}/>
       </Route>
       
     {/* ЛК КЛИНИКИ*/}
-      <Route path="/myclinic" element={<ClinicPage/>}>
-        <Route index element={<ClinicLandingEdit/>} />
-        <Route path="doctor" element={<ClinicDoctors/>} />
-        <Route path="create" element={<ClinicCreate/>} />
-        <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
-        <Route path="edit/:doctorId" element={<ClinicEdit/>} />
-        <Route path="services" element={<ClinicServices/>} />
-        <Route path="editServices" element={<ClinicServicesEdit/>} />
+      <Route path="/myclinic" element={<PrivateRoute Component={ClinicPage} role={"3"}/>}>
+        <Route index element={<PrivateRoute Component={ClinicLandingEdit} role={"3"}/>} />
+        <Route path="doctor" element={<PrivateRoute Component={ClinicDoctors} role={"3"}/>} />
+        <Route path="create" element={<PrivateRoute Component={ClinicCreate} role={"3"}/>} />
+        <Route path="schedule/:doctorId" element={<PrivateRoute Component={ClinicSchedule} role={"3"}/>} />
+        <Route path="edit/:doctorId" element={<PrivateRoute Component={ClinicEdit} role={"3"}/>} />
+        <Route path="services" element={<PrivateRoute Component={ClinicServices} role={"3"}/>} />
+        <Route path="editServices" element={<PrivateRoute Component={ClinicServicesEdit} role={"3"}/>} />
       </Route>
 
      {/* ЛК ВРАЧА*/}
-     <Route path="/mydoctor" element={<DoctorPage/>}>
-         <Route index element={<DoctorPage/>} />
-        <Route path="schedule" element={<DoctorsSchedule/>} />
-        <Route path="medinfo/:patientId" element={<DoctorPatient/>} />
+     <Route path="/mydoctor" element={<PrivateRoute Component={DoctorPage} role={"2"}/>}>
+         <Route index element={<PrivateRoute Component={DoctorPage} role={"2"}/>} />
+        <Route path="schedule" element={<PrivateRoute Component={DoctorsSchedule} role={"2"}/>} />
+        <Route path="medinfo/:patientId" element={<PrivateRoute Component={DoctorPatient} role={"2"}/>}/>
         {/* <Route path="patients" element={<DoctorsSchedule/>} /> */}
         {/* <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
         <Route path="edit/:doctorId" element={<ClinicEdit/>} /> */}
       </Route>
 
       {/* ЛК ПАЦИЕНТА*/}
-     <Route path="/my" element={<PatientPage/>}>
-        <Route index element={<PatientIndex/>} />
-        <Route path="schedule" element={<PatientSchedule/>}>
-          <Route path="doctors" element={<PatientScheduleDoctor/>}/>
-          <Route path="services" element={<PatientScheduleService/>}/>
+     <Route path="/my" element={<PrivateRoute Component={PatientPage} role={"1"}/>}>
+        <Route index element={<PrivateRoute Component={PatientIndex} role={"1"}/>} />
+        <Route path="schedule" element={<PrivateRoute Component={PatientSchedule} role={"1"}/>}>
+          <Route path="doctors" element={<PrivateRoute Component={PatientScheduleDoctor} role={"1"}/>}/>
+          <Route path="services" element={<PrivateRoute Component={PatientScheduleService} role={"1"}/>}/>
         </Route>
-        <Route path="history" element={<PatientHistory/>}>
-          <Route path="doctors" element={<PatientHistoryDoctor/>}/>
-          <Route path="services" element={<PatientHistoryService/>}/>
+        <Route path="history" element={<PrivateRoute Component={PatientHistory} role={"1"}/>}>
+          <Route path="doctors" element={<PrivateRoute Component={PatientHistoryDoctor} role={"1"}/>}/>
+          <Route path="services" element={<PrivateRoute Component={PatientHistoryService} role={"1"}/>}/>
         </Route>
-        <Route path="personalinfo" element={<ClinicCreate/>} />
-        <Route path="personalinfoedit" element={<ClinicCreate/>} />
         {/* <Route path="schedule/:doctorId" element={<ClinicSchedule/>} />
         <Route path="edit/:doctorId" element={<ClinicEdit/>} /> */}
       </Route>
