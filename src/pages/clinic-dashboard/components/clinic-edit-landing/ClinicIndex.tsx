@@ -288,9 +288,9 @@ const navigate = useNavigate();
           {timeRanges.map((timeRange, index) => {
         return (
           <div className="service">
-          <textarea className= "input_header" autoComplete="one-time-code" id="firstName"
+          <textarea className= "input_header" autoComplete="one-time-code" id="firstName" placeholder="Заголовок вашей записи" 
           onChange={event => { setTimeStart(index, event.target.value); setServerErrorMessage("") }}></textarea>
-          <textarea className= "input_text" onChange={event => { setTimeEnd(index, event.target.value); setServerErrorMessage("") }}  
+          <textarea placeholder="Основной текст записи"  className= "input_text" onChange={event => { setTimeEnd(index, event.target.value); setServerErrorMessage("") }}  
            id="endTime" name="endTime" required/>
         </div>
         )
