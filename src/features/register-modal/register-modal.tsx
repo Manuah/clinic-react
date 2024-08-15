@@ -158,7 +158,7 @@ export function RegisterModal(props: Props) {
             <div className={styles["card-content"]}>
               <div className={styles["input-field"]}>
                 <label htmlFor="email">Email: <span  className={styles["red-text"]}>*</span></label>
-                <input name="email" id="email" type="email" required onChange={event => {
+                <input autoComplete="one-time-code" name="email" id="email" type="email" required onChange={event => {
                   setEmail(event.target.value);
                   setServerErrorMessage("")
                 }} />
@@ -172,7 +172,7 @@ export function RegisterModal(props: Props) {
               </div>
               <div className={styles["input-field"]}>
                 <label htmlFor="password">Пароль: <span  className={styles["red-text"]}>*</span></label>
-                <input name="password" id="password" type="password" onChange={event => { setPass(event.target.value); setServerErrorMessage("") }} />
+                <input autoComplete="one-time-code" name="password" id="password" type="password" onChange={event => { setPass(event.target.value); setServerErrorMessage("") }} />
                 <span
 
                   className={styles["red-text"]}

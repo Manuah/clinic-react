@@ -158,6 +158,7 @@ export function LandingClinic() {
     <div>
       <nav>
         <div className="nav-wrapper grey darken-1">
+
           {authStorage.token == "" || authStorage.roleId == "1" ? (
             <a onClick={() => navigate("/")} className="brand-logo">Aegle</a>
           ) : (<a className="brand-logo">Aegle</a>)}
