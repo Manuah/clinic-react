@@ -20,18 +20,19 @@
   text-align: center;
 }
 
-.input-field {
+.input-field-schedule {
   margin-bottom: 20px;
 }
 
-.input-field input {
+.input-field-schedule input {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
   width: 100%;
+  max-width: 280px;
 }
 
-.input-field label {
+.input-field-schedule label {
   color: #888;
   font-size: 16px;
   margin-left: 5px;

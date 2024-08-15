@@ -28,6 +28,7 @@ export function PatientHistory() {
     return (
             <div className="doctors-container">
             <h2>История приемов</h2>
+            <button onClick={() => navigate("/my/schedule/doctors")}>Запланированные приемы</button>
             <div className="search-tabs">
             <button className={`tab ${location.pathname == "/my/history/doctors" ? "active" : ""}`} onClick={() => { navigate("/my/history/doctors") }}>По врачам</button>
             <button className={`tab ${location.pathname == "/my/history/services" ? "active" : ""}`} onClick={() => { navigate("/my/history/services") }}>По услугам</button>

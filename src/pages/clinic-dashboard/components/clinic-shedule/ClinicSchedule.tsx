@@ -130,7 +130,7 @@ export function ClinicSchedule() {
     <h3 className="card-title">Создание расписания {doctor?.name} </h3>
   
     <div>
-      <div className="input-field">
+      <div className="input-field-schedule">
         <label>Дата</label>
         <input onChange={event => { setDate(event.target.value); setServerErrorMessage("") }} type="date" id="date" name="date" required/>
       </div>
@@ -150,13 +150,13 @@ export function ClinicSchedule() {
       {timeRanges.map((timeRange, index) => {
         return (
           <div className="time-interval">
-          <div className="input-field">
+          <div className="input-field-schedule">
             <label>Время начала</label>
             <input onChange={event => { setTimeStart(index, event.target.value); setServerErrorMessage("") }} 
             type="time" id="startTime" name="startTime" required/>
           </div>
     
-          <div className="input-field">
+          <div className="input-field-schedule">
             <label>Время окончания</label>
             <input onChange={event => { setTimeEnd(index, event.target.value); setServerErrorMessage("") }}  
             type="time" id="endTime" name="endTime" required/>

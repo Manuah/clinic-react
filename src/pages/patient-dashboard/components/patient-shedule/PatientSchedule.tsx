@@ -27,7 +27,7 @@ export function PatientSchedule() {
     return (
             <div className="doctors-container">
             <h2>Запланированные приемы</h2>
-            <button onClick={() => navigate("/my/history")}>История приемов</button>
+            <button onClick={() => navigate("/my/history/doctors")}>История приемов</button>
             <div className="search-tabs">
             <button className={`tab ${location.pathname == "/my/schedule/doctors" ? "active" : ""}`} onClick={() => { navigate("/my/schedule/doctors") }}>По врачам</button>
             <button className={`tab ${location.pathname == "/my/schedule/services" ? "active" : ""}`} onClick={() => { navigate("/my/schedule/services") }}>По услугам</button>

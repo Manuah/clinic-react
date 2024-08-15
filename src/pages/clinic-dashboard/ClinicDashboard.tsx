@@ -12,7 +12,7 @@ export function ClinicPage() {
   return (
     <div>
       <div className="sidebar">
-        <h2 onClick={() => { navigate("/myclinic") }}>КЛИНИКА</h2>
+        <h2 onClick={() => { navigate("/myclinic") }}> КЛИНИКА</h2>
         <a className= {`${location.pathname == "/myclinic/doctor" ? "sidebar-active" : ""}`} onClick={() => { navigate("/myclinic/doctor") }}>Список врачей</a>
         <a className= {`${location.pathname == "/myclinic/create" ? "sidebar-active" : ""}`} onClick={() => { navigate("/myclinic/create") }}>Добавить врача</a>
         <a className= {`${location.pathname == "/myclinic/services" ? "sidebar-active" : ""}`} onClick={() => { navigate("/myclinic/services") }}>Сервисы</a>

@@ -90,7 +90,7 @@ export function LoginModal(props: Props) {
         navigate(props.pathToRedirect);
       }
       else if (data.user.role_id == 2) {
-        navigate("/mydoctor");
+        navigate("/mydoctor/schedule");
       }
       else if (data.user.role_id == 3) {
           navigate("/myclinic");

@@ -242,7 +242,7 @@ const navigate = useNavigate();
           <button onClick={() => navigate("/landing/" + clinicId)}>Открыть страницу</button>
           <h3 className="card-title">Редактировать профиль</h3>
 
-          <div className="input-field">
+          <div className="input-field-land">
             <label htmlFor="firstName">Название: <span className={"red-text"}>*</span></label>
             <input autoComplete="one-time-code" id="firstName" type="text" onChange={event => { setName(event.target.value); setServerErrorMessage("") }} value={name} />
             <span className="helper-text red-text">
@@ -250,7 +250,7 @@ const navigate = useNavigate();
             </span>
           </div>
 
-          <div className="input-field">
+          <div className="input-field-land">
             <label htmlFor="lastName">Адрес: <span className={"red-text"}>*</span></label>
             <input autoComplete="one-time-code" id="firstName" type="text"
               onChange={event => { setAddress(event.target.value); setServerErrorMessage("") }} value={address} />
@@ -259,7 +259,7 @@ const navigate = useNavigate();
             </span>
           </div>
 
-          <div className="input-field">
+          <div className="input-field-land">
             <label htmlFor="middleName">Телефон: <span className={"red-text"}>*</span></label>
             <input autoComplete="one-time-code" id="firstName" type="text"
               onChange={event => { setPhone(event.target.value); setServerErrorMessage("") }} value={phone} />
@@ -268,7 +268,7 @@ const navigate = useNavigate();
             </span>
           </div>
 
-          <div className="input-field">
+          <div className="input-field-land">
             <label htmlFor="middleName">Часы работы: <span className={"red-text"}></span></label>
             <input autoComplete="one-time-code" id="firstName" type="text"
               onChange={event => { setWorkHours(event.target.value); setServerErrorMessage("") }} value={workHours} />
